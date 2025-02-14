@@ -1,48 +1,67 @@
+using System;
 using Gtk;
 
-public class Dashboard : Window
-{
-    private Entry inputEntry;
+namespace View {
 
-    public Dashboard() : base("Interface 1")
+    class Dashboard : Window
     {
-        SetDefaultSize(300, 200);
-        SetPosition(WindowPosition.Center);
+        public Dashboard() : base("Dashboard")
+        {
+            SetDefaultSize(600, 400);
+            SetPosition(WindowPosition.Center);
 
-        // Crear un contenedor para los elementos
-        VBox vbox = new VBox(false, 5);
+            // Main container (horizontal box)
+            Box mainBox = new Box(Orientation.Horizontal, 0);
 
-        // Label
-        Label label = new Label("Ingrese algo:");
-        vbox.PackStart(label, false, false, 0);
+            // Sidebar (vertical box)
+            Box sidebar = new Box(Orientation.Vertical, 10);
+            sidebar.Margin = 10;
 
-        // Input
-        inputEntry = new Entry();
-        vbox.PackStart(inputEntry, false, false, 0);
+            // Sidebar Buttons
+            Button usersButton = new Button("Users");
+            Button servicesButton = new Button("Services");
+            Button billsButton = new Button("Bills");
 
-        // Botón para mostrar en consola
-        Button showButton = new Button("Mostrar en consola");
-        showButton.Clicked += OnShowButtonClicked;
-        vbox.PackStart(showButton, false, false, 0);
+            // Attach event handlers
+            usersButton.Clicked += OnUsersClicked;
+            servicesButton.Clicked += OnServicesClicked;
+            billsButton.Clicked += OnBillsClicked;
 
-        // Botón para ir a Interface2
-        Button goToInterface2Button = new Button("Ir a Interface 2");
-        goToInterface2Button.Clicked += OnGoToInterface2ButtonClicked;
-        vbox.PackStart(goToInterface2Button, false, false, 0);
+            // Add buttons to sidebar
+            sidebar.PackStart(usersButton, false, false, 5);
+            sidebar.PackStart(servicesButton, false, false, 5);
+            sidebar.PackStart(billsButton, false, false, 5);
 
-        Add(vbox);
+            // Main content area (placeholder label)
+            Label contentLabel = new Label("Welcome to the Dashboard");
+
+            // Add sidebar and content area to main box
+            mainBox.PackStart(sidebar, false, false, 10);
+            mainBox.PackStart(contentLabel, true, true, 10);
+
+            // Add main box to the window
+            Add(mainBox);
+            ShowAll();
+        }
+
+        // Event Handlers for Sidebar Buttons
+        private void OnUsersClicked(object sender, EventArgs e){
+            UsersWindow usersWindow = new UsersWindow();
+            usersWindow.ShowAll();
+            this.Hide();
+        }
+
+        private void OnServicesClicked(object sender, EventArgs e)
+        {
+            // ServicesWindow servicesWindow = new ServicesWindow();
+            // servicesWindow.ShowAll();
+        }
+
+        private void OnBillsClicked(object sender, EventArgs e)
+        {
+            // BillsWindow billsWindow = new BillsWindow();
+            // billsWindow.ShowAll();
+        }
+
     }
-
-    private void OnShowButtonClicked(object sender, EventArgs e)
-    {
-        string inputText = inputEntry.Text;
-        Console.WriteLine("Texto ingresado: " + inputText);
-    }
-
-    private void OnGoToInterface2ButtonClicked(object sender, EventArgs e)
-    {
-        // Interface2 interface2 = new Interface2();
-        // interface2.ShowAll();
-        // this.Hide();
-    }
-}
+} 

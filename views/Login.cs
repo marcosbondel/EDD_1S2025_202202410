@@ -5,6 +5,10 @@ namespace View {
 
     class LoginWindow : Window
     {
+        
+        private Entry userEntry;
+        private Entry passEntry;
+
         public LoginWindow() : base("Login"){
             SetDefaultSize(300, 200);
             SetPosition(WindowPosition.Center);
@@ -18,22 +22,24 @@ namespace View {
             Box vbox = new Box(Orientation.Vertical, 10);
 
             Label userLabel = new Label("Username:");
-            Entry userEntry = new Entry();
+            userEntry = new Entry();
             userEntry.StyleContext.AddClass("entry");  // Add the "entry" class for styling
 
             Label passLabel = new Label("Password:");
-            Entry passEntry = new Entry();
+            passEntry = new Entry();
             passEntry.StyleContext.AddClass("entry");  // Add the "entry" class for styling
             passEntry.Visibility = false;  // Hide password input
 
             Button loginButton = new Button("Login");
             loginButton.StyleContext.AddClass("button");  // Add the "button" class for styling
-            loginButton.Clicked += (sender, e) =>
-            {
-                string username = userEntry.Text;
-                string password = passEntry.Text;
-                Console.WriteLine($"Username: {username}, Password: {password}");
-            };
+            // loginButton.Clicked += (sender, e) =>
+            // {
+            //     string username = userEntry.Text;
+            //     string password = passEntry.Text;
+            //     Console.WriteLine($"Username: {username}, Password: {password}");
+            // };
+
+            loginButton.Clicked += onDoLogin;
 
             vbox.PackStart(userLabel, false, false, 5);
             vbox.PackStart(userEntry, false, false, 5);
@@ -43,6 +49,24 @@ namespace View {
 
             Add(vbox);
             ShowAll();
+        }
+
+        private void onDoLogin(object sender, EventArgs e){
+            Console.WriteLine("Loging in..");
+            string rootUsername = "root";
+            // string rootUsername = "root@gmail.com";
+            string rootPassword = "root";
+            // string rootPassword = "root123";
+
+            if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
+                Console.WriteLine("Login successful");
+                Dashboard dashboard = new Dashboard();
+                dashboard.ShowAll();
+                this.Hide();
+            } else {
+                Console.WriteLine("Login failed");
+            }
+
         }
     }
 }
