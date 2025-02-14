@@ -1,0 +1,31 @@
+/* style.css */
+window {
+    background-color: #f5f5f5;  /* Light grey background */
+}
+
+label {
+    font-weight: bold;
+    color: #333;  /* Dark grey text for labels */
+}
+
+.entry {
+    background-color: #e0e0e0;  /* Light grey background for text input */
+    border-radius: 5px;  /* Rounded corners */
+    padding: 5px;
+}
+
+button {
+    background-color: #4CAF50;  /* Green background for button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+button:hover {
+    background-color: #45a049;  /* Darker green on hover */
+}
+
+button:active {
+    background-color: #388e3c;  /* Even darker green when button is pressed */
+}
