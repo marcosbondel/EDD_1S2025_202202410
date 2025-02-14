@@ -11,7 +11,7 @@ namespace Model {
     }
 
     public unsafe struct User : UserInterface {
-        public int Id { get; set; }
+        public int Id;
         public fixed char Name[50];
         public fixed char Lastname[50];
         public fixed char Email[50];

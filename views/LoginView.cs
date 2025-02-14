@@ -3,13 +3,13 @@ using Gtk;
 
 namespace View {
 
-    class LoginWindow : Window
+    class LoginView : Window
     {
         
         private Entry userEntry;
         private Entry passEntry;
 
-        public LoginWindow() : base("Login"){
+        public LoginView() : base("Login"){
             SetDefaultSize(300, 200);
             SetPosition(WindowPosition.Center);
 
@@ -60,7 +60,7 @@ namespace View {
 
             if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
                 Console.WriteLine("Login successful");
-                Dashboard dashboard = new Dashboard();
+                DashboardView dashboard = new DashboardView();
                 dashboard.ShowAll();
                 this.Hide();
             } else {

@@ -13,7 +13,7 @@ class App {
 
         // Application.Run();
 
-        LoginWindow login = new LoginWindow();
+        LoginView login = new LoginView();
         login.ShowAll();
         Application.Run();
     }

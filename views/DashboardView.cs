@@ -3,9 +3,9 @@ using Gtk;
 
 namespace View {
 
-    class Dashboard : Window
+    class DashboardView : Window
     {
-        public Dashboard() : base("Dashboard")
+        public DashboardView() : base("DashboardView")
         {
             SetDefaultSize(600, 400);
             SetPosition(WindowPosition.Center);
@@ -33,7 +33,7 @@ namespace View {
             sidebar.PackStart(billsButton, false, false, 5);
 
             // Main content area (placeholder label)
-            Label contentLabel = new Label("Welcome to the Dashboard");
+            Label contentLabel = new Label("Welcome to the DashboardView");
 
             // Add sidebar and content area to main box
             mainBox.PackStart(sidebar, false, false, 10);
@@ -46,8 +46,8 @@ namespace View {
 
         // Event Handlers for Sidebar Buttons
         private void OnUsersClicked(object sender, EventArgs e){
-            UsersWindow usersWindow = new UsersWindow();
-            usersWindow.ShowAll();
+            UsersView usersView = new UsersView();
+            usersView.ShowAll();
             this.Hide();
         }
 

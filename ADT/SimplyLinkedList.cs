@@ -1,14 +1,17 @@
 using System;
 using System.Runtime.InteropServices;
+using Model;
 
 namespace ADT {
 
-    public unsafe class SimplyLinkedList<T> where T : unmanaged {
+    public unsafe class SimplyLinkedList<T> where T : unmanaged, UserInterface {
 
         private SimpleNode<T>* head;
+        private int size;
 
         public SimplyLinkedList(){
             head = null;
+            size = 0;
         }
 
         public void insert(T data){
@@ -17,12 +20,14 @@ namespace ADT {
 
             if (head == null) {
                 head = newSimpleNode;
+                size++;
             } else {
                 SimpleNode<T>* current = head;
                 while (current -> next != null) {
                     current = current -> next;
                 }
                 current -> next = newSimpleNode;
+                size++;
             }
         }
     }
