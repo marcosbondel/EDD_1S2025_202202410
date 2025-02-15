@@ -87,26 +87,12 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                fixed (User* user = &userNode->value) // Fix the pointer in memory
-        {
-            user->SetFixedString(user->Name, nameEntry.Text, 50);
-            user->SetFixedString(user->Lastname, lastnameEntry.Text, 50);
-            user->SetFixedString(user->Email, emailEntry.Text, 100);
-            user->SetFixedString(user->Password, passwordEntry.Text, 50);
-        }
-                // fixed (char* namePtr = current.Name)
-                // fixed (char* lastnamePtr = current.Lastname)
-                // fixed (char* emailPtr = current.Email)
-                // fixed (char* passwordPtr = current.Password){
-                //     current.SetFixedString(namePtr, nameEntry.Text, 50);
-                //     current.SetFixedString(lastnamePtr, lastnameEntry.Text, 50);
-                //     current.SetFixedString(emailPtr, emailEntry.Text, 100);
-                //     current.SetFixedString(passwordPtr, passwordEntry.Text, 50);
-                // }
-                // current->SetFixedString(current->Name, nameEntry.Text, 50);
-                // current->SetFixedString(current->Lastname, lastnameEntry.Text, 50);
-                // current->SetFixedString(current->Email, emailEntry.Text, 100);
-                // current->SetFixedString(current->Password, passwordEntry.Text, 50);
+                fixed (User* user = &userNode->value){
+                    user->SetFixedString(user->Name, nameEntry.Text, 50);
+                    user->SetFixedString(user->Lastname, lastnameEntry.Text, 50);
+                    user->SetFixedString(user->Email, emailEntry.Text, 100);
+                    user->SetFixedString(user->Password, passwordEntry.Text, 50);
+                }
                 MSDialog.ShowMessageDialog(this, "Success", "User edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
@@ -160,16 +146,6 @@ namespace View {
                 passwordEntry.Text = userNode->value.GetPassword();
 
                 isEditing = true;
-                // current = &user->value;
-
-                // user.Id = AppData.users_data.GetSize() + 1;
-                // user.SetFixedString(user.Name, nameEntry.Text, 50);
-                // user.SetFixedString(user.Lastname, lastnameEntry.Text, 50);
-                // user.SetFixedString(user.Email, emailEntry.Text, 100);
-                // user.SetFixedString(user.Password, passwordEntry.Text, 50);
-                
-                // MSDialog.ShowMessageDialog(this, "Success", "User deleted succesfully!", MessageType.Info);
-                // AppData.users_data.list();
             }else{
                 MSDialog.ShowMessageDialog(this, "Error", "User not found!", MessageType.Error);
             }
