@@ -3,6 +3,7 @@ using Gtk;
 using Model;
 using ADT;
 using Storage;
+using utils;
 
 namespace View {
     unsafe class UsersView : Window {
@@ -11,6 +12,11 @@ namespace View {
         Entry lastnameEntry;
         Entry emailEntry;
         Entry passwordEntry;
+
+        private bool isEditing = false;
+        private User* current;
+        private SimpleNode<User>* userNode;
+        
 
         public UsersView() : base("Users"){
             SetDefaultSize(400, 450);
@@ -53,6 +59,8 @@ namespace View {
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
             mainBox.PackStart(bulkUploadButton, false, false, 10);
+            mainBox.PackStart(editButton, false, false, 10);
+            mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
             mainBox.PackStart(nameEntry, false, false, 5);
             mainBox.PackStart(lastnameEntry, false, false, 5);
@@ -60,54 +68,125 @@ namespace View {
             mainBox.PackStart(passwordEntry, false, false, 5);
             mainBox.PackStart(saveButton, false, false, 10);
             mainBox.PackStart(backButton, false, false, 10); // Back button at the end
-            mainBox.PackStart(editButton, false, false, 10);
-            mainBox.PackStart(deleteButton, false, false, 10);
 
             Add(mainBox);
             ShowAll();
         }
 
         // Creates an entry field with placeholder text
-        private Entry CreateEntry(string placeholder)
-        {
+        private Entry CreateEntry(string placeholder){
             Entry entry = new Entry { PlaceholderText = placeholder };
             return entry;
         }
 
         // Event Handlers
-        private void OnBulkUploadClicked(object sender, EventArgs e)
-        {
+        private void OnBulkUploadClicked(object sender, EventArgs e){
             Console.WriteLine("Bulk upload clicked.");
         }
 
         private void OnSaveClicked(object sender, EventArgs e){
-            User newUser;
-            newUser.Id =1;
 
-            newUser.SetFixedString(newUser.Name, nameEntry.Text, 50);
-            newUser.SetFixedString(newUser.Lastname, lastnameEntry.Text, 50);
-            newUser.SetFixedString(newUser.Email, emailEntry.Text, 100);
-            newUser.SetFixedString(newUser.Password, passwordEntry.Text, 50);
-            AppData.users_data.insert(newUser);
+            if(isEditing){
+                fixed (User* user = &userNode->value) // Fix the pointer in memory
+        {
+            user->SetFixedString(user->Name, nameEntry.Text, 50);
+            user->SetFixedString(user->Lastname, lastnameEntry.Text, 50);
+            user->SetFixedString(user->Email, emailEntry.Text, 100);
+            user->SetFixedString(user->Password, passwordEntry.Text, 50);
+        }
+                // fixed (char* namePtr = current.Name)
+                // fixed (char* lastnamePtr = current.Lastname)
+                // fixed (char* emailPtr = current.Email)
+                // fixed (char* passwordPtr = current.Password){
+                //     current.SetFixedString(namePtr, nameEntry.Text, 50);
+                //     current.SetFixedString(lastnamePtr, lastnameEntry.Text, 50);
+                //     current.SetFixedString(emailPtr, emailEntry.Text, 100);
+                //     current.SetFixedString(passwordPtr, passwordEntry.Text, 50);
+                // }
+                // current->SetFixedString(current->Name, nameEntry.Text, 50);
+                // current->SetFixedString(current->Lastname, lastnameEntry.Text, 50);
+                // current->SetFixedString(current->Email, emailEntry.Text, 100);
+                // current->SetFixedString(current->Password, passwordEntry.Text, 50);
+                MSDialog.ShowMessageDialog(this, "Success", "User edited succesfully!", MessageType.Info);
+                isEditing = false;
+            } else {
+                User newUser;
+                newUser.Id = AppData.users_data.GetSize() + 1;
+                newUser.SetFixedString(newUser.Name, nameEntry.Text, 50);
+                newUser.SetFixedString(newUser.Lastname, lastnameEntry.Text, 50);
+                newUser.SetFixedString(newUser.Email, emailEntry.Text, 100);
+                newUser.SetFixedString(newUser.Password, passwordEntry.Text, 50);
+                AppData.users_data.insert(newUser);
+                MSDialog.ShowMessageDialog(this, "Success", "User added succesfully!", MessageType.Info);
+            }
 
-            Console.WriteLine($"User saved: {newUser}");
+            ClearFields();
         }
 
-        private void OnDeleteClicked(object sender, EventArgs e)
-        {
-            Console.WriteLine("Let't delete a user!");
+        private void OnDeleteClicked(object sender, EventArgs e){
+            string userId = MSDialog.ShowInputDialog(this, "Delete User", "Enter User ID to delete:");
+
+            if (string.IsNullOrEmpty(userId)){
+                MSDialog.ShowMessageDialog(this, "Error", "User ID cannot be empty!", MessageType.Error);
+                return;
+            }
+
+            Console.WriteLine($"UserID to delete: {userId}");
+            bool deletion = AppData.users_data.deleteById(Int32.Parse(userId));
+
+            if(deletion){
+                MSDialog.ShowMessageDialog(this, "Success", "User deleted succesfully!", MessageType.Info);
+                AppData.users_data.list();
+            }else{
+                MSDialog.ShowMessageDialog(this, "Error", "User not found!", MessageType.Error);
+            }
         }
         
-        private void OnEditClicked(object sender, EventArgs e)
-        {
-            Console.WriteLine("Let't edit a user!");
+        private void OnEditClicked(object sender, EventArgs e){
+            string userId = MSDialog.ShowInputDialog(this, "Edit User", "Enter User ID to edit:");
+
+            if (string.IsNullOrEmpty(userId)){
+                MSDialog.ShowMessageDialog(this, "Error", "User ID cannot be empty!", MessageType.Error);
+                return;
+            }
+
+            userNode = AppData.users_data.GetById(Int32.Parse(userId));
+
+            if(userNode != null){
+                idEntry.Text = userNode->value.GetId().ToString();
+                nameEntry.Text = userNode->value.GetName();
+                lastnameEntry.Text = userNode->value.GetLastname();
+                emailEntry.Text = userNode->value.GetEmail();
+                passwordEntry.Text = userNode->value.GetPassword();
+
+                isEditing = true;
+                // current = &user->value;
+
+                // user.Id = AppData.users_data.GetSize() + 1;
+                // user.SetFixedString(user.Name, nameEntry.Text, 50);
+                // user.SetFixedString(user.Lastname, lastnameEntry.Text, 50);
+                // user.SetFixedString(user.Email, emailEntry.Text, 100);
+                // user.SetFixedString(user.Password, passwordEntry.Text, 50);
+                
+                // MSDialog.ShowMessageDialog(this, "Success", "User deleted succesfully!", MessageType.Info);
+                // AppData.users_data.list();
+            }else{
+                MSDialog.ShowMessageDialog(this, "Error", "User not found!", MessageType.Error);
+            }
         }
 
-        private void OnBackClicked(object sender, EventArgs e)
-        {
+        private void OnBackClicked(object sender, EventArgs e){
             DashboardView dashboardView = new DashboardView();
             dashboardView.ShowAll(); // Show Dashboard
             this.Hide(); // Close UsersWindow
+        }
+
+        private void ClearFields(){
+            idEntry.Text = "";
+            nameEntry.Text = "";
+            lastnameEntry.Text = "";
+            emailEntry.Text = "";
+            passwordEntry.Text = "";
         }
     }
 
