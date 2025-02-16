@@ -9,8 +9,8 @@ namespace ADT {
     }
 
     public unsafe struct DoublePointerNode<T> {
-        public T Data;
-        public DoublePointerNode<T>* Next;
-        public DoublePointerNode<T>* Previous;
+        public T value;
+        public DoublePointerNode<T>* next;
+        public DoublePointerNode<T>* previous;
     }
 }

@@ -14,7 +14,7 @@ namespace Model {
         public int Id;
         public fixed char Name[50];
         public fixed char Lastname[50];
-        public fixed char Email[50];
+        public fixed char Email[100];
         public fixed char Password[50];
 
         public void SetFixedString(char* destination, string source, int maxLength) {
@@ -28,6 +28,19 @@ namespace Model {
 
         public string GetFixedString(char* source, int maxLength) {
             return new string(source, 0, maxLength).TrimEnd('\0'); // Convert and trim nulls
+        }
+
+        public override string ToString() {
+            fixed (char* firstNamePtr = Name)
+            fixed (char* lastNamePtr = Lastname)
+            fixed (char* emailPtr = Email)
+            fixed (char* passwordPtr = Password) {
+                return $"Id: {Id}\n" +
+                       $"First Name: {GetFixedString(firstNamePtr, 50)}\n" +
+                       $"Last Name: {GetFixedString(lastNamePtr, 50)}\n" +
+                       $"Email: {GetFixedString(emailPtr, 100)}\n" +
+                       $"Password: {GetFixedString(passwordPtr, 50)}\n";
+            }
         }
 
         public int GetId() {
@@ -46,7 +59,7 @@ namespace Model {
         }
         public string GetEmail() {
             fixed (char* ptr = Email) {
-                return GetFixedString(ptr, 50);
+                return GetFixedString(ptr, 100);
             }
         }
         public string GetPassword() {
