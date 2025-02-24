@@ -1,7 +1,6 @@
 using System;
 
 namespace Model {
-
     public interface UserInterface {
         int GetId();
         string GetName();

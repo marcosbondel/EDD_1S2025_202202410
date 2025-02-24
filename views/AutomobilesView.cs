@@ -94,8 +94,8 @@ namespace View {
                 isEditing = false;
             } else {
                 Automobile newAutomobile;
-                newAutomobile.Id = AppData.spare_parts_data.GetSize() + 1;
-                newAutomobile.SetUserId(Int32.Parse(userIdEntry.Text));
+                newAutomobile.Id = AppData.automobiles_data.GetSize() + 1;
+                newAutomobile.UserId = Int32.Parse(userIdEntry.Text);
                 newAutomobile.SetFixedString(newAutomobile.Brand, brandEntry.Text, 50);
                 newAutomobile.SetFixedString(newAutomobile.Model, modelEntry.Text, 50);
                 newAutomobile.SetFixedString(newAutomobile.Plate, plateEntry.Text, 50);
@@ -133,7 +133,7 @@ namespace View {
                 return;
             }
 
-            automobileNode = AppData.automobile_data.GetById(Int32.Parse(id));
+            automobileNode = AppData.automobiles_data.GetById(Int32.Parse(id));
 
             if(automobileNode != null){
                 idEntry.Text = automobileNode->value.GetId().ToString();

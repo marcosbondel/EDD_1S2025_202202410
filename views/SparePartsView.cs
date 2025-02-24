@@ -95,12 +95,11 @@ namespace View {
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
-                SparePart newSparePart = new SparePart();
-                
+                SparePart newSparePart;
                 newSparePart.Id = AppData.spare_parts_data.GetSize() + 1;
+                newSparePart.Cost = costEntry.Value;
                 newSparePart.SetFixedString(newSparePart.Name, nameEntry.Text, 50);
                 newSparePart.SetFixedString(newSparePart.Details, detailsEntry.Text, 50);
-                newSparePart.SetCost(costEntry.Value);
 
                 AppData.spare_parts_data.insert(newSparePart);
                 MSDialog.ShowMessageDialog(this, "Success", "Added succesfully!", MessageType.Info);
