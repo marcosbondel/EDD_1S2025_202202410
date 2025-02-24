@@ -25,16 +25,17 @@ namespace ADT {
             if (first == null) {
                 first = newSimpleNode;
                 first -> next = first;
+                size++;
             } else {
                 SimpleNode<T>* current = first;
-                while (current -> next != first) {
+                while (current->next != first) {
                     current = current -> next;
                 }
                 current -> next = newSimpleNode;
                 newSimpleNode -> next = first;
+                size++;
             }
 
-            size++;
         }
 
         public bool deleteById(int id) {
@@ -64,25 +65,36 @@ namespace ADT {
 
         public void list() {
             SimpleNode<T>* current = first;
+
             Console.WriteLine("------------- Users -------------");
-            while (current != null) {
-                Console.WriteLine(current->value.ToString());
-                current = current->next;
-            }
+            do{
+              
+              if(current == null) return;
+
+              Console.WriteLine(current->value.ToString());
+              current = current->next;
+                
+            } while (current != first);
             Console.WriteLine("--------------------------------");
         }
 
         public SimpleNode<T>* GetById(int id){
-            if (first == null) return null;
+            if(first == null) return null;
 
             SimpleNode<T>* current = first;
-            while (current!= null && current->next != first) {
-                if (current->value.GetId() == id) {
+
+            do{
+
+                if(current->value.GetId() == id){
                     return current;
                 }
+
                 current = current->next;
-            }
+
+            } while(current != first);
+
             return null;
+
         }
     }
 

@@ -134,6 +134,8 @@ namespace View {
                 return;
             }
 
+            AppData.spare_parts_data.list();
+
             sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
 
             if(sparePartNode != null){
