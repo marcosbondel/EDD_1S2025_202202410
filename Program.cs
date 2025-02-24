@@ -7,11 +7,6 @@ class App {
 
     {
         Application.Init();
-        // Crear la ventana principal
-        // Dashboard dashhboard = new Dashboard();
-        // dashhboard.ShowAll();
-
-        // Application.Run();
 
         LoginView login = new LoginView();
         login.ShowAll();

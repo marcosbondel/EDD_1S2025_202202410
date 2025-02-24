@@ -1,16 +1,21 @@
 using System;
 using System.Runtime.InteropServices;
+using Model;
 
 namespace ADT {
 
-    public unsafe class CircularLinkedList<T> where T : unmanaged {
+    public unsafe class CircularLinkedList<T> where T : unmanaged, SparePartInterface {
 
         private SimpleNode<T>* first;
-        private SimpleNode<T>* last;
+        private int size;
 
         public CircularLinkedList(){
             first = null;
-            last = null;
+            size = 0;
+        }
+
+        public int GetSize(){
+            return size;
         }
 
         public void insert(T data){
@@ -18,11 +23,43 @@ namespace ADT {
             *newSimpleNode = new SimpleNode<T> { value = data, next = null };
 
             if (first == null) {
-                first = last = newSimpleNode;
+                first = newSimpleNode;
+                first -> next = first;
             } else {
-                last -> next = newSimpleNode;
-                last = newSimpleNode;
+                SimpleNode<T>* current = first;
+                while (current -> next != first) {
+                    current = current -> next;
+                }
+                current -> next = newSimpleNode;
+                newSimpleNode -> next = first;
             }
+
+            size++;
+        }
+
+        public bool deleteById(int id) {
+            if (first == null) return false;
+
+            if ( first->value.GetId() == id ){
+                SimpleNode<T>* temp = first;
+                first = first->next;
+                Marshal.FreeHGlobal((IntPtr)temp);
+                return true;
+            }
+            
+            SimpleNode<T>* current = first;
+            
+            while (current->next != null && current->value.GetId() == id && current->next != first) {
+                current = current->next;
+            }
+            
+            if (current->next != null) {
+                SimpleNode<T>* temp = current->next;
+                current->next = current->next->next;
+                Marshal.FreeHGlobal((IntPtr)temp);
+            }
+
+            return true;
         }
 
         public void list() {
@@ -33,6 +70,19 @@ namespace ADT {
                 current = current->next;
             }
             Console.WriteLine("--------------------------------");
+        }
+
+        public SimpleNode<T>* GetById(int id){
+            if (first == null) return null;
+
+            SimpleNode<T>* current = first;
+            while (current!= null && current->next != first) {
+                if (current->value.GetId() == id) {
+                    return current;
+                }
+                current = current->next;
+            }
+            return null;
         }
     }
 

@@ -1,16 +1,16 @@
 using System;
 
-namespace SparePart {
+namespace Model {
     public interface SparePartInterface {
         int GetId();
-        string GetSparePartName();
+        string GetName();
         string GetDetails();
         double GetCost();
     }
 
-    public unsafe struct SparePart: SparePartInterface {
+    public unsafe struct SparePart : SparePartInterface {
         public int Id;
-        public fixed char SparePartName[50];
+        public fixed char Name[50];
         public fixed char Details[200];
         public double Cost;
 
@@ -31,8 +31,8 @@ namespace SparePart {
             return Id;
         }
 
-        public string GetSparePartName() {
-            fixed (char* ptr = SparePartName) {
+        public string GetName() {
+            fixed (char* ptr = Name) {
                 return GetFixedString(ptr, 50);
             }
         }
@@ -45,6 +45,19 @@ namespace SparePart {
 
         public double GetCost() {
             return Cost;
+        }
+
+        public void SetCost(double newCost) {
+            Cost = newCost;
+        }
+
+        public override string ToString() {
+            fixed (char* firstNamePtr = Name)
+            fixed (char* detailsPtr = Details) {
+                return $"Id: {Id}\n" +
+                       $"Name: {GetFixedString(firstNamePtr, 50)}\n" +
+                       $"Details: {GetFixedString(detailsPtr, 50)}\n";
+            }
         }
         
     }

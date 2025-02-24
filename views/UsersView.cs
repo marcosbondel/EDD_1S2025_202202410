@@ -18,7 +18,7 @@ namespace View {
         private SimpleNode<User>* userNode;
         
 
-        public UsersView() : base("Users"){
+        public UsersView() : base("UsersView"){
             SetDefaultSize(400, 450);
             SetPosition(WindowPosition.Center);
 
@@ -103,7 +103,7 @@ namespace View {
                 newUser.SetFixedString(newUser.Email, emailEntry.Text, 100);
                 newUser.SetFixedString(newUser.Password, passwordEntry.Text, 50);
                 AppData.users_data.insert(newUser);
-                MSDialog.ShowMessageDialog(this, "Success", "User added succesfully!", MessageType.Info);
+                MSDialog.ShowMessageDialog(this, "Success", "Spare part added succesfully!", MessageType.Info);
             }
 
             ClearFields();

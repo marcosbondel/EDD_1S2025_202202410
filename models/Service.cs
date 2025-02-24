@@ -1,6 +1,6 @@
 using System;
 
-namespace Service {
+namespace Model {
 
     public interface ServiceInterface {
         int GetId();

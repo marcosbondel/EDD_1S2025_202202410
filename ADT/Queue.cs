@@ -5,11 +5,11 @@ namespace ADT {
 
     public unsafe class Queue<T> where T : unmanaged {
 
-        private SimpleNode<T>* hear;
-        private SimpleNode<T>* tail
+        private SimpleNode<T>* head;
+        private SimpleNode<T>* tail;
 
         public Queue(){
-            hear = null;
+            head = null;
             tail = null;
         }
 
@@ -17,22 +17,22 @@ namespace ADT {
             SimpleNode<T>* newSimpleNode = (SimpleNode<T>*)Marshal.AllocHGlobal(sizeof(SimpleNode<T>));
             *newSimpleNode = new SimpleNode<T> { value = data, next = null };
 
-            newSimpleNode -> next = top;
-            top = newSimpleNode;
+            newSimpleNode -> next = head;
+            head = newSimpleNode;
 
         }
 
         public SimpleNode<T>* pop(T data){
 
-            if (top == null) return null;
+            if (head == null) return null;
 
-            SimpleNode<T>* temp = top;
-            top = top -> next;
-            return top;
+            SimpleNode<T>* temp = head;
+            head = head -> next;
+            return head;
         }
 
         public void list() {
-            SimpleNode<T>* current = top;
+            SimpleNode<T>* current = head;
             Console.WriteLine("------------- Users -------------");
             while (current != null) {
                 Console.WriteLine(current->value.ToString());
