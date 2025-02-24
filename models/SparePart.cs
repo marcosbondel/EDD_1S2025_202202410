@@ -52,10 +52,10 @@ namespace Model {
         }
 
         public override string ToString() {
-            fixed (char* firstNamePtr = Name)
+            fixed (char* namePtr = Name)
             fixed (char* detailsPtr = Details) {
                 return $"Id: {Id}\n" +
-                       $"Name: {GetFixedString(firstNamePtr, 50)}\n" +
+                       $"Name: {GetFixedString(namePtr, 50)}\n" +
                        $"Details: {GetFixedString(detailsPtr, 50)}\n";
             }
         }

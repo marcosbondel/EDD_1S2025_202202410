@@ -25,30 +25,36 @@ namespace ADT {
             *newDoublePointerNode = new DoublePointerNode<T> { value = data, next = null, previous = null };
 
             if (first == null) {
-                first = last= newDoublePointerNode;
+                first = last = newDoublePointerNode;
             } else {
                 last -> next = newDoublePointerNode;
                 newDoublePointerNode -> previous = last;
                 last = newDoublePointerNode;
             }
+            size++;
         }
         
         public DoublePointerNode<T>* GetById(int id){
-            if (first == null) return null;
+
+            if(first == null) return null;
 
             DoublePointerNode<T>* current = first;
-            while (current!= null) {
-                if (current->value.GetId() == id) {
+
+            do {
+                Console.WriteLine(current->value.ToString());
+                if(current->value.GetId() == id) 
                     return current;
-                }
+
                 current = current->next;
-            }
+
+            } while (current != null);
+            
             return null;
         }
 
         public void list() {
             DoublePointerNode<T>* current = first;
-            Console.WriteLine("------------- Users -------------");
+            Console.WriteLine("------------- Automobiles -------------");
             while (current != null) {
                 Console.WriteLine(current->value.ToString());
                 current = current->next;

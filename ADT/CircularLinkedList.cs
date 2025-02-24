@@ -66,7 +66,7 @@ namespace ADT {
         public void list() {
             SimpleNode<T>* current = first;
 
-            Console.WriteLine("------------- Users -------------");
+            Console.WriteLine("------------- Spare parts -------------");
             do{
               
               if(current == null) return;

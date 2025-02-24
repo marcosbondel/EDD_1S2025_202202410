@@ -57,7 +57,16 @@ namespace Model {
         public void SetUserId(int userId) {
             UserId = userId;
         }
+
+        public override string ToString() {
+            fixed (char* brandPtr = Brand)
+            fixed (char* modelPtr = Model)
+            fixed (char* platePtr = Plate) {
+                return $"Id: {Id}\n" +
+                       $"Brand: {GetFixedString(brandPtr, 50)}\n" +
+                       $"Plate: {GetFixedString(platePtr, 50)}\n" +
+                       $"Model: {GetFixedString(modelPtr, 50)}\n";
+            }
+        }
     }
-
-
 }
