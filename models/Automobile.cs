@@ -1,6 +1,5 @@
 using System;
 
-
 namespace Model {
     public interface AutomobileInterface {
         int GetId();
@@ -34,7 +33,7 @@ namespace Model {
         }
         
         public int GetUserId() {
-            return Id;
+            return UserId;
         }
 
         public string GetBrand() {
@@ -53,6 +52,10 @@ namespace Model {
             fixed (char* ptr = Plate) {
                 return GetFixedString(ptr, 50);
             }
+        }
+
+        public void SetUserId(int userId) {
+            UserId = userId;
         }
     }
 

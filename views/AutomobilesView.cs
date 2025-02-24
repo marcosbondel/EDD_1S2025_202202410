@@ -6,18 +6,19 @@ using Storage;
 using utils;
 
 namespace View {
-    unsafe class SparePartsView : Window {
+    unsafe class AutomobilesView : Window {
         Entry idEntry;
-        Entry nameEntry;
-        Entry detailsEntry;
-        SpinButton costEntry;
+        Entry userIdEntry;
+        Entry brandEntry;
+        Entry modelEntry;
+        Entry plateEntry;
 
         private bool isEditing = false;
-        private SparePart* current;
-        private SimpleNode<SparePart>* sparePartNode;
+        private Automobile* current;
+        private DoublePointerNode<Automobile>* automobileNode;
         
 
-        public SparePartsView() : base("SparePartsView"){
+        public AutomobilesView() : base("AutomobilesView"){
             SetDefaultSize(400, 450);
             SetPosition(WindowPosition.Center);
 
@@ -26,7 +27,7 @@ namespace View {
             mainBox.Margin = 20;
 
             // Title
-            Label titleLabel = new Label("<b>Manage SpareParts</b>") { UseMarkup = true };
+            Label titleLabel = new Label("<b>Manage Automobiles</b>") { UseMarkup = true };
             titleLabel.SetAlignment(0.5f, 0.5f); // Center alignment
 
             // Bulk Upload Button (separated from inputs)
@@ -35,13 +36,10 @@ namespace View {
 
             // Form fields
             idEntry = CreateEntry("ID");
-            nameEntry = CreateEntry("Spare Part Name");
-            detailsEntry = CreateEntry("Details");
-            //costEntry = CreateEntry("Cost");
-
-            costEntry = new SpinButton(1, 1000, 1);
-            costEntry.Value = 1; // Default value
-            costEntry.Numeric = true; // Ensure it only takes numbers
+            brandEntry = CreateEntry("Brand Name");
+            userIdEntry = CreateEntry("User Id");
+            modelEntry = CreateEntry("Model");
+            plateEntry = CreateEntry("Plate");
 
             // Save Button
             Button saveButton = new Button("Save");
@@ -63,9 +61,10 @@ namespace View {
             mainBox.PackStart(editButton, false, false, 10);
             mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
-            mainBox.PackStart(nameEntry, false, false, 5);
-            mainBox.PackStart(detailsEntry, false, false, 5);
-            mainBox.PackStart(costEntry, false, false, 5);
+            mainBox.PackStart(userIdEntry, false, false, 5);
+            mainBox.PackStart(brandEntry, false, false, 5);
+            mainBox.PackStart(modelEntry, false, false, 5);
+            mainBox.PackStart(plateEntry, false, false, 5);
             mainBox.PackStart(saveButton, false, false, 10);
             mainBox.PackStart(backButton, false, false, 10); // Back button at the end
 
@@ -87,22 +86,21 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                fixed (SparePart* sparePart = &sparePartNode->value){
-                    sparePart->SetFixedString(sparePart->Name, nameEntry.Text, 50);
-                    sparePart->SetFixedString(sparePart->Details, detailsEntry.Text, 50);
-                    sparePart->SetCost(costEntry.Value);
-                }
+                automobileNode->value.SetFixedString(automobileNode->value.Brand, brandEntry.Text, 50);
+                automobileNode->value.SetFixedString(automobileNode->value.Model, modelEntry.Text, 50);
+                automobileNode->value.SetFixedString(automobileNode->value.Plate, plateEntry.Text, 50);
+                automobileNode->value.SetUserId(Int32.Parse(userIdEntry.Text));
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
-                SparePart newSparePart = new SparePart();
-                
-                newSparePart.Id = AppData.spare_parts_data.GetSize() + 1;
-                newSparePart.SetFixedString(newSparePart.Name, nameEntry.Text, 50);
-                newSparePart.SetFixedString(newSparePart.Details, detailsEntry.Text, 50);
-                newSparePart.SetCost(costEntry.Value);
+                Automobile newAutomobile;
+                newAutomobile.Id = AppData.spare_parts_data.GetSize() + 1;
+                newAutomobile.SetUserId(Int32.Parse(userIdEntry.Text));
+                newAutomobile.SetFixedString(newAutomobile.Brand, brandEntry.Text, 50);
+                newAutomobile.SetFixedString(newAutomobile.Model, modelEntry.Text, 50);
+                newAutomobile.SetFixedString(newAutomobile.Plate, plateEntry.Text, 50);
 
-                AppData.spare_parts_data.insert(newSparePart);
+                AppData.automobiles_data.insert(newAutomobile);
                 MSDialog.ShowMessageDialog(this, "Success", "Added succesfully!", MessageType.Info);
             }
 
@@ -135,13 +133,14 @@ namespace View {
                 return;
             }
 
-            sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
+            automobileNode = AppData.automobile_data.GetById(Int32.Parse(id));
 
-            if(sparePartNode != null){
-                idEntry.Text = sparePartNode->value.GetId().ToString();
-                nameEntry.Text = sparePartNode->value.GetName();
-                detailsEntry.Text = sparePartNode->value.GetDetails();
-                costEntry.Value = sparePartNode->value.GetCost();
+            if(automobileNode != null){
+                idEntry.Text = automobileNode->value.GetId().ToString();
+                userIdEntry.Text = automobileNode->value.GetUserId().ToString();
+                brandEntry.Text = automobileNode->value.GetBrand();
+                modelEntry.Text = automobileNode->value.GetModel();
+                plateEntry.Text = automobileNode->value.GetPlate();
 
                 isEditing = true;
             }else{
@@ -157,9 +156,10 @@ namespace View {
 
         private void ClearFields(){
             idEntry.Text = "";
-            nameEntry.Text = "";
-            detailsEntry.Text = "";
-            costEntry.Value = 1; // Default value
+            brandEntry.Text = "";
+            userIdEntry.Text = "";
+            modelEntry.Text = "";
+            plateEntry.Text = "";
         }
     }
 
