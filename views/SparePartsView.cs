@@ -3,7 +3,7 @@ using Gtk;
 using Model;
 using ADT;
 using Storage;
-using utils;
+using Utils;
 
 namespace View {
     unsafe class SparePartsView : Window {
@@ -82,6 +82,7 @@ namespace View {
         // Event Handlers
         private void OnBulkUploadClicked(object sender, EventArgs e){
             Console.WriteLine("Bulk upload clicked.");
+            BulkUpload.OnLoadFileClicked<SparePartImport>(this);
         }
 
         private void OnSaveClicked(object sender, EventArgs e){

@@ -3,7 +3,6 @@ using Gtk;
 using Model;
 using ADT;
 using Storage;
-using utils;
 using Utils;
 
 namespace View {
