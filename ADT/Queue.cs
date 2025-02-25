@@ -1,16 +1,23 @@
 using System;
 using System.Runtime.InteropServices;
+using Model;
 
 namespace ADT {
 
-    public unsafe class Queue<T> where T : unmanaged {
+    public unsafe class Queue<T> where T : unmanaged, ServiceInterface {
 
         private SimpleNode<T>* head;
         private SimpleNode<T>* tail;
+        private int size;
 
         public Queue(){
             head = null;
             tail = null;
+            size = 0;
+        }
+
+        public int GetSize(){
+            return size;
         }
 
         public void push(T data){
@@ -19,7 +26,7 @@ namespace ADT {
 
             newSimpleNode -> next = head;
             head = newSimpleNode;
-
+            size++;
         }
 
         public SimpleNode<T>* pop(T data){
@@ -28,6 +35,8 @@ namespace ADT {
 
             SimpleNode<T>* temp = head;
             head = head -> next;
+            size--;
+
             return head;
         }
 
@@ -40,6 +49,20 @@ namespace ADT {
             }
             Console.WriteLine("--------------------------------");
         }
+
+        public SimpleNode<T>* GetById(int id){
+            if (head == null) return null;
+
+            SimpleNode<T>* current = head;
+            while (current!= null) {
+                if (current->value.GetId() == id) {
+                    return current;
+                }
+                current = current->next;
+            }
+            return null;
+        }
+
     }
 
 }

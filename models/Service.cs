@@ -10,7 +10,7 @@ namespace Model {
         double GetCost();
     }
 
-    public unsafe struct Service {
+    public unsafe struct Service : ServiceInterface {
         public int Id;
         public int SparePartId;
         public int AutomobileId;

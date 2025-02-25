@@ -71,8 +71,9 @@ namespace View {
 
         private void OnServicesClicked(object sender, EventArgs e)
         {
-            // ServicesWindow servicesWindow = new ServicesWindow();
-            // servicesWindow.ShowAll();
+            ServicesView onServicesView = new ServicesView();
+            onServicesView.ShowAll();
+            this.Hide();
         }
 
         private void OnBillsClicked(object sender, EventArgs e)
