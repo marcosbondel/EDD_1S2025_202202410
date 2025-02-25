@@ -59,7 +59,14 @@ namespace Model {
                        $"Details: {GetFixedString(detailsPtr, 50)}\n";
             }
         }
-        
+    }
+
+    public class SparePartImport
+    {
+        public int ID { get; set; }
+        public string Repuesto { get; set; }
+        public string Detalles { get; set; }
+        public double Costo { get; set; }
     }
 
 }
