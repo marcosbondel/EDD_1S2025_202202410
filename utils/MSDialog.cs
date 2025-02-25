@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-namespace utils {
+namespace Utils {
     public static class MSDialog {
         public static void ShowMessageDialog(Window parent, string title, string message, MessageType type){
             using (MessageDialog dialog = new MessageDialog(parent,
