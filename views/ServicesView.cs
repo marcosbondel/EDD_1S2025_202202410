@@ -6,7 +6,7 @@ using Storage;
 using Utils;
 
 namespace View {
-    unsafe class ServicesView : Window {
+    public unsafe class ServicesView : Window {
         Entry idEntry;
         Entry sparePartIdEntry;
         Entry automobileIdEntry;
@@ -42,6 +42,9 @@ namespace View {
             // Save Button
             Button saveButton = new Button("Save");
             saveButton.Clicked += OnSaveClicked;
+            
+            Button showReportButon = new Button("Show report");
+            showReportButon.Clicked += OnShowReportClicked;
            
             Button deleteButton = new Button("Delete");
             deleteButton.Clicked += OnDeleteClicked;
@@ -55,6 +58,7 @@ namespace View {
 
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
+            mainBox.PackStart(showReportButon, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
             mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
@@ -75,6 +79,14 @@ namespace View {
             return entry;
         }
 
+        private void OnShowReportClicked(object sender, EventArgs e){
+            string dotCode = AppData.services_data.GenerateDotCode();
+            ReportGenerator.GenerateDotFile("Services", dotCode);
+            ReportGenerator.ParseDotToImage("Services.dot");
+
+            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
+        }
+
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
@@ -91,6 +103,13 @@ namespace View {
                 AppData.logs_data.insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), "1");
             
             } else {
+                serviceNode = AppData.services_data.GetById(Int32.Parse(idEntry.Text));
+
+                if(serviceNode != null){
+                    MSDialog.ShowMessageDialog(this, "Error", "ID already exists!", MessageType.Error);
+                    return;
+                }
+
                 Service newService;
                 newService.Id = AppData.services_data.GetSize() + 1;
                 newService.SparePartId = Int32.Parse(sparePartIdEntry.Text);
@@ -98,9 +117,34 @@ namespace View {
                 newService.Cost = costEntry.Value;
                 newService.SetFixedString(newService.Details, detailsEntry.Text, 50);
 
-                AppData.services_data.push(newService);
-                MSDialog.ShowMessageDialog(this, "Success", "Added succesfully!", MessageType.Info);
+                // Validations
+                SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
+                DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(newService.GetAutomobileId());
 
+                if(sparePartNode == null){
+                    MSDialog.ShowMessageDialog(this, "Error", "SparePart not found!", MessageType.Error);
+                    return;
+                }
+
+                if(automobileNode == null){
+                    MSDialog.ShowMessageDialog(this, "Error", "Automobile not found!", MessageType.Error);
+                    return;
+                }
+
+                AppData.services_data.enqueu(newService);
+                MSDialog.ShowMessageDialog(this, "Success", "Service added succesfully!", MessageType.Info);
+
+                // Here we need to create a new Bill
+                Bill newBill;
+
+                // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
+                newBill.Id = AppData.bills_data.GetSize() + 1;
+                newBill.OrderId = newService.GetId();
+                newBill.TotalCost = newService.GetCost() + sparePartNode->value.GetCost();
+
+                AppData.bills_data.push(newBill);
+
+                MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
 
                 //Here we need to insert the SparePartId and the automobileId to the matrix
                 AppData.logs_data.insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), "1");

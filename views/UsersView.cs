@@ -108,6 +108,14 @@ namespace View {
                 MSDialog.ShowMessageDialog(this, "Success", "User edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
+                
+                userNode = AppData.users_data.GetById(Int32.Parse(idEntry.Text));
+
+                if(userNode != null){
+                    MSDialog.ShowMessageDialog(this, "Error", "User ID already exists!", MessageType.Error);
+                    return;
+                }
+                
                 User newUser;
                 newUser.Id = AppData.users_data.GetSize() + 1;
                 newUser.SetFixedString(newUser.Name, nameEntry.Text, 50);

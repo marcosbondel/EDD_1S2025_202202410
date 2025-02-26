@@ -11,7 +11,7 @@ namespace Model {
     public unsafe struct Bill {
         public int Id;
         public int OrderId;
-        public int TotalCost;
+        public double TotalCost;
 
         public void SetFixedString(char* destination, string source, int maxLength) {
             int length = Math.Min(source.Length, maxLength - 1); // Leave space for null-terminator

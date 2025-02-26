@@ -4,6 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Storage;
 using Model;
+using ADT;
 
 namespace Utils {
     public static class BulkUpload {
@@ -49,6 +50,14 @@ namespace Utils {
                     if (typeof(T) == typeof(UserImport)){
                         var local = item as UserImport;
                         if (local != null){
+
+                            SimpleNode<User>* userNode = AppData.users_data.GetById(local.ID);
+
+                            if(userNode != null){
+                                Console.WriteLine($"User ID already exists {local.ID} !");
+                                return;
+                            }
+
                             User newUser;
                             newUser.Id = local.ID;
                             newUser.SetFixedString(newUser.Name, local.Nombres, 50);
@@ -61,6 +70,14 @@ namespace Utils {
                     } else if (typeof(T) == typeof(AutomobileImport)) {
                         var local = item as AutomobileImport;
                         if (local != null){
+
+                            DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(local.ID);
+
+                            if(automobileNode != null){
+                                Console.WriteLine($"Automobile ID already exists {local.ID} !");
+                                return;
+                            }
+
                             Automobile newAutomobile;
 
                             newAutomobile.Id = local.ID;
@@ -74,6 +91,14 @@ namespace Utils {
                     } else if (typeof(T) == typeof(SparePartImport)) {
                         var local = item as SparePartImport;
                         if (local != null){
+                            
+                            SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(local.ID);
+
+                            if(sparePartNode != null){
+                                Console.WriteLine($"SparePart ID already exists {local.ID} !");
+                                return;
+                            }
+
                             SparePart newSparePart;
 
                             newSparePart.Id = local.ID;
