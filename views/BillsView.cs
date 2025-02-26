@@ -30,18 +30,17 @@ namespace View {
             Button cancelBillButton = new Button("Cancel bill");
             cancelBillButton.Clicked += OnCancelBillClicked; // Event handler for button click
             
+            Button showReportButton = new Button("Show Report");
+            showReportButton.Clicked += OnShowReportClicked; // Event handler for button click
+            
             // Add the label and button to the Box
             box.PackStart(titleLabel, false, false, 10);
             box.PackStart(backButton, false, false, 10);
             box.PackStart(cancelBillButton, false, false, 10);
+            box.PackStart(showReportButton, false, false, 10);
             
             // Create a ListStore to hold the data for the TreeView
             listStore = new ListStore(typeof(int), typeof(int), typeof(double));
-
-            // Add sample data to the list store
-            // listStore.AppendValues(1, "Carlos Alberto", "carlos.alberto@usac.com");
-            // listStore.AppendValues(2, "Ana Lucia", "ana.lucia@usac.com");
-            // listStore.AppendValues(3, "Luis Enrique", "luis.enrique@usac.com");
 
             SimpleNode<Bill>* current = AppData.bills_data.GetTop();
 
@@ -104,6 +103,14 @@ namespace View {
             DashboardView dashboardView = new DashboardView();
             dashboardView.ShowAll(); // Show Dashboard
             this.Hide(); // Close
+        }
+
+        private void OnShowReportClicked(object sender, EventArgs e){
+            string dotCode = AppData.bills_data.GenerateDotFile();
+            ReportGenerator.GenerateDotFile("Bill", dotCode);
+            ReportGenerator.ParseDotToImage("Bill.dot");
+
+            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
         }
         
         private unsafe void OnCancelBillClicked(object sender, EventArgs e){

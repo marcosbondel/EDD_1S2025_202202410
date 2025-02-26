@@ -43,8 +43,8 @@ namespace View {
             Button saveButton = new Button("Save");
             saveButton.Clicked += OnSaveClicked;
             
-            Button showReportButon = new Button("Show report");
-            showReportButon.Clicked += OnShowReportClicked;
+            Button showReportButton = new Button("Show report");
+            showReportButton.Clicked += OnShowReportClicked;
            
             Button deleteButton = new Button("Delete");
             deleteButton.Clicked += OnDeleteClicked;
@@ -58,7 +58,7 @@ namespace View {
 
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
-            mainBox.PackStart(showReportButon, false, false, 10);
+            mainBox.PackStart(showReportButton, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
             mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);

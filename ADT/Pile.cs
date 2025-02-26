@@ -52,7 +52,7 @@ namespace ADT {
             Console.WriteLine("--------------------------------");
         }
 
-        public unsafe string GenerarGraphviz()
+        public unsafe string GenerateDotFile()
         {
             // Si la pila está vacía, generamos un solo nodo con "NULL"
             if (top == null)
