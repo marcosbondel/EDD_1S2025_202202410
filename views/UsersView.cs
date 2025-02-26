@@ -138,6 +138,18 @@ namespace View {
             }
 
             Console.WriteLine($"UserID to delete: {userId}");
+
+            // Here we need to delete all the related automobiles
+            DoublePointerNode<Automobile>* current = AppData.automobiles_data.GetFirst();
+            Console.WriteLine("Remove the referenced automobiles ...");
+            for (int i = 0; i < AppData.automobiles_data.GetSize(); i++)
+            {
+                if (current->value.GetUserId() == Int32.Parse(userId))
+                {
+                    AppData.automobiles_data.deleteById(Int32.Parse(userId));
+                }
+            }
+
             bool deletion = AppData.users_data.deleteById(Int32.Parse(userId));
 
             if(deletion){
