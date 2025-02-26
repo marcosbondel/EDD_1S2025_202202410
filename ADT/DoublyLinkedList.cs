@@ -86,5 +86,46 @@ namespace ADT {
 
             return true;
         }
+
+        public unsafe string GenerarGraphviz()
+        {
+            // Si la lista está vacía, generamos un solo nodo con "NULL"
+            if (first == null)
+            {
+                return "digraph G {\n    node [shape=record];\n    NULL [label = \"{NULL}\"];\n}\n";
+            }
+
+            // Iniciamos el código Graphviz
+            var graphviz = "digraph G {\n";
+            graphviz += "    node [shape=record];\n";
+            graphviz += "    rankdir=LR;\n";
+            graphviz += "    subgraph cluster_0 {\n";
+            graphviz += "        label = \"Lista Doblemente Enlazada\";\n";
+
+            // Iterar sobre los nodos de la lista y construir la representación Graphviz
+            DoublePointerNode<T>* current = first;
+            int index = 0;
+
+            while (current != null)
+            {
+                graphviz += $"        n{index} [label = \"{{<prev> Anterior | <data> ID: {current->value.GetId()} \\n ID_Usuario: {current->value.GetUserId()} \\n Marca: {current->value.GetBrand()} \\n Modelo: {current->value.GetModel()} \\n Placa: {current->value.GetPlate()} | <next> Siguiente }}\"];\n";
+                current = current->next;
+                index++;
+            }
+
+            // Conectar los nodos hacia adelante (next)
+            current = first;
+            for (int i = 0; current != null && current->next != null; i++)
+            {
+                graphviz += $"        n{i}:next -> n{i + 1}:data;\n"; // Enlace hacia adelante
+                graphviz += $"        n{i + 1}:prev -> n{i}:data;\n"; // Enlace hacia atrás
+                current = current->next;
+            }
+
+            graphviz += "    }\n";
+            graphviz += "}\n";
+            return graphviz;
+        }
+
     }
 }

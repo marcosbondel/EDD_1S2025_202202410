@@ -25,7 +25,7 @@ namespace Model {
         }
 
         public string GetFixedString(char* source, int maxLength) {
-            return new string(source, 0, maxLength).TrimEnd('\0'); // Convert and trim nulls
+            return new string(source).TrimEnd('\0'); // Convert and trim nulls
         }
 
         public int GetId() {
