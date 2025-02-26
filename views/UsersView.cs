@@ -148,6 +148,7 @@ namespace View {
                 {
                     AppData.automobiles_data.deleteById(Int32.Parse(userId));
                 }
+                current = current->next;
             }
 
             bool deletion = AppData.users_data.deleteById(Int32.Parse(userId));
