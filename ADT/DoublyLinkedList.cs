@@ -20,6 +20,10 @@ namespace ADT {
             return size;
         }
 
+        public DoublePointerNode<T>* GetFirst(){
+            return first;
+        }
+
         public void insert(T data){
             DoublePointerNode<T>* newDoublePointerNode = (DoublePointerNode<T>*)Marshal.AllocHGlobal(sizeof(DoublePointerNode<T>));
             *newDoublePointerNode = new DoublePointerNode<T> { value = data, next = null, previous = null };

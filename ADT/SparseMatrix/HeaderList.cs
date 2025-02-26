@@ -21,6 +21,11 @@ namespace ADT
                 size = 0; // The list starts with size 0
             }
 
+            public bool IsEmpty()
+            {
+                return first == null;
+            }
+
             // Method to insert a new node with an ID into the list
             public void InsertHeaderNode(int id)
             {

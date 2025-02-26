@@ -169,6 +169,61 @@ namespace ADT {
                     rowX = rowX->next;
                 }
             }
+
+            public unsafe  string GenerateDotCode(){
+                 // Check if the matrix is empty
+                if (rows.IsEmpty() || columns.IsEmpty())
+                {
+                    return "digraph G {\n    node [shape=plaintext];\n    label=\"Sparse Matrix (Empty)\";\n}";
+                }
+
+                // Start Graphviz code
+                var dotCode = "digraph G {\n";
+                dotCode += "    node [shape=record];\n";
+                dotCode += "    rankdir=TB;\n";
+
+                // Iterate over rows and create nodes
+                HeaderNode<int>* rowHeader = rows.first;
+                while (rowHeader != null)
+                {
+                    InternalNode<int>* cell = rowHeader->access;
+                    while (cell != null)
+                    {
+                        dotCode += $"    node_{cell->coordinateX}_{cell->coordinateY} [label=\"({cell->coordinateX}, {cell->coordinateY})\n{cell->name}\"];\n";
+                        cell = cell->right;
+                    }
+                    rowHeader = rowHeader->next;
+                }
+
+                // Connect horizontally
+                rowHeader = rows.first;
+                while (rowHeader != null)
+                {
+                    InternalNode<int>* cell = rowHeader->access;
+                    while (cell != null && cell->right != null)
+                    {
+                        dotCode += $"    node_{cell->coordinateX}_{cell->coordinateY} -> node_{cell->right->coordinateX}_{cell->right->coordinateY} [dir=both];\n";
+                        cell = cell->right;
+                    }
+                    rowHeader = rowHeader->next;
+                }
+
+                // Connect vertically
+                HeaderNode<int>* columnHeader = columns.first;
+                while (columnHeader != null)
+                {
+                    InternalNode<int>* cell = columnHeader->access;
+                    while (cell != null && cell->down != null)
+                    {
+                        dotCode += $"    node_{cell->coordinateX}_{cell->coordinateY} -> node_{cell->down->coordinateX}_{cell->down->coordinateY} [dir=both];\n";
+                        cell = cell->down;
+                    }
+                    columnHeader = columnHeader->next;
+                }
+
+                dotCode += "}\n";
+                return dotCode;
+            } 
         }
     }
 }
