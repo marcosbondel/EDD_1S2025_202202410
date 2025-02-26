@@ -82,6 +82,45 @@ namespace ADT {
             }
             Console.WriteLine("--------------------------------");
         }
+
+        public unsafe string GenerarGraphviz()
+        {
+            // Si la lista está vacía, generamos un solo nodo con "NULL"
+            if (head == null)
+            {
+                return "digraph G {\n    node [shape=record];\n    NULL [label = \"{NULL}\"];\n}\n";
+            }
+
+            // Iniciamos el código Graphviz
+            var graphviz = "digraph G {\n";
+            graphviz += "    node [shape=record];\n";
+            graphviz += "    rankdir=LR;\n";
+            graphviz += "    subgraph cluster_0 {\n";
+            graphviz += "        label = \"Lista Simple\";\n";
+
+            // Iterar sobre los nodos de la lista y construir la representación Graphviz
+            SimpleNode<T>* current = head;
+            int index = 0;
+
+            while (current != null)
+            {
+                graphviz += $"        n{index} [label = \"{{<data> ID: {current->value.GetId()} \\n Name: {current->value.GetFullname()} \\n Email: {current->value.GetEmail()} | <next> Siguiente }}\"];\n";
+                current = current->next;
+                index++;
+            }
+
+            // Conectar los nodos
+            current = head;
+            for (int i = 0; current != null && current->next != null; i++)
+            {
+                graphviz += $"        n{i}:next -> n{i + 1}:data;\n";
+                current = current->next;
+            }
+
+            graphviz += "    }\n";
+            graphviz += "}\n";
+            return graphviz;
+        }
     }
 
 }

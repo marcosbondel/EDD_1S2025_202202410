@@ -51,6 +51,9 @@ namespace View {
             
             Button editButton = new Button("Edit User");
             editButton.Clicked += OnEditClicked;
+            
+            Button showReportButton = new Button("Show report");
+            showReportButton.Clicked += OnShowReportClicked;
 
             // Back Button (returns to Dashboard)
             Button backButton = new Button("Back");
@@ -59,6 +62,7 @@ namespace View {
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
             mainBox.PackStart(bulkUploadButton, false, false, 10);
+            mainBox.PackStart(showReportButton, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
             mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
@@ -81,8 +85,15 @@ namespace View {
 
         // Event Handlers
         private void OnBulkUploadClicked(object sender, EventArgs e){
-            Console.WriteLine("Bulk upload clicked.");
             BulkUpload.OnLoadFileClicked<UserImport>(this);
+        }
+        
+        private void OnShowReportClicked(object sender, EventArgs e){
+            string dotCode = AppData.users_data.GenerarGraphviz();
+            ReportGenerator.GenerateDotFile("Users", dotCode);
+            ReportGenerator.ParseDotToImage("Users.dot");
+
+            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
         }
 
         private void OnSaveClicked(object sender, EventArgs e){

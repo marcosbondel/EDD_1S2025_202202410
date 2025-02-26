@@ -7,6 +7,7 @@ namespace Model {
         string GetLastname();
         string GetEmail();
         string GetPassword();
+        string GetFullname();
     }
 
     public unsafe struct User : UserInterface {
@@ -64,6 +65,16 @@ namespace Model {
         public string GetPassword() {
             fixed (char* ptr = Password) {
                 return GetFixedString(ptr, 50);
+            }
+        }
+
+        public string GetFullname(){
+            fixed (char* namePtr = Name) 
+            fixed (char* lastnamePtr = Lastname) {
+                string name = GetFixedString(namePtr, 50);
+                string lastname = GetFixedString(lastnamePtr, 50);
+                // return GetFixedString(namePtr, 50);
+                return $"{name} {lastname}";
             }
         }
 

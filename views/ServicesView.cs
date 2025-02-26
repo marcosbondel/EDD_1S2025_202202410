@@ -87,6 +87,9 @@ namespace View {
                 }
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
+
+                AppData.logs_data.insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), "1");
+            
             } else {
                 Service newService;
                 newService.Id = AppData.services_data.GetSize() + 1;
@@ -97,6 +100,11 @@ namespace View {
 
                 AppData.services_data.push(newService);
                 MSDialog.ShowMessageDialog(this, "Success", "Added succesfully!", MessageType.Info);
+
+
+                //Here we need to insert the SparePartId and the automobileId to the matrix
+                AppData.logs_data.insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), "1");
+
             }
 
             ClearFields();
