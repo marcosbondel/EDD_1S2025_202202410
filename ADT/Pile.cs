@@ -31,7 +31,7 @@ namespace ADT {
             size++;
         }
 
-        public SimpleNode<T>* pop(T data){
+        public SimpleNode<T>* pop(){
 
             if (top == null) return null;
 

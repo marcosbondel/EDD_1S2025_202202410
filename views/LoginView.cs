@@ -13,12 +13,6 @@ namespace View {
             SetDefaultSize(300, 200);
             SetPosition(WindowPosition.Center);
 
-            // Load the CSS file
-            var styleProvider = new CssProvider();
-            styleProvider.LoadFromPath("style.css");  // Make sure the path is correct
-            // StyleContext.AddProviderForScreen(Gdk.Screen.Default, styleProvider, (int)Gtk.CssProviderPriority.User);
-            StyleContext.AddProviderForScreen(Gdk.Screen.Default, styleProvider, 800); // 800 is the priority value.
-
             Box vbox = new Box(Orientation.Vertical, 10);
 
             Label userLabel = new Label("Username:");

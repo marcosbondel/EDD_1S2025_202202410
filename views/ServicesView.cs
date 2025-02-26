@@ -111,15 +111,22 @@ namespace View {
                 }
 
                 Service newService;
-                newService.Id = AppData.services_data.GetSize() + 1;
+                // newService.Id = AppData.services_data.GetSize() + 1;
+                newService.Id = Int32.Parse(idEntry.Text);
                 newService.SparePartId = Int32.Parse(sparePartIdEntry.Text);
                 newService.AutomobileId = Int32.Parse(automobileIdEntry.Text);
                 newService.Cost = costEntry.Value;
                 newService.SetFixedString(newService.Details, detailsEntry.Text, 50);
 
                 // Validations
+                serviceNode = AppData.services_data.GetById(newService.GetId());
                 SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
                 DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(newService.GetAutomobileId());
+
+                if(serviceNode != null){
+                    MSDialog.ShowMessageDialog(this, "Error", "Service ID already exists!", MessageType.Error);
+                    return;
+                }
 
                 if(sparePartNode == null){
                     MSDialog.ShowMessageDialog(this, "Error", "SparePart not found!", MessageType.Error);

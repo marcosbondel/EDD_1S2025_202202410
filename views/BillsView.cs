@@ -3,11 +3,13 @@ using ADT;
 using Gtk;
 using Storage;
 using Model;
+using Utils;
 
 namespace View {
 
     class BillsView : Window
     {
+        ListStore listStore;
     
 
         public unsafe BillsView() : base("BillsView"){
@@ -25,12 +27,16 @@ namespace View {
             Button backButton = new Button("Back");
             backButton.Clicked += OnBackClicked; // Event handler for button click
             
+            Button cancelBillButton = new Button("Cancel bill");
+            cancelBillButton.Clicked += OnCancelBillClicked; // Event handler for button click
+            
             // Add the label and button to the Box
             box.PackStart(titleLabel, false, false, 10);
             box.PackStart(backButton, false, false, 10);
+            box.PackStart(cancelBillButton, false, false, 10);
             
             // Create a ListStore to hold the data for the TreeView
-            ListStore listStore = new ListStore(typeof(int), typeof(int), typeof(double));
+            listStore = new ListStore(typeof(int), typeof(int), typeof(double));
 
             // Add sample data to the list store
             // listStore.AppendValues(1, "Carlos Alberto", "carlos.alberto@usac.com");
@@ -98,6 +104,32 @@ namespace View {
             DashboardView dashboardView = new DashboardView();
             dashboardView.ShowAll(); // Show Dashboard
             this.Hide(); // Close
+        }
+        
+        private unsafe void OnCancelBillClicked(object sender, EventArgs e){
+            if(AppData.bills_data.GetSize() == 0){
+                MSDialog.ShowMessageDialog(this, "Error", "The pile is empty!", MessageType.Error);
+                return;
+            }
+
+            SimpleNode<Bill>* deletedNode = AppData.bills_data.pop();
+
+             TreeIter iter;
+    
+            // Get the first row in the ListStore
+            if (listStore.GetIterFirst(out iter)) 
+            {
+                // Remove the first row
+                listStore.Remove(ref iter);
+            }
+            else
+            {
+                Console.WriteLine("The list is empty. No row to delete.");
+            }
+
+            MSDialog.ShowMessageDialog(this, "Success", "Bill deleted succesfully!", MessageType.Info);
+
+            // Here we need to refresh the tableview
         }
 
     }
