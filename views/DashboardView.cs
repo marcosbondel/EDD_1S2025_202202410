@@ -19,10 +19,10 @@ namespace View {
 
             // Sidebar Buttons
             Button usersButton = new Button("Users");
+            Button automobilesButton = new Button("Automobiles");
+            Button sparePartsButton = new Button("Spare Parts");
             Button servicesButton = new Button("Services");
             Button billsButton = new Button("Bills");
-            Button sparePartsButton = new Button("Spare Parts");
-            Button automobilesButton = new Button("Automobiles");
 
             // Attach event handlers
             usersButton.Clicked += OnUsersClicked;
@@ -33,10 +33,10 @@ namespace View {
 
             // Add buttons to sidebar
             sidebar.PackStart(usersButton, false, false, 5);
-            sidebar.PackStart(servicesButton, false, false, 5);
-            sidebar.PackStart(billsButton, false, false, 5);
             sidebar.PackStart(sparePartsButton, false, false, 5);
             sidebar.PackStart(automobilesButton, false, false, 5);
+            sidebar.PackStart(servicesButton, false, false, 5);
+            sidebar.PackStart(billsButton, false, false, 5);
 
             // Main content area (placeholder label)
             Label contentLabel = new Label("Welcome to the Dashboard");
@@ -78,8 +78,9 @@ namespace View {
 
         private void OnBillsClicked(object sender, EventArgs e)
         {
-            // BillsWindow billsWindow = new BillsWindow();
-            // billsWindow.ShowAll();
+            BillsView billsView = new BillsView();
+            billsView.ShowAll();
+            this.Hide();
         }
 
     }

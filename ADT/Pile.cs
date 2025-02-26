@@ -1,9 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
+using Model;
 
 namespace ADT {
 
-    public unsafe class Pile<T> where T : unmanaged {
+    public unsafe class Pile<T> where T : unmanaged, BillInterface {
 
         private SimpleNode<T>* top;
         private int size;
@@ -15,6 +16,10 @@ namespace ADT {
 
         public int GetSize(){
             return size;
+        }
+
+        public SimpleNode<T>* GetTop(){
+            return top;
         }
 
         public void push(T data){

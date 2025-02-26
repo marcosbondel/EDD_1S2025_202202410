@@ -8,7 +8,7 @@ namespace Model {
         double GetTotalCost();
     }
 
-    public unsafe struct Bill {
+    public unsafe struct Bill : BillInterface {
         public int Id;
         public int OrderId;
         public double TotalCost;

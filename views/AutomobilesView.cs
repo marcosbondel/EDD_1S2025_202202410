@@ -102,10 +102,24 @@ namespace View {
                 automobileNode->value.SetFixedString(automobileNode->value.Brand, brandEntry.Text, 50);
                 automobileNode->value.SetFixedString(automobileNode->value.Model, modelEntry.Text, 50);
                 automobileNode->value.SetFixedString(automobileNode->value.Plate, plateEntry.Text, 50);
-                automobileNode->value.SetUserId(Int32.Parse(userIdEntry.Text));
+                // automobileNode->value.SetUserId(Int32.Parse(userIdEntry.Text));
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
+                automobileNode = AppData.automobiles_data.GetById(Int32.Parse(idEntry.Text));
+
+                if(automobileNode != null){
+                    MSDialog.ShowMessageDialog(this, "Error", "Id already exists!", MessageType.Error);
+                    return;
+                }
+
+                SimpleNode<User>* userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
+
+                if(userNode == null){
+                    Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
+                    return;
+                }
+
                 Automobile newAutomobile;
                 newAutomobile.Id = AppData.automobiles_data.GetSize() + 1;
                 newAutomobile.UserId = Int32.Parse(userIdEntry.Text);

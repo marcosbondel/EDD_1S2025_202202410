@@ -75,6 +75,12 @@ namespace Utils {
 
                             if(automobileNode != null){
                                 Console.WriteLine($"Automobile ID already exists {local.ID} !");
+                                continue;
+                            }
+
+                            SimpleNode<User>* userNode = AppData.users_data.GetById(local.ID_Usuario);
+                            if(userNode == null){
+                                Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
                                 return;
                             }
 
@@ -86,7 +92,7 @@ namespace Utils {
                             newAutomobile.SetFixedString(newAutomobile.Model, local.Modelo.ToString(), 50);
                             newAutomobile.SetFixedString(newAutomobile.Plate, local.Placa, 50);
 
-                            AppData.automobiles_data.insert(newAutomobile);
+                            AppData.automobiles_data.insert(newAutomobile); 
                         }
                     } else if (typeof(T) == typeof(SparePartImport)) {
                         var local = item as SparePartImport;
