@@ -89,7 +89,7 @@ namespace View {
         }
         
         private void OnShowReportClicked(object sender, EventArgs e){
-            string dotCode = AppData.users_data.GenerarGraphviz();
+            string dotCode = AppData.users_data.GenerateDotCode();
             ReportGenerator.GenerateDotFile("Users", dotCode);
             ReportGenerator.ParseDotToImage("Users.dot");
 

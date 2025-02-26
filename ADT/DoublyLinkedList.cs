@@ -87,7 +87,7 @@ namespace ADT {
             return true;
         }
 
-        public unsafe string GenerarGraphviz()
+        public unsafe string GenerateDotCode()
         {
             // Si la lista está vacía, generamos un solo nodo con "NULL"
             if (first == null)

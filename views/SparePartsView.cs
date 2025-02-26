@@ -32,6 +32,9 @@ namespace View {
             // Bulk Upload Button (separated from inputs)
             Button bulkUploadButton = new Button("Bulk Upload");
             bulkUploadButton.Clicked += OnBulkUploadClicked;
+            
+            Button showReportButton = new Button("Show Report");
+            showReportButton.Clicked += OnShowReportClicked;
 
             // Form fields
             idEntry = CreateEntry("ID");
@@ -60,6 +63,7 @@ namespace View {
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
             mainBox.PackStart(bulkUploadButton, false, false, 10);
+            mainBox.PackStart(showReportButton, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
             mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
@@ -83,6 +87,14 @@ namespace View {
         private void OnBulkUploadClicked(object sender, EventArgs e){
             Console.WriteLine("Bulk upload clicked.");
             BulkUpload.OnLoadFileClicked<SparePartImport>(this);
+        }
+        
+        private void OnShowReportClicked(object sender, EventArgs e){
+            string dotCode = AppData.spare_parts_data.GenerateDotCode();
+            ReportGenerator.GenerateDotFile("SpareParts", dotCode);
+            ReportGenerator.ParseDotToImage("SpareParts.dot");
+
+            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
         }
 
         private void OnSaveClicked(object sender, EventArgs e){

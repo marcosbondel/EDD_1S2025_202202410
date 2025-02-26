@@ -94,8 +94,52 @@ namespace ADT {
             } while(current != first);
 
             return null;
-
         }
+
+        public unsafe string GenerateDotCode()
+        {
+            // Si la lista está vacía, generamos un solo nodo con "NULL"
+            if (first == null)
+            {
+                return "digraph G {\n    node [shape=record];\n    NULL [label = \"{NULL}\"];\n}\n";
+            }
+
+            // Iniciamos el código Graphviz
+            var graphviz = "digraph G {\n";
+            graphviz += "    node [shape=record];\n";
+            graphviz += "    rankdir=LR;\n";
+            graphviz += "    subgraph cluster_0 {\n";
+            graphviz += "        label = \"Lista Circular\";\n";
+
+            // Iterar sobre los nodos de la lista y construir la representación Graphviz
+            SimpleNode<T>* current = first;
+            // SimpleNode<T>* first = first; // Guardamos la referencia al primer nodo
+            int index = 0;
+
+            do
+            {
+                graphviz += $"        n{index} [label = \"{{<data> ID: {current->value.GetId()} \\n Repuesto: {current->value.GetName()} \\n Detalle: {current->value.GetDetails()} \\n Costo: {current->value.GetCost()} | <next> Siguiente }}\"];\n";
+                current = current->next;
+                index++;
+            } while (current != first); // Continuamos hasta completar el ciclo
+
+            // Conectar los nodos en la lista circular
+            current = first;
+            for (int i = 0; i < index - 1; i++)
+            {
+                graphviz += $"        n{i}:next -> n{i + 1}:data;\n"; // Enlace al siguiente nodo
+                current = current->next;
+            }
+
+            // Conectar el último nodo de vuelta al primero (circularidad)
+            graphviz += $"        n{index - 1}:next -> n0:data;\n";
+
+            graphviz += "    }\n";
+            graphviz += "}\n";
+            return graphviz;
+        }
+
+
     }
 
 }
