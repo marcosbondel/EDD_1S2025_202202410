@@ -20,6 +20,10 @@ namespace ADT {
             return size;
         }
 
+        public SimpleNode<T>* GetHead(){
+            return head;
+        }
+
         public void enqueu(T data)
         {
             SimpleNode<T>* newSimpleNode = (SimpleNode<T>*)Marshal.AllocHGlobal(sizeof(SimpleNode<T>));
