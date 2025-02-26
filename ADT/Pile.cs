@@ -73,7 +73,7 @@ namespace ADT {
 
             while (current != null)
             {
-                // graphviz += $"        n{index} [label = \"{{<data> ID: {current->value.GetId()} \\n Name: {current->value.GetFullname()} \\n Email: {current->value.GetEmail()} | <next> Siguiente }}\"];\n";
+                graphviz += $"        n{index} [label = \"{{<data> ID: {current->value.GetId()} \\n OrderID: {current->value.GetOrderId()} \\n Total Cost: {current->value.GetTotalCost()} | <next> Siguiente }}\"];\n";
                 current = current->next;
                 index++;
             }
