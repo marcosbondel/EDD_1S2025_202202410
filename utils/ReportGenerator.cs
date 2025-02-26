@@ -18,6 +18,8 @@ namespace Utils
                 // Use Path.Combine to ensure cross-platform compatibility for directory paths
                 string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "reports");
 
+                Console.WriteLine($"carpeta: {carpeta}");
+
                 // Create the directory if it doesn't exist
                 if (!Directory.Exists(carpeta))
                 {
@@ -40,6 +42,7 @@ namespace Utils
                 // Combine the directory and file name using Path.Combine
                 string rutaArchivo = Path.Combine(carpeta, nombre);
 
+                Console.WriteLine($"rutaArchivo: {rutaArchivo}");
                 // Write the content to the file
                 File.WriteAllText(rutaArchivo, contenido);
 
