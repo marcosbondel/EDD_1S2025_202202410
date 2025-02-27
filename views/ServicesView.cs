@@ -154,7 +154,7 @@ namespace View {
                 MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
 
                 //Here we need to insert the SparePartId and the automobileId to the matrix
-                AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), "1");
+                AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text);
 
             }
 
