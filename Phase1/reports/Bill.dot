@@ -3,6 +3,8 @@ digraph G {
     rankdir=TB;
     subgraph cluster_0 {
         label = "Pila";
-        n0 [label = "{<data> ID: 1 \n OrderID: 1 \n Total Cost: 1.1 | <next> Siguiente }"];
+        n0 [label = "{<data> ID: 2 \n OrderID: 2 \n Total Cost: 15.95 | <next> Siguiente }"];
+        n1 [label = "{<data> ID: 1 \n OrderID: 1 \n Total Cost: 25.6 | <next> Siguiente }"];
+        n0:next -> n1:data;
     }
 }

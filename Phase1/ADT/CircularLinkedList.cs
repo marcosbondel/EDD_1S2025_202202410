@@ -19,127 +19,136 @@ namespace ADT {
         }
 
         public void insert(T data){
-            SimpleNode<T>* newSimpleNode = (SimpleNode<T>*)Marshal.AllocHGlobal(sizeof(SimpleNode<T>));
-            *newSimpleNode = new SimpleNode<T> { value = data, next = null };
+            SimpleNode<T>* newNode = (SimpleNode<T>*)Marshal.AllocHGlobal(sizeof(SimpleNode<T>));
+            *newNode = new SimpleNode<T> { value = data, next = null };
 
             if (first == null) {
-                first = newSimpleNode;
-                first -> next = first;
-                size++;
+                first = newNode;
+                first->next = first; // Point to itself (circular)
             } else {
                 SimpleNode<T>* current = first;
                 while (current->next != first) {
-                    current = current -> next;
+                    current = current->next;
                 }
-                current -> next = newSimpleNode;
-                newSimpleNode -> next = first;
-                size++;
+                current->next = newNode;
+                newNode->next = first; // Maintain circular structure
             }
-
+            size++;
         }
 
         public bool deleteById(int id) {
             if (first == null) return false;
 
-            if ( first->value.GetId() == id ){
-                SimpleNode<T>* temp = first;
-                first = first->next;
-                Marshal.FreeHGlobal((IntPtr)temp);
-                return true;
-            }
-            
             SimpleNode<T>* current = first;
-            
-            while (current->next != null && current->value.GetId() == id && current->next != first) {
-                current = current->next;
-            }
-            
-            if (current->next != null) {
-                SimpleNode<T>* temp = current->next;
-                current->next = current->next->next;
-                Marshal.FreeHGlobal((IntPtr)temp);
-            }
+            SimpleNode<T>* previous = null;
 
-            return true;
+            do {
+                if (current->value.GetId() == id) {
+                    if (previous == null) { // Deleting the first node
+                        if (first->next == first) { // Only one node in the list
+                            Marshal.FreeHGlobal((IntPtr)first);
+                            first = null;
+                        } else {
+                            SimpleNode<T>* last = first;
+                            while (last->next != first) {
+                                last = last->next;
+                            }
+                            first = first->next;
+                            last->next = first;
+                            Marshal.FreeHGlobal((IntPtr)current);
+                        }
+                    } else { // Deleting a middle or last node
+                        previous->next = current->next;
+                        Marshal.FreeHGlobal((IntPtr)current);
+                    }
+                    size--;
+                    return true;
+                }
+                previous = current;
+                current = current->next;
+            } while (current != first);
+
+            return false; // ID not found
         }
 
         public void list() {
+            if (first == null) return; // Prevent infinite loop
+
             SimpleNode<T>* current = first;
-
             Console.WriteLine("------------- Spare parts -------------");
-            do{
-              
-              if(current == null) return;
 
-              Console.WriteLine(current->value.ToString());
-              current = current->next;
-                
+            do {
+                Console.WriteLine(current->value.ToString());
+                current = current->next;
             } while (current != first);
+
             Console.WriteLine("--------------------------------");
         }
 
         public SimpleNode<T>* GetById(int id){
-            if(first == null) return null;
+            if (first == null) return null;
 
             SimpleNode<T>* current = first;
-
-            do{
-
-                if(current->value.GetId() == id){
+            do {
+                if (current->value.GetId() == id) {
                     return current;
                 }
-
                 current = current->next;
-
-            } while(current != first);
+            } while (current != first);
 
             return null;
         }
 
-        public unsafe string GenerateDotCode()
+        public string GenerateDotCode()
         {
-            // Si la lista está vacía, generamos un solo nodo con "NULL"
             if (first == null)
             {
                 return "digraph G {\n    node [shape=record];\n    NULL [label = \"{NULL}\"];\n}\n";
             }
 
-            // Iniciamos el código Graphviz
             var graphviz = "digraph G {\n";
             graphviz += "    node [shape=record];\n";
             graphviz += "    rankdir=LR;\n";
             graphviz += "    subgraph cluster_0 {\n";
             graphviz += "        label = \"Lista Circular\";\n";
 
-            // Iterar sobre los nodos de la lista y construir la representación Graphviz
             SimpleNode<T>* current = first;
-            // SimpleNode<T>* first = first; // Guardamos la referencia al primer nodo
             int index = 0;
 
-            do
-            {
+            do {
                 graphviz += $"        n{index} [label = \"{{<data> ID: {current->value.GetId()} \\n Repuesto: {current->value.GetName()} \\n Detalle: {current->value.GetDetails()} \\n Costo: {current->value.GetCost()} | <next> Siguiente }}\"];\n";
                 current = current->next;
                 index++;
-            } while (current != first); // Continuamos hasta completar el ciclo
+            } while (current != first);
 
-            // Conectar los nodos en la lista circular
+            // Connect nodes
             current = first;
-            for (int i = 0; i < index - 1; i++)
-            {
-                graphviz += $"        n{i}:next -> n{i + 1}:data;\n"; // Enlace al siguiente nodo
+            for (int i = 0; i < index - 1; i++) {
+                graphviz += $"        n{i}:next -> n{i + 1}:data;\n";
                 current = current->next;
             }
-
-            // Conectar el último nodo de vuelta al primero (circularidad)
-            graphviz += $"        n{index - 1}:next -> n0:data;\n";
+            graphviz += $"        n{index - 1}:next -> n0:data;\n"; // Circular link
 
             graphviz += "    }\n";
             graphviz += "}\n";
             return graphviz;
         }
 
+        public void FreeMemory()
+        {
+            if (first == null) return;
 
+            SimpleNode<T>* current = first;
+            SimpleNode<T>* temp;
+
+            do {
+                temp = current;
+                current = current->next;
+                Marshal.FreeHGlobal((IntPtr)temp);
+            } while (current != first);
+
+            first = null;
+            size = 0;
+        }
     }
-
 }

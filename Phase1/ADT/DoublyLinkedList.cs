@@ -25,38 +25,29 @@ namespace ADT {
         }
 
         public void insert(T data){
-            DoublePointerNode<T>* newDoublePointerNode = (DoublePointerNode<T>*)Marshal.AllocHGlobal(sizeof(DoublePointerNode<T>));
-            *newDoublePointerNode = new DoublePointerNode<T> { value = data, next = null, previous = null };
+            DoublePointerNode<T>* newNode = (DoublePointerNode<T>*)Marshal.AllocHGlobal(sizeof(DoublePointerNode<T>));
+            *newNode = new DoublePointerNode<T> { value = data, next = null, previous = last };
 
             if (first == null) {
-                first = last = newDoublePointerNode;
+                first = last = newNode;
             } else {
-                last -> next = newDoublePointerNode;
-                newDoublePointerNode -> previous = last;
-                last = newDoublePointerNode;
+                last->next = newNode;
+                last = newNode;
             }
             size++;
         }
         
         public DoublePointerNode<T>* GetById(int id){
-
-            if(first == null) return null;
-
             DoublePointerNode<T>* current = first;
-
-            do {
-                Console.WriteLine(current->value.ToString());
-                if(current->value.GetId() == id) 
+            while (current != null) {
+                if (current->value.GetId() == id) 
                     return current;
-
                 current = current->next;
-
-            } while (current != null);
-            
+            }
             return null;
         }
 
-        public void list() {
+        public void List() {
             DoublePointerNode<T>* current = first;
             Console.WriteLine("------------- Automobiles -------------");
             while (current != null) {
@@ -69,44 +60,54 @@ namespace ADT {
         public bool deleteById(int id) {
             if (first == null) return false;
 
-            if ( first->value.GetId() == id ){
-                DoublePointerNode<T>* temp = first;
+            DoublePointerNode<T>* current = first;
+
+            // Case: deleting first node
+            if (first->value.GetId() == id) {
                 first = first->next;
-                Marshal.FreeHGlobal((IntPtr)temp);
+                if (first != null) first->previous = null;
+                Marshal.FreeHGlobal((IntPtr)current);
+                size--;
                 return true;
             }
-            
-            DoublePointerNode<T>* current = first;
-            
-            while (current->next != null && current->value.GetId() == id) {
+
+            // Traverse list to find the node to delete
+            while (current != null && current->value.GetId() != id) {
                 current = current->next;
             }
-            
-            if (current->next != null) {
-                DoublePointerNode<T>* temp = current->next;
-                current->next = current->next->next;
-                Marshal.FreeHGlobal((IntPtr)temp);
+
+            // If not found, return false
+            if (current == null) return false;
+
+            // If deleting the last node
+            if (current == last) {
+                last = current->previous;
+                last->next = null;
+            } else {
+                current->previous->next = current->next;
+                if (current->next != null) {
+                    current->next->previous = current->previous;
+                }
             }
 
+            Marshal.FreeHGlobal((IntPtr)current);
+            size--;
             return true;
         }
 
-        public unsafe string GenerateDotCode()
+        public string GenerateDotCode()
         {
-            // Si la lista está vacía, generamos un solo nodo con "NULL"
             if (first == null)
             {
                 return "digraph G {\n    node [shape=record];\n    NULL [label = \"{NULL}\"];\n}\n";
             }
 
-            // Iniciamos el código Graphviz
             var graphviz = "digraph G {\n";
             graphviz += "    node [shape=record];\n";
             graphviz += "    rankdir=LR;\n";
             graphviz += "    subgraph cluster_0 {\n";
             graphviz += "        label = \"Lista Doblemente Enlazada\";\n";
 
-            // Iterar sobre los nodos de la lista y construir la representación Graphviz
             DoublePointerNode<T>* current = first;
             int index = 0;
 
@@ -117,12 +118,11 @@ namespace ADT {
                 index++;
             }
 
-            // Conectar los nodos hacia adelante (next)
             current = first;
             for (int i = 0; current != null && current->next != null; i++)
             {
-                graphviz += $"        n{i}:next -> n{i + 1}:data;\n"; // Enlace hacia adelante
-                graphviz += $"        n{i + 1}:prev -> n{i}:data;\n"; // Enlace hacia atrás
+                graphviz += $"        n{i}:next -> n{i + 1}:data;\n";
+                graphviz += $"        n{i + 1}:prev -> n{i}:data;\n";
                 current = current->next;
             }
 
@@ -131,5 +131,17 @@ namespace ADT {
             return graphviz;
         }
 
+        public void FreeMemory()
+        {
+            DoublePointerNode<T>* current = first;
+            while (current != null)
+            {
+                DoublePointerNode<T>* temp = current;
+                current = current->next;
+                Marshal.FreeHGlobal((IntPtr)temp);
+            }
+            first = last = null;
+            size = 0;
+        }
     }
 }
