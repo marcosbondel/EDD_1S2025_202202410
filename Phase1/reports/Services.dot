@@ -1,12 +1,4 @@
 digraph G {
     node [shape=record];
-    rankdir=LR;
-    subgraph cluster_0 {
-        label = "Cola";
-        n0 [label = "{<data> ID: 1 \n SparePartId: 1 \n AutomobileId: 1 \n Details: details1 \n Cost: 0.1 | <next> Siguiente }"];
-        n1 [label = "{<data> ID: 2 \n SparePartId: 2 \n AutomobileId: 2 \n Details: details2 \n Cost: 0.2 | <next> Siguiente }"];
-        n0:next -> n1:data;
-        n0 [style=filled, fillcolor=lightblue]; // Front of Queue
-        n1 [style=filled, fillcolor=lightgreen]; // Rear of Queue
-    }
+    NULL [label = "{NULL}"];
 }
