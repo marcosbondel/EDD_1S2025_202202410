@@ -108,8 +108,14 @@ namespace View {
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
+                SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(idEntry.Text));
+
+                if(sparePartNode != null){
+                    Console.WriteLine($"SparePart ID already exists {Int32.Parse(idEntry.Text)} !");
+                    return;
+                }
                 SparePart newSparePart;
-                newSparePart.Id = AppData.spare_parts_data.GetSize() + 1;
+                newSparePart.Id = Int32.Parse(idEntry.Text);
                 newSparePart.Cost = costEntry.Value;
                 newSparePart.SetFixedString(newSparePart.Name, nameEntry.Text, 50);
                 newSparePart.SetFixedString(newSparePart.Details, detailsEntry.Text, 50);
@@ -126,6 +132,13 @@ namespace View {
 
             if (string.IsNullOrEmpty(id)){
                 MSDialog.ShowMessageDialog(this, "Error", "ID cannot be empty!", MessageType.Error);
+                return;
+            }
+
+            sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
+
+            if(sparePartNode == null){
+                Console.WriteLine($"SparePart does not exists {Int32.Parse(idEntry.Text)} !");
                 return;
             }
 

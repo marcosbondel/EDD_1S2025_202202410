@@ -55,7 +55,7 @@ namespace Utils {
 
                             if(userNode != null){
                                 Console.WriteLine($"User ID already exists {local.ID} !");
-                                return;
+                                continue;
                             }
 
                             User newUser;
@@ -102,7 +102,7 @@ namespace Utils {
 
                             if(sparePartNode != null){
                                 Console.WriteLine($"SparePart ID already exists {local.ID} !");
-                                return;
+                                continue;
                             }
 
                             SparePart newSparePart;

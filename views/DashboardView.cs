@@ -13,7 +13,7 @@ namespace View {
     {
         public DashboardView() : base("DashboardView")
         {
-            SetDefaultSize(600, 400);
+            SetDefaultSize(900, 500);
             SetPosition(WindowPosition.Center);
 
             // Main container (horizontal box)
@@ -32,6 +32,7 @@ namespace View {
             Button showLogsReportButton = new Button("Show Logs Report");
             Button showTopOlderAutomobilesButton = new Button("Show Top 5 - Older Automobiles");
             Button showTopAutomobilesServicesButton = new Button("Show Top 5 - Automobiles Services");
+            Button logoutButton = new Button("Logout");
 
             // Attach event handlers
             usersButton.Clicked += OnUsersClicked;
@@ -42,6 +43,7 @@ namespace View {
             showLogsReportButton.Clicked += OnShowLogsReportClicked;
             showTopOlderAutomobilesButton.Clicked += OnShowTopOlderAutomobilesCliked;
             showTopAutomobilesServicesButton.Clicked += OnShowTopAutomobilesServicesCliked;
+            logoutButton.Clicked += OnLogoutClicked;
 
             // Add buttons to sidebar
             sidebar.PackStart(usersButton, false, false, 5);
@@ -52,6 +54,7 @@ namespace View {
             sidebar.PackStart(showLogsReportButton, false, false, 5);
             sidebar.PackStart(showTopOlderAutomobilesButton, false, false, 5);
             sidebar.PackStart(showTopAutomobilesServicesButton, false, false, 5);
+            sidebar.PackStart(logoutButton, false, false, 5);
 
             // Main content area (placeholder label)
             Label contentLabel = new Label("Welcome to the Dashboard");
@@ -95,6 +98,13 @@ namespace View {
         {
             BillsView billsView = new BillsView();
             billsView.ShowAll();
+            this.Hide();
+        }
+        
+        private void OnLogoutClicked(object sender, EventArgs e)
+        {
+            LoginView loginView = new LoginView();
+            loginView.ShowAll();
             this.Hide();
         }
         

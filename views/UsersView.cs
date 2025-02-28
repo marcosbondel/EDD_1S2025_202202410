@@ -123,7 +123,7 @@ namespace View {
                 newUser.SetFixedString(newUser.Email, emailEntry.Text, 100);
                 newUser.SetFixedString(newUser.Password, passwordEntry.Text, 50);
                 AppData.users_data.insert(newUser);
-                MSDialog.ShowMessageDialog(this, "Success", "Spare part added succesfully!", MessageType.Info);
+                MSDialog.ShowMessageDialog(this, "Success", "User added succesfully!", MessageType.Info);
             }
 
             ClearFields();
