@@ -1,5 +1,6 @@
 using System;
 using Gtk;
+using Utils;
 
 namespace View {
 
@@ -26,12 +27,6 @@ namespace View {
 
             Button loginButton = new Button("Login");
             loginButton.StyleContext.AddClass("button");  // Add the "button" class for styling
-            // loginButton.Clicked += (sender, e) =>
-            // {
-            //     string username = userEntry.Text;
-            //     string password = passEntry.Text;
-            //     Console.WriteLine($"Username: {username}, Password: {password}");
-            // };
 
             loginButton.Clicked += onDoLogin;
 
@@ -47,18 +42,19 @@ namespace View {
 
         private void onDoLogin(object sender, EventArgs e){
             Console.WriteLine("Loging in..");
-            string rootUsername = "root";
-            // string rootUsername = "root@gmail.com";
-            string rootPassword = "root";
-            // string rootPassword = "root123";
+            // string rootUsername = "root";
+            string rootUsername = "root@gmail.com";
+            // string rootPassword = "root";
+            string rootPassword = "root123";
 
             if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
-                Console.WriteLine("Login successful");
+                MSDialog.ShowMessageDialog(this, "Success", "Welcome!", MessageType.Info);
                 DashboardView dashboard = new DashboardView();
                 dashboard.ShowAll();
                 this.Hide();
             } else {
                 Console.WriteLine("Login failed");
+                MSDialog.ShowMessageDialog(this, "Error", "Invalid credentials!", MessageType.Error);
             }
 
         }
