@@ -16,7 +16,8 @@ namespace View {
 
             Box vbox = new Box(Orientation.Vertical, 10);
 
-            Label userLabel = new Label("Username:");
+            Label userLabel = new Label("Email:");
+            Label marcosBondelLabel = new Label("Marcos Bonifasi");
             userEntry = new Entry();
             userEntry.StyleContext.AddClass("entry");  // Add the "entry" class for styling
 
@@ -25,11 +26,12 @@ namespace View {
             passEntry.StyleContext.AddClass("entry");  // Add the "entry" class for styling
             passEntry.Visibility = false;  // Hide password input
 
-            Button loginButton = new Button("Login");
+            Button loginButton = new Button("Validate");
             loginButton.StyleContext.AddClass("button");  // Add the "button" class for styling
 
             loginButton.Clicked += onDoLogin;
 
+            vbox.PackStart(marcosBondelLabel, false, false, 5);
             vbox.PackStart(userLabel, false, false, 5);
             vbox.PackStart(userEntry, false, false, 5);
             vbox.PackStart(passLabel, false, false, 5);
@@ -48,7 +50,7 @@ namespace View {
             string rootPassword = "root123";
 
             if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
-                MSDialog.ShowMessageDialog(this, "Success", "Welcome!", MessageType.Info);
+                MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
                 DashboardView dashboard = new DashboardView();
                 dashboard.ShowAll();
                 this.Hide();
