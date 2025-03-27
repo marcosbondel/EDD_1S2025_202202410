@@ -8,6 +8,7 @@ using Utils;
 namespace View {
     unsafe class UsersView : Window {
         Entry idEntry;
+        Entry ageEntry;
         Entry nameEntry;
         Entry lastnameEntry;
         Entry emailEntry;
@@ -36,6 +37,7 @@ namespace View {
 
             // Form fields
             idEntry = CreateEntry("ID");
+            ageEntry = CreateEntry("Age");
             nameEntry = CreateEntry("Name");
             lastnameEntry = CreateEntry("Lastname");
             emailEntry = CreateEntry("Email");
@@ -68,6 +70,7 @@ namespace View {
             mainBox.PackStart(idEntry, false, false, 5);
             mainBox.PackStart(nameEntry, false, false, 5);
             mainBox.PackStart(lastnameEntry, false, false, 5);
+            mainBox.PackStart(ageEntry, false, false, 5);
             mainBox.PackStart(emailEntry, false, false, 5);
             mainBox.PackStart(passwordEntry, false, false, 5);
             mainBox.PackStart(saveButton, false, false, 10);
@@ -104,6 +107,7 @@ namespace View {
                     user->SetFixedString(user->Lastname, lastnameEntry.Text, 50);
                     user->SetFixedString(user->Email, emailEntry.Text, 100);
                     user->SetFixedString(user->Password, passwordEntry.Text, 50);
+                    user->Age = int.Parse(ageEntry.Text);
                 }
                 MSDialog.ShowMessageDialog(this, "Success", "User edited succesfully!", MessageType.Info);
                 isEditing = false;
@@ -116,8 +120,17 @@ namespace View {
                     return;
                 }
                 
+                userNode = AppData.users_data.GetByEmail(emailEntry.Text);
+                
+                if(userNode != null){
+                    MSDialog.ShowMessageDialog(this, "Error", "Email already exists!", MessageType.Error);
+                    return;
+                }
+                
                 User newUser;
-                newUser.Id = AppData.users_data.GetSize() + 1;
+                // newUser.Id = AppData.users_data.GetSize() + 1;
+                newUser.Id = int.Parse(idEntry.Text);
+                newUser.Age = int.Parse(ageEntry.Text);
                 newUser.SetFixedString(newUser.Name, nameEntry.Text, 50);
                 newUser.SetFixedString(newUser.Lastname, lastnameEntry.Text, 50);
                 newUser.SetFixedString(newUser.Email, emailEntry.Text, 100);
@@ -175,6 +188,7 @@ namespace View {
                 idEntry.Text = userNode->value.GetId().ToString();
                 nameEntry.Text = userNode->value.GetName();
                 lastnameEntry.Text = userNode->value.GetLastname();
+                ageEntry.Text = userNode->value.GetAge().ToString();
                 emailEntry.Text = userNode->value.GetEmail();
                 passwordEntry.Text = userNode->value.GetPassword();
 
@@ -196,6 +210,7 @@ namespace View {
             lastnameEntry.Text = "";
             emailEntry.Text = "";
             passwordEntry.Text = "";
+            ageEntry.Text = "";
         }
     }
 

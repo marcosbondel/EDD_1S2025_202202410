@@ -8,6 +8,7 @@ namespace Model {
         string GetEmail();
         string GetPassword();
         string GetFullname();
+        int GetAge();
     }
 
     public unsafe struct User : UserInterface {
@@ -16,6 +17,7 @@ namespace Model {
         public fixed char Lastname[50];
         public fixed char Email[100];
         public fixed char Password[50];
+        public int Age;
 
         public void SetFixedString(char* destination, string source, int maxLength) {
             int length = Math.Min(source.Length, maxLength - 1); // Leave space for null-terminator
@@ -39,12 +41,17 @@ namespace Model {
                        $"First Name: {GetFixedString(firstNamePtr, 50)}\n" +
                        $"Last Name: {GetFixedString(lastNamePtr, 50)}\n" +
                        $"Email: {GetFixedString(emailPtr, 100)}\n" +
+                       $"Edad: {Age}\n" +
                        $"Password: {GetFixedString(passwordPtr, 50)}\n";
             }
         }
 
         public int GetId() {
             return Id;
+        }
+        
+        public int GetAge() {
+            return Age;
         }
 
         public string GetName() {
@@ -83,6 +90,7 @@ namespace Model {
     public class UserImport
     {
         public int ID { get; set; }
+        public int Edad { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public string Correo { get; set; }

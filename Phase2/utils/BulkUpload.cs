@@ -57,9 +57,17 @@ namespace Utils {
                                 Console.WriteLine($"User ID already exists {local.ID} !");
                                 continue;
                             }
+                            
+                            userNode = AppData.users_data.GetByEmail(local.Correo);
+
+                            if(userNode != null){
+                                Console.WriteLine($"Email already exists {local.ID} !");
+                                continue;
+                            }
 
                             User newUser;
                             newUser.Id = local.ID;
+                            newUser.Age = local.Edad;
                             newUser.SetFixedString(newUser.Name, local.Nombres, 50);
                             newUser.SetFixedString(newUser.Lastname, local.Apellidos, 50);
                             newUser.SetFixedString(newUser.Email, local.Correo, 100);

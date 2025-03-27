@@ -70,6 +70,28 @@ namespace ADT {
             }
             return null;
         }
+        
+        public SimpleNode<T>* GetByEmail(string email) {
+            SimpleNode<T>* current = head;
+            while (current != null) {
+                if (current->value.GetEmail() == email) {
+                    return current;
+                }
+                current = current->next;
+            }
+            return null;
+        }
+
+        public bool CheckUserCredentials(string name, string password){
+            SimpleNode<T>* current = head;
+            while (current != null) {
+                if (current->value.GetName() == name && current->value.GetPassword() == password) {
+                    return true;
+                }
+                current = current->next;
+            }
+            return false;
+        }
 
         public void list() {
             SimpleNode<T>* current = head;

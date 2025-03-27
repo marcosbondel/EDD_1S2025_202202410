@@ -1,6 +1,9 @@
 using System;
 using Gtk;
 using Utils;
+using Model;
+using ADT;
+using Storage;
 
 namespace View {
 
@@ -42,22 +45,40 @@ namespace View {
             ShowAll();
         }
 
-        private void onDoLogin(object sender, EventArgs e){
-            Console.WriteLine("Loging in..");
-            // string rootUsername = "root";
-            string rootUsername = "root@gmail.com";
-            // string rootPassword = "root";
-            string rootPassword = "root123";
 
-            if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
-                MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
-                DashboardView dashboard = new DashboardView();
-                dashboard.ShowAll();
-                this.Hide();
-            } else {
-                Console.WriteLine("Login failed");
-                MSDialog.ShowMessageDialog(this, "Error", "Invalid credentials!", MessageType.Error);
-            }
+        private void onDoLogin(object sender, EventArgs e){
+            MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
+            DashboardView dashboard = new DashboardView();
+            dashboard.ShowAll();
+            this.Hide();
+            return;
+
+
+            // Console.WriteLine("Loging in..");
+            // // string rootUsername = "root";
+            // string rootUsername = "“admin@usac.com";
+            // // string rootPassword = "root";
+            // string rootPassword = "admin123";
+
+            // // We first check if the user entered the admin credentials
+            // if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
+            //     MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
+            //     DashboardView dashboard = new DashboardView();
+            //     dashboard.ShowAll();
+            //     this.Hide();
+            //     return;
+            // } 
+
+            // bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
+
+            // // We check if it is another user trying to loging
+            // if(userCheck) {
+            //     Console.WriteLine("Welcom, user!");
+
+            // }else {
+            //     Console.WriteLine("Login failed");
+            //     MSDialog.ShowMessageDialog(this, "Error", "Invalid credentials!", MessageType.Error);
+            // }
 
         }
     }
