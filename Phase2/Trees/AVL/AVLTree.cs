@@ -185,7 +185,7 @@ namespace Trees.AVL {
 
 
         // Generar Graphviz
-        public string  GraficarGraphviz()
+        public string GraficarGraphviz()
         {
             StringBuilder dot = new StringBuilder();
             dot.AppendLine("digraph ArbolBinario {");

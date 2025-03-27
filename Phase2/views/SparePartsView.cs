@@ -66,7 +66,7 @@ namespace View {
             mainBox.PackStart(bulkUploadButton, false, false, 10);
             mainBox.PackStart(showReportButton, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
-            mainBox.PackStart(deleteButton, false, false, 10);
+            // mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
             mainBox.PackStart(nameEntry, false, false, 5);
             mainBox.PackStart(detailsEntry, false, false, 5);
@@ -91,7 +91,7 @@ namespace View {
         }
         
         private void OnShowReportClicked(object sender, EventArgs e){
-            string dotCode = AppData.spare_parts_data.GenerateDotCode();
+            string dotCode = AppData.spare_parts_data_avl_tree.GraficarGraphviz();
             ReportGenerator.GenerateDotFile("SpareParts", dotCode);
             ReportGenerator.ParseDotToImage("SpareParts.dot");
 
@@ -173,9 +173,6 @@ namespace View {
 
             // sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
             SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(id));
-
-            Console.WriteLine($"SparePart ID to edit: {id}");
-            Console.WriteLine($"SparePart found: {sparePartModelFound.Name}");
 
             if(sparePartModelFound != null){
                 idEntry.Text = sparePartModelFound.Id.ToString();

@@ -1,37 +1,22 @@
-digraph G {
-    node [shape=record];
-    rankdir=LR;
-    subgraph cluster_0 {
-        label = "Lista Circular";
-        n0 [label = "{<data> ID: 1 \n Repuesto: Filtro de aceite \n Detalle: Filtra impurezas del aceite del motor. \n Costo: 25.5 | <next> Siguiente }"];
-        n1 [label = "{<data> ID: 2 \n Repuesto: Bujías \n Detalle: Componente esencial para encender la mezcla de aire y combustible. \n Costo: 15.75 | <next> Siguiente }"];
-        n2 [label = "{<data> ID: 3 \n Repuesto: Frenos delanteros \n Detalle: Piezas para frenar el vehículo en la parte delantera. \n Costo: 60 | <next> Siguiente }"];
-        n3 [label = "{<data> ID: 4 \n Repuesto: Pastillas de freno traseras \n Detalle: Piezas para frenar el vehículo en la parte trasera. \n Costo: 45.3 | <next> Siguiente }"];
-        n4 [label = "{<data> ID: 5 \n Repuesto: Amortiguadores \n Detalle: Componente de suspensión para absorber impactos. \n Costo: 95.2 | <next> Siguiente }"];
-        n5 [label = "{<data> ID: 6 \n Repuesto: Aceite de motor \n Detalle: Lubricante para el motor del vehículo. \n Costo: 18.6 | <next> Siguiente }"];
-        n6 [label = "{<data> ID: 7 \n Repuesto: Filtro de aire \n Detalle: Filtra el aire que entra al motor para mejorar la combustión. \n Costo: 22.1 | <next> Siguiente }"];
-        n7 [label = "{<data> ID: 8 \n Repuesto: Correa de distribución \n Detalle: Componente que sincroniza el motor. \n Costo: 80 | <next> Siguiente }"];
-        n8 [label = "{<data> ID: 9 \n Repuesto: Radiador \n Detalle: Sistema para mantener el motor a temperatura adecuada. \n Costo: 150 | <next> Siguiente }"];
-        n9 [label = "{<data> ID: 10 \n Repuesto: Batería \n Detalle: Fuente de energía para el vehículo. \n Costo: 100.5 | <next> Siguiente }"];
-        n10 [label = "{<data> ID: 11 \n Repuesto: Cables de encendido \n Detalle: Conducen energía desde la batería a las bujías. \n Costo: 30.4 | <next> Siguiente }"];
-        n11 [label = "{<data> ID: 12 \n Repuesto: Espejos laterales \n Detalle: Espejos para una mejor visibilidad en el vehículo. \n Costo: 50 | <next> Siguiente }"];
-        n12 [label = "{<data> ID: 13 \n Repuesto: Manguera de radiador \n Detalle: Transporta el líquido refrigerante en el sistema de enfriamiento. \n Costo: 20.8 | <next> Siguiente }"];
-        n13 [label = "{<data> ID: 14 \n Repuesto: Suspensión trasera \n Detalle: Sistema que absorbe impactos en la parte trasera del vehículo. \n Costo: 120 | <next> Siguiente }"];
-        n14 [label = "{<data> ID: 15 \n Repuesto: Bombas de freno \n Detalle: Componente que genera presión para accionar los frenos. \n Costo: 75 | <next> Siguiente }"];
-        n0:next -> n1:data;
-        n1:next -> n2:data;
-        n2:next -> n3:data;
-        n3:next -> n4:data;
-        n4:next -> n5:data;
-        n5:next -> n6:data;
-        n6:next -> n7:data;
-        n7:next -> n8:data;
-        n8:next -> n9:data;
-        n9:next -> n10:data;
-        n10:next -> n11:data;
-        n11:next -> n12:data;
-        n12:next -> n13:data;
-        n13:next -> n14:data;
-        n14:next -> n0:data;
-    }
+digraph ArbolBinario {
+    node [shape=rectangle];
+    "4" [label="ID: 4\nRepuesto: Repuesto 4\nDetalles: Marca 4\nCosto: 400"];
+    "2" [label="ID: 2\nRepuesto: Repuesto 2\nDetalles: Marca 2\nCosto: 200"];
+    "1" [label="ID: 1\nRepuesto: Repuesto 1\nDetalles: Marca 1\nCosto: 100"];
+    "3" [label="ID: 3\nRepuesto: Repuesto 3\nDetalles: Marca 3\nCosto: 300"];
+    "8" [label="ID: 8\nRepuesto: Repuesto 8\nDetalles: Marca 8\nCosto: 800"];
+    "6" [label="ID: 6\nRepuesto: Repuesto 6\nDetalles: Marca 6\nCosto: 600"];
+    "5" [label="ID: 5\nRepuesto: Repuesto 5\nDetalles: Marca 5\nCosto: 500"];
+    "7" [label="ID: 7\nRepuesto: Repuesto 7\nDetalles: Marca 7\nCosto: 700"];
+    "9" [label="ID: 9\nRepuesto: Repuesto 9\nDetalles: Marca 9\nCosto: 900"];
+    "10" [label="ID: 10\nRepuesto: Repuesto 10\nDetalles: Marca 10\nCosto: 1000"];
+    "4" -> "2";
+    "4" -> "8";
+    "2" -> "1";
+    "2" -> "3";
+    "8" -> "6";
+    "8" -> "9";
+    "6" -> "5";
+    "6" -> "7";
+    "9" -> "10";
 }
