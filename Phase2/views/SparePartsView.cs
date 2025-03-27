@@ -4,6 +4,7 @@ using Model;
 using ADT;
 using Storage;
 using Utils;
+using Trees.AVL;
 
 namespace View {
     unsafe class SparePartsView : Window {
@@ -108,19 +109,29 @@ namespace View {
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
-                SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(idEntry.Text));
+                // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(idEntry.Text));
 
-                if(sparePartNode != null){
-                    Console.WriteLine($"SparePart ID already exists {Int32.Parse(idEntry.Text)} !");
+                // if(sparePartNode != null){
+                //     Console.WriteLine($"SparePart ID already exists {Int32.Parse(idEntry.Text)} !");
+                //     return;
+                // }
+                // SparePart newSparePart;
+                // newSparePart.Id = Int32.Parse(idEntry.Text);
+                // newSparePart.Cost = costEntry.Value;
+                // newSparePart.SetFixedString(newSparePart.Name, nameEntry.Text, 50);
+                // newSparePart.SetFixedString(newSparePart.Details, detailsEntry.Text, 50);
+
+                // AppData.spare_parts_data.insert(newSparePart);
+                // SparePartModel newSparePart = new SparePartModel(Int32.Parse(idEntry.Text), nameEntry.Text, detailsEntry.Text, costEntry.Value);
+                SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(idEntry.Text));
+                
+                if (sparePartModelFound  != null)
+                {
+                    MSDialog.ShowMessageDialog(this, "Error", "SparePart ID already exists!", MessageType.Error);
                     return;
                 }
-                SparePart newSparePart;
-                newSparePart.Id = Int32.Parse(idEntry.Text);
-                newSparePart.Cost = costEntry.Value;
-                newSparePart.SetFixedString(newSparePart.Name, nameEntry.Text, 50);
-                newSparePart.SetFixedString(newSparePart.Details, detailsEntry.Text, 50);
-
-                AppData.spare_parts_data.insert(newSparePart);
+                
+                AppData.spare_parts_data_avl_tree.Insertar(Int32.Parse(idEntry.Text), nameEntry.Text, detailsEntry.Text, costEntry.Value);
                 MSDialog.ShowMessageDialog(this, "Success", "Added succesfully!", MessageType.Info);
             }
 
@@ -160,13 +171,17 @@ namespace View {
                 return;
             }
 
-            sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
+            // sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
+            SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(id));
 
-            if(sparePartNode != null){
-                idEntry.Text = sparePartNode->value.GetId().ToString();
-                nameEntry.Text = sparePartNode->value.GetName();
-                detailsEntry.Text = sparePartNode->value.GetDetails();
-                costEntry.Value = sparePartNode->value.GetCost();
+            Console.WriteLine($"SparePart ID to edit: {id}");
+            Console.WriteLine($"SparePart found: {sparePartModelFound.Name}");
+
+            if(sparePartModelFound != null){
+                idEntry.Text = sparePartModelFound.Id.ToString();
+                nameEntry.Text = sparePartModelFound.Name;
+                detailsEntry.Text = sparePartModelFound.Details;
+                costEntry.Value = sparePartModelFound.Cost;
 
                 isEditing = true;
             }else{

@@ -1,4 +1,5 @@
 using System;
+using Trees.AVL;
 
 namespace Model {
     public interface SparePartInterface {
@@ -67,6 +68,21 @@ namespace Model {
         public string Repuesto { get; set; }
         public string Detalles { get; set; }
         public double Costo { get; set; }
+    }
+
+    public class SparePartModel {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Details { get; set; }
+        public double Cost { get; set; }                // Altura del nodo
+
+        public SparePartModel(int id, string Name, string Details, double Cost)
+        {
+            Id = id;
+            this.Name = Name;
+            this.Details = Details;
+            this.Cost = Cost;
+        }
     }
 
 }
