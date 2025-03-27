@@ -66,7 +66,33 @@ namespace Trees.Binary {
         }
 
 
+        // Método público para buscar por ID
+        public ServiceModel BuscarPorId(int id)
+        {
+            BinaryNode nodoEncontrado = BuscarPorIdRecursivo(raiz, id);
+            return nodoEncontrado?.Value;
+        }
 
+        // Método privado recursivo para buscar por ID
+        private BinaryNode BuscarPorIdRecursivo(BinaryNode nodo, int id)
+        {
+            // Caso base: nodo es null o encontramos el ID
+            if (nodo == null || nodo.Value.Id == id)
+            {
+                return nodo;
+            }
+
+            // Si el ID buscado es menor que el ID del nodo actual, buscamos en el subárbol izquierdo
+            if (id < nodo.Value.Id)
+            {
+                return BuscarPorIdRecursivo(nodo.Left, id);
+            }
+            // Si el ID buscado es mayor, buscamos en el subárbol derecho
+            else
+            {
+                return BuscarPorIdRecursivo(nodo.Right, id);
+            }
+        }
 
 
 

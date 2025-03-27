@@ -80,7 +80,7 @@ namespace View {
         }
 
         private void OnShowReportClicked(object sender, EventArgs e){
-            string dotCode = AppData.services_data.GenerateDotCode();
+            string dotCode = AppData.services_data_binary_tree.GraficarGraphviz();
             ReportGenerator.GenerateDotFile("Services", dotCode);
             ReportGenerator.ParseDotToImage("Services.dot");
 
@@ -110,51 +110,77 @@ namespace View {
                     return;
                 }
 
-                Service newService;
-                // newService.Id = AppData.services_data.GetSize() + 1;
-                newService.Id = Int32.Parse(idEntry.Text);
-                newService.SparePartId = Int32.Parse(sparePartIdEntry.Text);
-                newService.AutomobileId = Int32.Parse(automobileIdEntry.Text);
-                newService.Cost = costEntry.Value;
-                newService.SetFixedString(newService.Details, detailsEntry.Text, 50);
+                // Service newService;
+                // // newService.Id = AppData.services_data.GetSize() + 1;
+                // newService.Id = Int32.Parse(idEntry.Text);
+                // newService.SparePartId = Int32.Parse(sparePartIdEntry.Text);
+                // newService.AutomobileId = Int32.Parse(automobileIdEntry.Text);
+                // newService.Cost = costEntry.Value;
+                // newService.SetFixedString(newService.Details, detailsEntry.Text, 50);
 
-                // Validations
-                serviceNode = AppData.services_data.GetById(newService.GetId());
-                SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
-                DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(newService.GetAutomobileId());
+                // // Validations
+                // serviceNode = AppData.services_data.GetById(newService.GetId());
+                // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
+                // DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(newService.GetAutomobileId());
 
-                if(serviceNode != null){
+                // if(serviceNode != null){
+                //     MSDialog.ShowMessageDialog(this, "Error", "Service ID already exists!", MessageType.Error);
+                //     return;
+                // }
+
+                // if(sparePartNode == null){
+                //     MSDialog.ShowMessageDialog(this, "Error", "SparePart not found!", MessageType.Error);
+                //     return;
+                // }
+
+                // if(automobileNode == null){
+                //     MSDialog.ShowMessageDialog(this, "Error", "Automobile not found!", MessageType.Error);
+                //     return;
+                // }
+
+                // We first check there's no service with the same ID
+                ServiceModel serviceExistence = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(idEntry.Text));
+
+                if(serviceExistence != null){
                     MSDialog.ShowMessageDialog(this, "Error", "Service ID already exists!", MessageType.Error);
                     return;
                 }
 
-                if(sparePartNode == null){
+                // We ensure the spare part exists
+                SparePartModel sparePartExistence = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(sparePartIdEntry.Text));
+
+                if(sparePartExistence == null){
                     MSDialog.ShowMessageDialog(this, "Error", "SparePart not found!", MessageType.Error);
                     return;
                 }
+
+                // We ensure the automobile exists
+                DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(Int32.Parse(automobileIdEntry.Text));
 
                 if(automobileNode == null){
                     MSDialog.ShowMessageDialog(this, "Error", "Automobile not found!", MessageType.Error);
                     return;
                 }
 
-                AppData.services_data.enqueu(newService);
+                // AppData.services_data.enqueu(newService);
+                AppData.services_data_binary_tree.Insertar(Int32.Parse(idEntry.Text), Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text, costEntry.Value);
                 MSDialog.ShowMessageDialog(this, "Success", "Service added succesfully!", MessageType.Info);
 
-                // Here we need to create a new Bill
-                Bill newBill;
+                // // Here we need to create a new Bill
+                // Bill newBill;
 
-                // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
-                newBill.Id = AppData.bills_data.GetSize() + 1;
-                newBill.OrderId = newService.GetId();
-                newBill.TotalCost = newService.GetCost() + sparePartNode->value.GetCost();
+                // // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
+                // newBill.Id = AppData.bills_data.GetSize() + 1;
+                // newBill.OrderId = newService.GetId();
+                // newBill.TotalCost = newService.GetCost() + sparePartNode->value.GetCost();
 
-                AppData.bills_data.push(newBill);
+                // AppData.bills_data.push(newBill);
 
-                MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
+
+                // MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
 
                 //Here we need to insert the SparePartId and the automobileId to the matrix
-                AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text);
+                // AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text);
 
             }
 

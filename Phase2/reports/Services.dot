@@ -1,4 +1,22 @@
-digraph G {
-    node [shape=record];
-    NULL [label = "{NULL}"];
+digraph BST {
+    node [shape=rectangle];
+    "5" [label="Id: 5\nRepuesto: 1005\nVehiculo: 2005\nDetalles: Filtro de aire\nCosto: 20"];
+    "5" -> "3";
+    "3" [label="Id: 3\nRepuesto: 1003\nVehiculo: 2003\nDetalles: Pastillas de freno\nCosto: 45.99"];
+    "3" -> "1";
+    "1" [label="Id: 1\nRepuesto: 1001\nVehiculo: 2001\nDetalles: Filtro de aceite\nCosto: 25.5"];
+    "1" -> "2";
+    "2" [label="Id: 2\nRepuesto: 1002\nVehiculo: 2002\nDetalles: Bujía\nCosto: 15.75"];
+    "3" -> "4";
+    "4" [label="Id: 4\nRepuesto: 1004\nVehiculo: 2004\nDetalles: Aceite motor\nCosto: 35"];
+    "5" -> "7";
+    "7" [label="Id: 7\nRepuesto: 1007\nVehiculo: 2007\nDetalles: Batería\nCosto: 75"];
+    "7" -> "6";
+    "6" [label="Id: 6\nRepuesto: 1006\nVehiculo: 2006\nDetalles: Líquido de frenos\nCosto: 10.5"];
+    "7" -> "9";
+    "9" [label="Id: 9\nRepuesto: 1009\nVehiculo: 2009\nDetalles: Neumático\nCosto: 100"];
+    "9" -> "8";
+    "8" [label="Id: 8\nRepuesto: 1008\nVehiculo: 2008\nDetalles: Lámpara\nCosto: 5.25"];
+    "9" -> "10";
+    "10" [label="Id: 10\nRepuesto: 1010\nVehiculo: 2010\nDetalles: Escobillas\nCosto: 12"];
 }

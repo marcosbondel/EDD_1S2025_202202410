@@ -2,6 +2,7 @@ using System;
 using ADT;
 using Model;
 using Trees.AVL;
+using Trees.Binary;
 
 namespace Storage {
     public static class AppData {
@@ -14,5 +15,6 @@ namespace Storage {
 
         // Phase2
         public static AVLTree spare_parts_data_avl_tree = new AVLTree();
+        public static BinaryTree services_data_binary_tree = new BinaryTree();
     }
 }
