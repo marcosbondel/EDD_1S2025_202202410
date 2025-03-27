@@ -53,4 +53,21 @@ namespace Model {
         }
     }
 
+    public class ServiceModel {
+        public int Id { get; set; }
+        public int SparePartId { get; set; }
+        public int AutomobileId { get; set; }
+        public string Details { get; set; }
+        public double Cost { get; set; }                // Altura del nodo
+
+        public ServiceModel(int id, int SparePartId, int AutomobileId, string Details, double Cost)
+        {
+            Id = id;
+            this.SparePartId = SparePartId;
+            this.AutomobileId = AutomobileId;
+            this.Details = Details;
+            this.Cost = Cost;
+        }
+    }
+
 }

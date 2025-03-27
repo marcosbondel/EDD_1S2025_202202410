@@ -105,22 +105,16 @@ namespace Utils {
                     } else if (typeof(T) == typeof(SparePartImport)) {
                         var local = item as SparePartImport;
                         if (local != null){
-                            
-                            SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(local.ID);
 
-                            if(sparePartNode != null){
+                            SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(local.ID);
+                
+                            if (sparePartModelFound  != null)
+                            {
                                 Console.WriteLine($"SparePart ID already exists {local.ID} !");
-                                continue;
+                                return;
                             }
-
-                            SparePart newSparePart;
-
-                            newSparePart.Id = local.ID;
-                            newSparePart.Cost = local.Costo;
-                            newSparePart.SetFixedString(newSparePart.Name, local.Repuesto, 50);
-                            newSparePart.SetFixedString(newSparePart.Details, local.Detalles, 200);
-
-                            AppData.spare_parts_data.insert(newSparePart);
+                            
+                            AppData.spare_parts_data_avl_tree.Insertar(local.ID, local.Repuesto, local.Detalles, local.Costo);
                         }
                     }
                 }
