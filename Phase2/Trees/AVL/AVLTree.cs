@@ -55,6 +55,43 @@ namespace Trees.AVL {
             return x;
         }
 
+        // Método público para actualizar un repuesto por ID
+    public bool ActualizarRepuesto(int id, string nuevoRepuesto, string nuevosDetalles, double nuevoCosto)
+    {
+        // Buscamos el nodo que contiene el repuesto a actualizar
+        AVLNode nodoActualizar = BuscarNodoPorId(raiz, id);
+        
+        if (nodoActualizar == null)
+        {
+            return false; // No se encontró el repuesto
+        }
+        
+        // Actualizamos los datos del repuesto
+        nodoActualizar.value.Name = nuevoRepuesto;
+        nodoActualizar.value.Details = nuevosDetalles;
+        nodoActualizar.value.Cost = nuevoCosto;
+        
+        return true; // Actualización exitosa
+    }
+
+    // Método privado para buscar un nodo por ID (similar al BuscarPorIdRecursivo pero retorna el nodo completo)
+    private AVLNode BuscarNodoPorId(AVLNode nodo, int id)
+    {
+        if (nodo == null || nodo.value.Id == id)
+        {
+            return nodo;
+        }
+
+        if (id < nodo.value.Id)
+        {
+            return BuscarNodoPorId(nodo.left, id);
+        }
+        else
+        {
+            return BuscarNodoPorId(nodo.right, id);
+        }
+    }
+
 
 
 

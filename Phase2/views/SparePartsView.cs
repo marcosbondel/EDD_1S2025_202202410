@@ -15,7 +15,8 @@ namespace View {
 
         private bool isEditing = false;
         private SparePart* current;
-        private SimpleNode<SparePart>* sparePartNode;
+        // private SimpleNode<SparePart>* sparePartNode;
+        private SparePartModel sparePartModelFound;
         
 
         public SparePartsView() : base("SparePartsView"){
@@ -101,28 +102,13 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                fixed (SparePart* sparePart = &sparePartNode->value){
-                    sparePart->SetFixedString(sparePart->Name, nameEntry.Text, 50);
-                    sparePart->SetFixedString(sparePart->Details, detailsEntry.Text, 50);
-                    sparePart->SetCost(costEntry.Value);
-                }
+                // sparePartModelFound.Name = nameEntry.Text;
+                // sparePartModelFound.Details = detailsEntry.Text;
+                // sparePartModelFound.Cost = costEntry.Value;
+                AppData.spare_parts_data_avl_tree.ActualizarRepuesto(sparePartModelFound.Id, nameEntry.Text, detailsEntry.Text, costEntry.Value);
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
-                // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(idEntry.Text));
-
-                // if(sparePartNode != null){
-                //     Console.WriteLine($"SparePart ID already exists {Int32.Parse(idEntry.Text)} !");
-                //     return;
-                // }
-                // SparePart newSparePart;
-                // newSparePart.Id = Int32.Parse(idEntry.Text);
-                // newSparePart.Cost = costEntry.Value;
-                // newSparePart.SetFixedString(newSparePart.Name, nameEntry.Text, 50);
-                // newSparePart.SetFixedString(newSparePart.Details, detailsEntry.Text, 50);
-
-                // AppData.spare_parts_data.insert(newSparePart);
-                // SparePartModel newSparePart = new SparePartModel(Int32.Parse(idEntry.Text), nameEntry.Text, detailsEntry.Text, costEntry.Value);
                 SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(idEntry.Text));
                 
                 if (sparePartModelFound  != null)
@@ -139,28 +125,8 @@ namespace View {
         }
 
         private void OnDeleteClicked(object sender, EventArgs e){
-            string id = MSDialog.ShowInputDialog(this, "Delete", "Enter ID to delete:");
-
-            if (string.IsNullOrEmpty(id)){
-                MSDialog.ShowMessageDialog(this, "Error", "ID cannot be empty!", MessageType.Error);
-                return;
-            }
-
-            sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
-
-            if(sparePartNode == null){
-                Console.WriteLine($"SparePart does not exists {Int32.Parse(idEntry.Text)} !");
-                return;
-            }
-
-            bool deletion = AppData.spare_parts_data.deleteById(Int32.Parse(id));
-
-            if(deletion){
-                MSDialog.ShowMessageDialog(this, "Success", "Deleted succesfully!", MessageType.Info);
-                AppData.spare_parts_data.list();
-            }else{
-                MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
-            }
+            Console.WriteLine("Delete clicked.");
+            Console.WriteLine("Method not implemented yet.");
         }
         
         private void OnEditClicked(object sender, EventArgs e){
@@ -172,7 +138,7 @@ namespace View {
             }
 
             // sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
-            SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(id));
+            sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(id));
 
             if(sparePartModelFound != null){
                 idEntry.Text = sparePartModelFound.Id.ToString();
