@@ -7,6 +7,7 @@ using Storage;
 using Utils;
 using Model;
 using System.Text.Json;
+using Trees.Binary;
 
 namespace View {
 
@@ -95,7 +96,14 @@ namespace View {
 
         private void OnServicesClicked(object sender, EventArgs e)
         {
-            ServicesView onServicesView = new ServicesView();
+            int idUsuario = AppData.current_user_node->value.GetId();
+            List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
+
+            List<BinaryNode> List_Servicios_Usuarios_InOrden = AppData.services_data_binary_tree.TablaInOrden_Vehiculos(List_Ids_vehiculos);
+            List<BinaryNode> List_Servicios_Usuarios_PreOrden = AppData.services_data_binary_tree.TablaPreOrden_Vehiculos(List_Ids_vehiculos);
+            List<BinaryNode> List_Servicios_Usuarios_PostOrden = AppData.services_data_binary_tree.TablaPostOrden_Vehiculos(List_Ids_vehiculos);
+
+            ServicesUserVisualizationView onServicesView = new ServicesUserVisualizationView(List_Servicios_Usuarios_InOrden, List_Servicios_Usuarios_PreOrden, List_Servicios_Usuarios_PostOrden);
             onServicesView.ShowAll();
             this.Hide();
         }

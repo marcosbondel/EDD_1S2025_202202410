@@ -143,5 +143,22 @@ namespace ADT {
             first = last = null;
             size = 0;
         }
+
+        public List<int> ListarVehiculos_Usuario(int idUsuario)
+        {
+            List<int> listaVehiculos = new List<int>();
+            DoublePointerNode<T>* actual = first;
+            
+            while (actual != null)
+            {
+                if (actual->value.GetId() == idUsuario)
+                {
+                    listaVehiculos.Add(actual -> value.GetId());
+                }
+                actual = actual->next;
+            }
+            
+            return listaVehiculos;
+        }
     }
 }

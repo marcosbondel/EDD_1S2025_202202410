@@ -3,7 +3,7 @@ using Model;
 using System.Text;
 
 namespace Trees.Binary {
-    public class BinaryTree
+   public class BinaryTree
     {
 
 
@@ -15,6 +15,10 @@ namespace Trees.Binary {
         {
             raiz = null;
         }
+
+
+
+
 
         public void Insertar(int id, int idRepuesto, int idVehiculo, string detalles, double costo)
         {
@@ -66,33 +70,7 @@ namespace Trees.Binary {
         }
 
 
-        // Método público para buscar por ID
-        public ServiceModel BuscarPorId(int id)
-        {
-            BinaryNode nodoEncontrado = BuscarPorIdRecursivo(raiz, id);
-            return nodoEncontrado?.Value;
-        }
 
-        // Método privado recursivo para buscar por ID
-        private BinaryNode BuscarPorIdRecursivo(BinaryNode nodo, int id)
-        {
-            // Caso base: nodo es null o encontramos el ID
-            if (nodo == null || nodo.Value.Id == id)
-            {
-                return nodo;
-            }
-
-            // Si el ID buscado es menor que el ID del nodo actual, buscamos en el subárbol izquierdo
-            if (id < nodo.Value.Id)
-            {
-                return BuscarPorIdRecursivo(nodo.Left, id);
-            }
-            // Si el ID buscado es mayor, buscamos en el subárbol derecho
-            else
-            {
-                return BuscarPorIdRecursivo(nodo.Right, id);
-            }
-        }
 
 
 
@@ -191,6 +169,120 @@ namespace Trees.Binary {
                 resultado.Add(nodo);
             }
         }
+
+
+        public ServiceModel BuscarPorId(int id)
+        {
+            BinaryNode nodoEncontrado = BuscarPorIdRecursivo(raiz, id);
+            return nodoEncontrado?.Value;
+        }
+
+        // Método privado recursivo para buscar por ID
+        private BinaryNode BuscarPorIdRecursivo(BinaryNode nodo, int id)
+        {
+            // Caso base: nodo es null o encontramos el ID
+            if (nodo == null || nodo.Value.Id == id)
+            {
+                return nodo;
+            }
+
+            // Si el ID buscado es menor que el ID del nodo actual, buscamos en el subárbol izquierdo
+            if (id < nodo.Value.Id)
+            {
+                return BuscarPorIdRecursivo(nodo.Left, id);
+            }
+            // Si el ID buscado es mayor, buscamos en el subárbol derecho
+            else
+            {
+                return BuscarPorIdRecursivo(nodo.Right, id);
+            }
+        }
+
+
+
+        // TablaInOrden_Vehiculos
+        public List<BinaryNode> TablaInOrden_Vehiculos(List<int> idsVehiculos)
+        {
+            List<BinaryNode> resultado = new List<BinaryNode>();
+            InOrdenVehiculosRecursivo(raiz, resultado, idsVehiculos);
+            return resultado;
+        }
+
+        private void InOrdenVehiculosRecursivo(BinaryNode nodo, List<BinaryNode> resultado, List<int> idsVehiculos)
+        {
+            if (nodo != null)
+            {
+                InOrdenVehiculosRecursivo(nodo.Left, resultado, idsVehiculos);
+                if (idsVehiculos.Contains(nodo.Value.AutomobileId))
+                    resultado.Add(nodo);
+                InOrdenVehiculosRecursivo(nodo.Right, resultado, idsVehiculos);
+            }
+        }
+
+
+
+
+        // TablaPreOrden_Vehiculos
+        public List<BinaryNode> TablaPreOrden_Vehiculos(List<int> idsVehiculos)
+        {
+            List<BinaryNode> resultado = new List<BinaryNode>();
+            PreOrdenVehiculosRecursivo(raiz, resultado, idsVehiculos);
+            return resultado;
+        }
+
+        private void PreOrdenVehiculosRecursivo(BinaryNode nodo, List<BinaryNode> resultado, List<int> idsVehiculos)
+        {
+            if (nodo != null)
+            {
+                if (idsVehiculos.Contains(nodo.Value.AutomobileId))
+                    resultado.Add(nodo);
+                PreOrdenVehiculosRecursivo(nodo.Left, resultado, idsVehiculos);
+                PreOrdenVehiculosRecursivo(nodo.Right, resultado, idsVehiculos);
+            }
+        }
+
+
+
+        // TablaPostOrden_Vehiculos
+        public List<BinaryNode> TablaPostOrden_Vehiculos(List<int> idsVehiculos)
+        {
+            List<BinaryNode> resultado = new List<BinaryNode>();
+            PostOrdenVehiculosRecursivo(raiz, resultado, idsVehiculos);
+            return resultado;
+        }
+
+        private void PostOrdenVehiculosRecursivo(BinaryNode nodo, List<BinaryNode> resultado, List<int> idsVehiculos)
+        {
+            if (nodo != null)
+            {
+                PostOrdenVehiculosRecursivo(nodo.Left, resultado, idsVehiculos);
+                PostOrdenVehiculosRecursivo(nodo.Right, resultado, idsVehiculos);
+                if (idsVehiculos.Contains(nodo.Value.AutomobileId))
+                    resultado.Add(nodo);
+            }
+        }
+
+
+
+        // Servicios_Vehiculos
+        public List<int> Servicios_Vehiculos(List<int> idsVehiculos)
+        {
+            List<int> resultado = new List<int>();
+            InOrdenVehiculosRecursivoIds(raiz, resultado, idsVehiculos);
+            return resultado;
+        }
+
+        private void InOrdenVehiculosRecursivoIds(BinaryNode nodo, List<int> resultado, List<int> idsVehiculos)
+        {
+            if (nodo != null)
+            {
+                InOrdenVehiculosRecursivoIds(nodo.Left, resultado, idsVehiculos);
+                if (idsVehiculos.Contains(nodo.Value.AutomobileId))
+                    resultado.Add(nodo.Value.Id);
+                InOrdenVehiculosRecursivoIds(nodo.Right, resultado, idsVehiculos);
+            }
+        }
+
 
 
     }
