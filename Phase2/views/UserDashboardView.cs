@@ -10,11 +10,11 @@ using System.Text.Json;
 
 namespace View {
 
-    unsafe class DashboardView : Window
+    unsafe class UserDashboardView : Window
     {
 
         private LogModel logModel;
-        public DashboardView() : base("DashboardView")
+        public UserDashboardView() : base("UserDashboardView")
         {
             SetDefaultSize(900, 300);
             SetPosition(WindowPosition.Center);
@@ -113,7 +113,7 @@ namespace View {
             string json = JsonSerializer.Serialize(AppData.session_logs_data, new JsonSerializerOptions { WriteIndented = true });
 
             // Define file path
-            string filePath = "reports/logs.json";
+            string filePath = "logs.json";
 
             // Write JSON to a file
             File.WriteAllText(filePath, json);
