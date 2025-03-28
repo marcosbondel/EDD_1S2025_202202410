@@ -110,7 +110,12 @@ namespace View {
 
         private void OnBillsClicked(object sender, EventArgs e)
         {
-            BillsView billsView = new BillsView();
+            int idUsuario = AppData.current_user_node->value.GetId();
+            List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
+            List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
+            List<BillModel> Lista_Facturas_Usuario = AppData.bills_data_b_tree.ObtenerFacturasPorServicios(Lista_Ids_Servicios);
+
+            UserBillsView billsView = new UserBillsView(Lista_Facturas_Usuario);
             billsView.ShowAll();
             this.Hide();
         }

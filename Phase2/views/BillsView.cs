@@ -37,7 +37,7 @@ namespace View {
             box.PackStart(titleLabel, false, false, 10);
             box.PackStart(backButton, false, false, 10);
             box.PackStart(cancelBillButton, false, false, 10);
-            box.PackStart(showReportButton, false, false, 10);
+            // box.PackStart(showReportButton, false, false, 10);
             
             // Create a ListStore to hold the data for the TreeView
             listStore = new ListStore(typeof(int), typeof(int), typeof(double));
