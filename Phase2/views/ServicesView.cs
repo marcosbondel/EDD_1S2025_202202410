@@ -177,10 +177,13 @@ namespace View {
                 // AppData.bills_data.push(newBill);
 
 
-                // MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
 
                 //Here we need to insert the SparePartId and the automobileId to the matrix
                 // AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text);
+                
+                AppData.bill_id_counter++;
+                AppData.bills_data_b_tree.Insertar(AppData.bill_id_counter,Int32.Parse(idEntry.Text), costEntry.Value);
+                MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
 
             }
 

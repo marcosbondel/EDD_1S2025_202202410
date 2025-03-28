@@ -6,14 +6,17 @@ using Gtk;
 using Storage;
 using Utils;
 using Model;
+using System.Text.Json;
 
 namespace View {
 
-    class DashboardView : Window
+    unsafe class DashboardView : Window
     {
+
+        private LogModel logModel;
         public DashboardView() : base("DashboardView")
         {
-            SetDefaultSize(900, 500);
+            SetDefaultSize(900, 300);
             SetPosition(WindowPosition.Center);
 
             // Main container (horizontal box)
@@ -30,6 +33,7 @@ namespace View {
             Button servicesButton = new Button("Services");
             Button billsButton = new Button("Bills");
             Button showLogsReportButton = new Button("Show Logs Report");
+            Button sessionsLogsButton = new Button("Session Logs Report");
             Button showTopOlderAutomobilesButton = new Button("Show Top 5 - Older Automobiles");
             Button showTopAutomobilesServicesButton = new Button("Show Top 5 - Automobiles Services");
             Button logoutButton = new Button("Logout");
@@ -37,12 +41,13 @@ namespace View {
             // Attach event handlers
             usersButton.Clicked += OnUsersClicked;
             servicesButton.Clicked += OnServicesClicked;
-            billsButton.Clicked += OnBillsClicked;
+            // billsButton.Clicked += OnBillsClicked;
             sparePartsButton.Clicked += OnSparePartsClicked;
             automobilesButton.Clicked += OnAutomobilesClicked;
-            showLogsReportButton.Clicked += OnShowLogsReportClicked;
-            showTopOlderAutomobilesButton.Clicked += OnShowTopOlderAutomobilesCliked;
-            showTopAutomobilesServicesButton.Clicked += OnShowTopAutomobilesServicesCliked;
+            // showLogsReportButton.Clicked += OnShowLogsReportClicked;
+            sessionsLogsButton.Clicked += OnShowSessionLogsReportClicked;
+            // showTopOlderAutomobilesButton.Clicked += OnShowTopOlderAutomobilesCliked;
+            // showTopAutomobilesServicesButton.Clicked += OnShowTopAutomobilesServicesCliked;
             logoutButton.Clicked += OnLogoutClicked;
 
             // Add buttons to sidebar
@@ -50,10 +55,11 @@ namespace View {
             sidebar.PackStart(sparePartsButton, false, false, 5);
             sidebar.PackStart(automobilesButton, false, false, 5);
             sidebar.PackStart(servicesButton, false, false, 5);
-            sidebar.PackStart(billsButton, false, false, 5);
-            sidebar.PackStart(showLogsReportButton, false, false, 5);
-            sidebar.PackStart(showTopOlderAutomobilesButton, false, false, 5);
-            sidebar.PackStart(showTopAutomobilesServicesButton, false, false, 5);
+            // sidebar.PackStart(billsButton, false, false, 5);
+            // sidebar.PackStart(showLogsReportButton, false, false, 5);
+            sidebar.PackStart(sessionsLogsButton, false, false, 5);
+            // sidebar.PackStart(showTopOlderAutomobilesButton, false, false, 5);
+            // sidebar.PackStart(showTopAutomobilesServicesButton, false, false, 5);
             sidebar.PackStart(logoutButton, false, false, 5);
 
             // Main content area (placeholder label)
@@ -101,8 +107,32 @@ namespace View {
             this.Hide();
         }
         
+        private void OnShowSessionLogsReportClicked(object sender, EventArgs e)
+        {
+            // Convert the list to JSON
+            string json = JsonSerializer.Serialize(AppData.session_logs_data, new JsonSerializerOptions { WriteIndented = true });
+
+            // Define file path
+            string filePath = "logs.json";
+
+            // Write JSON to a file
+            File.WriteAllText(filePath, json);
+
+            MSDialog.ShowMessageDialog(this, "Session Logs", "Session Logs Report has been generated successfully!", MessageType.Info);
+        }
+        
         private void OnLogoutClicked(object sender, EventArgs e)
         {
+            // Validation, if the current user is null, it means the admin user is using the app
+            if(AppData.current_user_node != null){
+                // Before the user leaves the app, we must log the event
+                AppData.session_logs_data[^1].loggedOutAt = DateTime.Now.ToString();
+                
+                // Then we clean the session variables
+                AppData.current_user_node = null;
+            }
+            
+            // The user leaves the app
             LoginView loginView = new LoginView();
             loginView.ShowAll();
             this.Hide();

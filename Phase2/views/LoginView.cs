@@ -7,11 +7,13 @@ using Storage;
 
 namespace View {
 
-    class LoginView : Window
+    unsafe class LoginView : Window
     {
         
         private Entry userEntry;
         private Entry passEntry;
+        private SimpleNode<User>* userNode;
+        private LogModel logModel;
 
         public LoginView() : base("Login"){
             SetDefaultSize(300, 200);
@@ -47,38 +49,50 @@ namespace View {
 
 
         private void onDoLogin(object sender, EventArgs e){
-            MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
-            DashboardView dashboard = new DashboardView();
-            dashboard.ShowAll();
-            this.Hide();
-            return;
+            // MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
+            // DashboardView dashboard = new DashboardView();
+            // dashboard.ShowAll();
+            // this.Hide();
+            // return;
 
 
-            // Console.WriteLine("Loging in..");
-            // // string rootUsername = "root";
-            // string rootUsername = "“admin@usac.com";
-            // // string rootPassword = "root";
-            // string rootPassword = "admin123";
+            Console.WriteLine("Loging in..");
+            // string rootUsername = "root";
+            string rootUsername = "“admin@usac.com";
+            // string rootPassword = "root";
+            string rootPassword = "admin123";
 
-            // // We first check if the user entered the admin credentials
-            // if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
-            //     MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
-            //     DashboardView dashboard = new DashboardView();
-            //     dashboard.ShowAll();
-            //     this.Hide();
-            //     return;
-            // } 
+            // We first check if the user entered the admin credentials
+            if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
+                MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
+                DashboardView dashboard = new DashboardView();
+                dashboard.ShowAll();
+                this.Hide();
+                return;
+            } 
 
-            // bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
+            bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
 
-            // // We check if it is another user trying to loging
-            // if(userCheck) {
-            //     Console.WriteLine("Welcom, user!");
+            // We check if it is another user trying to loging
+            if(userCheck) {
+                Console.WriteLine("Welcom, user!");
 
-            // }else {
-            //     Console.WriteLine("Login failed");
-            //     MSDialog.ShowMessageDialog(this, "Error", "Invalid credentials!", MessageType.Error);
-            // }
+                // Here we need to save the user session
+                userNode = AppData.users_data.GetByEmail(userEntry.Text);
+                logModel = new LogModel(userNode->value.GetEmail(), DateTime.Now.ToString(), "");
+                AppData.session_logs_data.Add(logModel);
+
+                // We set the current user node as a global instance
+                AppData.current_user_node = userNode;
+
+                MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode->value.GetFullname()}!", MessageType.Info);
+
+                // Then we redirect the user to the corresponding view
+    
+            }else {
+                Console.WriteLine("Login failed");
+                MSDialog.ShowMessageDialog(this, "Error", "Invalid credentials!", MessageType.Error);
+            }
 
         }
     }

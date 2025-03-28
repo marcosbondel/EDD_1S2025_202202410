@@ -37,6 +37,9 @@ namespace View {
             
             Button showReportButton = new Button("Show Report");
             showReportButton.Clicked += OnShowReportClicked;
+            
+            Button showTableButton = new Button("Show Table");
+            showTableButton.Clicked += OnShowTableClicked;
 
             // Form fields
             idEntry = CreateEntry("ID");
@@ -66,6 +69,7 @@ namespace View {
             mainBox.PackStart(titleLabel, false, false, 5);
             mainBox.PackStart(bulkUploadButton, false, false, 10);
             mainBox.PackStart(showReportButton, false, false, 10);
+            mainBox.PackStart(showTableButton, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
             // mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
@@ -155,6 +159,12 @@ namespace View {
         private void OnBackClicked(object sender, EventArgs e){
             DashboardView dashboardView = new DashboardView();
             dashboardView.ShowAll(); // Show Dashboard
+            this.Hide(); // Close
+        }
+        
+        private void OnShowTableClicked(object sender, EventArgs e){
+            SparePartsOrderView sparePartsTableView = new SparePartsOrderView();
+            sparePartsTableView.ShowAll(); // Show Dashboard
             this.Hide(); // Close
         }
 

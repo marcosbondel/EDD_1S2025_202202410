@@ -39,4 +39,17 @@ namespace Model {
         }
     }
 
+    public class BillModel {
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public double TotalCost { get; set; }
+
+        public BillModel(int id, int id_servicio, double total)
+        {
+            Id = id;
+            OrderId = id_servicio;
+            TotalCost = total;
+        }
+    }
+
 }

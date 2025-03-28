@@ -89,7 +89,7 @@ namespace Utils {
                             SimpleNode<User>* userNode = AppData.users_data.GetById(local.ID_Usuario);
                             if(userNode == null){
                                 Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
-                                return;
+                                continue;
                             }
 
                             Automobile newAutomobile;
@@ -111,7 +111,7 @@ namespace Utils {
                             if (sparePartModelFound  != null)
                             {
                                 Console.WriteLine($"SparePart ID already exists {local.ID} !");
-                                return;
+                                continue;
                             }
                             
                             AppData.spare_parts_data_avl_tree.Insertar(local.ID, local.Repuesto, local.Detalles, local.Costo);

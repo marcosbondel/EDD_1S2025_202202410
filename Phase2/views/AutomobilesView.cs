@@ -142,11 +142,10 @@ namespace View {
                 return;
             }
 
-            bool deletion = AppData.spare_parts_data.deleteById(Int32.Parse(id));
+            bool deletion = AppData.automobiles_data.deleteById(Int32.Parse(id));
 
             if(deletion){
                 MSDialog.ShowMessageDialog(this, "Success", "Deleted succesfully!", MessageType.Info);
-                AppData.spare_parts_data.list();
             }else{
                 MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
             }

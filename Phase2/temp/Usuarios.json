@@ -3,6 +3,7 @@
       "ID": 1,
       "Nombres": "Carlos Alberto",
       "Apellidos": "Gomez Martinez",
+      "Edad": 25,
       "Correo": "carlos.alberto@usac.com",
       "Contrasenia": "CarlosMartinez"
     },
