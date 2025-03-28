@@ -63,7 +63,7 @@ namespace View {
             sidebar.PackStart(logoutButton, false, false, 5);
 
             // Main content area (placeholder label)
-            Label contentLabel = new Label("Welcome to the Dashboard");
+            Label contentLabel = new Label("Welcome to the ADMIN Dashboard");
 
             // Add sidebar and content area to main box
             mainBox.PackStart(sidebar, false, false, 10);

@@ -22,7 +22,7 @@ namespace View {
             Box vbox = new Box(Orientation.Vertical, 10);
 
             Label userLabel = new Label("Email:");
-            Label marcosBondelLabel = new Label("Marcos Bonifasi");
+            Label marcosBondelLabel = new Label("LabEDD - Marcos Bonifasi - 202202410");
             userEntry = new Entry();
             userEntry.StyleContext.AddClass("entry");  // Add the "entry" class for styling
 
@@ -88,7 +88,9 @@ namespace View {
                 MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode->value.GetFullname()}!", MessageType.Info);
 
                 // Then we redirect the user to the corresponding view
-    
+                UserDashboardView userDashboard = new UserDashboardView();
+                userDashboard.ShowAll();
+                this.Hide();
             }else {
                 Console.WriteLine("Login failed");
                 MSDialog.ShowMessageDialog(this, "Error", "Invalid credentials!", MessageType.Error);

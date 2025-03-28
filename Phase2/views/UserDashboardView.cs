@@ -51,19 +51,19 @@ namespace View {
             logoutButton.Clicked += OnLogoutClicked;
 
             // Add buttons to sidebar
-            sidebar.PackStart(usersButton, false, false, 5);
-            sidebar.PackStart(sparePartsButton, false, false, 5);
+            // sidebar.PackStart(usersButton, false, false, 5);
+            // sidebar.PackStart(sparePartsButton, false, false, 5);
             sidebar.PackStart(automobilesButton, false, false, 5);
             sidebar.PackStart(servicesButton, false, false, 5);
-            // sidebar.PackStart(billsButton, false, false, 5);
+            sidebar.PackStart(billsButton, false, false, 5);
             // sidebar.PackStart(showLogsReportButton, false, false, 5);
-            sidebar.PackStart(sessionsLogsButton, false, false, 5);
+            // sidebar.PackStart(sessionsLogsButton, false, false, 5);
             // sidebar.PackStart(showTopOlderAutomobilesButton, false, false, 5);
             // sidebar.PackStart(showTopAutomobilesServicesButton, false, false, 5);
             sidebar.PackStart(logoutButton, false, false, 5);
 
             // Main content area (placeholder label)
-            Label contentLabel = new Label("Welcome to the Dashboard");
+            Label contentLabel = new Label("Welcome to the USER Dashboard");
 
             // Add sidebar and content area to main box
             mainBox.PackStart(sidebar, false, false, 10);

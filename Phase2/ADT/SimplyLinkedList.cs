@@ -82,10 +82,10 @@ namespace ADT {
             return null;
         }
 
-        public bool CheckUserCredentials(string name, string password){
+        public bool CheckUserCredentials(string email, string password){
             SimpleNode<T>* current = head;
             while (current != null) {
-                if (current->value.GetName() == name && current->value.GetPassword() == password) {
+                if (current->value.GetEmail() == email && current->value.GetPassword() == password) {
                     return true;
                 }
                 current = current->next;

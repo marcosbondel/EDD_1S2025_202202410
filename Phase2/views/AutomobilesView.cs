@@ -19,7 +19,9 @@ namespace View {
         
 
         public AutomobilesView() : base("AutomobilesView"){
-            SetDefaultSize(400, 450);
+
+            if(AppData.current_user_node == null) SetDefaultSize(400, 450);
+            else SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
 
             // Main vertical container
@@ -60,12 +62,14 @@ namespace View {
 
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
-            mainBox.PackStart(bulkUploadButton, false, false, 10);
-            mainBox.PackStart(showReportButton, false, false, 10);
-            mainBox.PackStart(editButton, false, false, 10);
-            mainBox.PackStart(deleteButton, false, false, 10);
+            if(AppData.current_user_node == null) mainBox.PackStart(bulkUploadButton, false, false, 10);
+            if(AppData.current_user_node == null) mainBox.PackStart(showReportButton, false, false, 10);
+            if(AppData.current_user_node == null) mainBox.PackStart(editButton, false, false, 10);
+
+            if(AppData.current_user_node == null)  mainBox.PackStart(deleteButton, false, false, 10);
+            
             mainBox.PackStart(idEntry, false, false, 5);
-            mainBox.PackStart(userIdEntry, false, false, 5);
+            if(AppData.current_user_node == null) mainBox.PackStart(userIdEntry, false, false, 5);
             mainBox.PackStart(brandEntry, false, false, 5);
             mainBox.PackStart(modelEntry, false, false, 5);
             mainBox.PackStart(plateEntry, false, false, 5);
@@ -113,16 +117,21 @@ namespace View {
                     return;
                 }
 
-                SimpleNode<User>* userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
+                if(AppData.current_user_node == null){
+                    SimpleNode<User>* userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
 
-                if(userNode == null){
-                    Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
-                    return;
+                    if(userNode == null){
+                        Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
+                        return;
+                    }
                 }
 
                 Automobile newAutomobile;
                 newAutomobile.Id = AppData.automobiles_data.GetSize() + 1;
-                newAutomobile.UserId = Int32.Parse(userIdEntry.Text);
+                
+                if(AppData.current_user_node == null) newAutomobile.UserId = Int32.Parse(userIdEntry.Text);
+                else newAutomobile.UserId = AppData.current_user_node->value.GetId();
+
                 newAutomobile.SetFixedString(newAutomobile.Brand, brandEntry.Text, 50);
                 newAutomobile.SetFixedString(newAutomobile.Model, modelEntry.Text, 50);
                 newAutomobile.SetFixedString(newAutomobile.Plate, plateEntry.Text, 50);
