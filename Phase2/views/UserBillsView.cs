@@ -50,7 +50,7 @@ namespace View {
 
             if (int.TryParse(userId, out int id))
             {
-                int idUsuario = AppData.current_user_node->value.GetId();
+                int idUsuario = AppData.current_user_node.value.Id;
                 List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
                 List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
                 List<BillModel> Lista_Facturas_Usuario = AppData.bills_data_b_tree.ObtenerFacturasPorServicios(Lista_Ids_Servicios);

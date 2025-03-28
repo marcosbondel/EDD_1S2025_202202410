@@ -15,7 +15,7 @@ namespace View {
 
         private bool isEditing = false;
         private Automobile* current;
-        private DoublePointerNode<Automobile>* automobileNode;
+        private DoublePointerNode automobileNode;
         
 
         public AutomobilesView() : base("AutomobilesView"){
@@ -103,10 +103,11 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                automobileNode->value.SetFixedString(automobileNode->value.Brand, brandEntry.Text, 50);
-                automobileNode->value.SetFixedString(automobileNode->value.Model, modelEntry.Text, 50);
-                automobileNode->value.SetFixedString(automobileNode->value.Plate, plateEntry.Text, 50);
-                // automobileNode->value.SetUserId(Int32.Parse(userIdEntry.Text));
+
+                automobileNode.value.Brand = brandEntry.Text;
+                automobileNode.value.Model = modelEntry.Text;
+                automobileNode.value.Plate = plateEntry.Text;
+
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
@@ -118,7 +119,7 @@ namespace View {
                 }
 
                 if(AppData.current_user_node == null){
-                    SimpleNode<User>* userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
+                    SimpleNode userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
 
                     if(userNode == null){
                         Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
@@ -126,15 +127,15 @@ namespace View {
                     }
                 }
 
-                Automobile newAutomobile;
-                newAutomobile.Id = AppData.automobiles_data.GetSize() + 1;
+                AutomobileModel newAutomobile = new AutomobileModel();
+                newAutomobile.Id = Int32.Parse(idEntry.Text);
                 
                 if(AppData.current_user_node == null) newAutomobile.UserId = Int32.Parse(userIdEntry.Text);
-                else newAutomobile.UserId = AppData.current_user_node->value.GetId();
+                else newAutomobile.UserId = AppData.current_user_node.value.Id;
 
-                newAutomobile.SetFixedString(newAutomobile.Brand, brandEntry.Text, 50);
-                newAutomobile.SetFixedString(newAutomobile.Model, modelEntry.Text, 50);
-                newAutomobile.SetFixedString(newAutomobile.Plate, plateEntry.Text, 50);
+                newAutomobile.Brand = brandEntry.Text;
+                newAutomobile.Model = modelEntry.Text;
+                newAutomobile.Plate = plateEntry.Text;
 
                 AppData.automobiles_data.insert(newAutomobile);
                 MSDialog.ShowMessageDialog(this, "Success", "Added succesfully!", MessageType.Info);
@@ -171,11 +172,11 @@ namespace View {
             automobileNode = AppData.automobiles_data.GetById(Int32.Parse(id));
 
             if(automobileNode != null){
-                idEntry.Text = automobileNode->value.GetId().ToString();
-                userIdEntry.Text = automobileNode->value.GetUserId().ToString();
-                brandEntry.Text = automobileNode->value.GetBrand();
-                modelEntry.Text = automobileNode->value.GetModel();
-                plateEntry.Text = automobileNode->value.GetPlate();
+                idEntry.Text = automobileNode.value.Id.ToString();
+                userIdEntry.Text = automobileNode.value.UserId.ToString();
+                brandEntry.Text = automobileNode.value.Brand;
+                modelEntry.Text = automobileNode.value.Model;
+                plateEntry.Text = automobileNode.value.Plate;
 
                 isEditing = true;
             }else{

@@ -12,7 +12,7 @@ namespace View {
         
         private Entry userEntry;
         private Entry passEntry;
-        private SimpleNode<User>* userNode;
+        private SimpleNode userNode;
         private LogModel logModel;
 
         public LoginView() : base("Login"){
@@ -79,13 +79,13 @@ namespace View {
 
                 // Here we need to save the user session
                 userNode = AppData.users_data.GetByEmail(userEntry.Text);
-                logModel = new LogModel(userNode->value.GetEmail(), DateTime.Now.ToString(), "");
+                logModel = new LogModel(userNode.value.Email, DateTime.Now.ToString(), "");
                 AppData.session_logs_data.Add(logModel);
 
                 // We set the current user node as a global instance
                 AppData.current_user_node = userNode;
 
-                MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode->value.GetFullname()}!", MessageType.Info);
+                MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode.value.GetFullname()}!", MessageType.Info);
 
                 // Then we redirect the user to the corresponding view
                 UserDashboardView userDashboard = new UserDashboardView();

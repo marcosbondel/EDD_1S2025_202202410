@@ -97,4 +97,28 @@ namespace Model {
         public string Contrasenia { get; set; }
     }
 
+    public class UserModel {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Lastname { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Age { get; set; }
+
+        public UserModel(int Id, string Name, string Lastname, string Email, string Password, int Age){
+            this.Id = Id;
+            this.Name = Name;
+            this.Lastname = Lastname;
+            this.Email = Email;
+            this.Password = Password;
+            this.Age = Age;
+        }
+
+        public UserModel(){ }
+
+        public string GetFullname(){
+            return $"{Name} {Lastname}";
+        }
+    }
+
 }

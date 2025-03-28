@@ -15,7 +15,7 @@ namespace View {
 
         private bool isEditing = false;
         private Service* current;
-        private SimpleNode<Service>* serviceNode;
+        private SimpleNodeService serviceNode;
         
 
         public ServicesView() : base("ServicesView"){
@@ -90,25 +90,30 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                fixed (Service* service = &serviceNode->value)
-                {
-                    service->SparePartId = Int32.Parse(sparePartIdEntry.Text);
-                    service->AutomobileId = Int32.Parse(automobileIdEntry.Text);
-                    service->Cost = costEntry.Value;
-                    service->SetFixedString(service->Details, detailsEntry.Text, 200);
-                }
+                // fixed (Service* service = &serviceNode->value)
+                // {
+                //     service->SparePartId = Int32.Parse(sparePartIdEntry.Text);
+                //     service->AutomobileId = Int32.Parse(automobileIdEntry.Text);
+                //     service->Cost = costEntry.Value;
+                //     service->SetFixedString(service->Details, detailsEntry.Text, 200);
+                // }
+
+                serviceNode.value.SparePartId = Int32.Parse(sparePartIdEntry.Text);
+                serviceNode.value.AutomobileId = Int32.Parse(automobileIdEntry.Text);
+                serviceNode.value.Cost = costEntry.Value;
+                serviceNode.value.Details = detailsEntry.Text;
+
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
 
-                AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), "1");
             
             } else {
-                serviceNode = AppData.services_data.GetById(Int32.Parse(idEntry.Text));
+                // serviceNode = AppData.services_data.GetById(Int32.Parse(idEntry.Text));
 
-                if(serviceNode != null){
-                    MSDialog.ShowMessageDialog(this, "Error", "ID already exists!", MessageType.Error);
-                    return;
-                }
+                // if(serviceNode != null){
+                //     MSDialog.ShowMessageDialog(this, "Error", "ID already exists!", MessageType.Error);
+                //     return;
+                // }
 
                 // Service newService;
                 // // newService.Id = AppData.services_data.GetSize() + 1;
@@ -155,7 +160,7 @@ namespace View {
                 }
 
                 // We ensure the automobile exists
-                DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(Int32.Parse(automobileIdEntry.Text));
+                DoublePointerNode automobileNode = AppData.automobiles_data.GetById(Int32.Parse(automobileIdEntry.Text));
 
                 if(automobileNode == null){
                     MSDialog.ShowMessageDialog(this, "Error", "Automobile not found!", MessageType.Error);
@@ -198,14 +203,14 @@ namespace View {
                 return;
             }
 
-            bool deletion = AppData.spare_parts_data.deleteById(Int32.Parse(id));
+            // bool deletion = AppData.spare_parts_data.deleteById(Int32.Parse(id));
 
-            if(deletion){
-                MSDialog.ShowMessageDialog(this, "Success", "Deleted succesfully!", MessageType.Info);
-                AppData.spare_parts_data.list();
-            }else{
-                MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
-            }
+            // if(deletion){
+            //     MSDialog.ShowMessageDialog(this, "Success", "Deleted succesfully!", MessageType.Info);
+            //     AppData.spare_parts_data.list();
+            // }else{
+            //     MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
+            // }
         }
         
         private void OnEditClicked(object sender, EventArgs e){
@@ -216,20 +221,20 @@ namespace View {
                 return;
             }
 
-            serviceNode = AppData.services_data.GetById(Int32.Parse(id));
+            // serviceNode = AppData.services_data.GetById(Int32.Parse(id));
 
 
-            if(serviceNode != null){
-                idEntry.Text = serviceNode->value.GetId().ToString();
-                sparePartIdEntry.Text = serviceNode->value.GetSparePartId().ToString();
-                automobileIdEntry.Text = serviceNode->value.GetAutomobileId().ToString();
-                detailsEntry.Text = serviceNode->value.GetDetails();
-                costEntry.Text = serviceNode->value.GetCost().ToString();
+            // if(serviceNode != null){
+            //     idEntry.Text = serviceNode.value.Id.ToString();
+            //     sparePartIdEntry.Text = serviceNode.value.SparePartId.ToString();
+            //     automobileIdEntry.Text = serviceNode.value.AutomobileId.ToString();
+            //     detailsEntry.Text = serviceNode.value.Details;
+            //     costEntry.Text = serviceNode.value.Cost.ToString();
 
-                isEditing = true;
-            }else{
-                MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
-            }
+            //     isEditing = true;
+            // }else{
+            //     MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
+            // }
         }
 
         private void OnBackClicked(object sender, EventArgs e){

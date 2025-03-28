@@ -16,7 +16,7 @@ namespace View {
 
         private bool isEditing = false;
         private User* current;
-        private SimpleNode<User>* userNode;
+        private SimpleNode userNode;
         
 
         public UsersView() : base("UsersView"){
@@ -102,13 +102,12 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                fixed (User* user = &userNode->value){
-                    user->SetFixedString(user->Name, nameEntry.Text, 50);
-                    user->SetFixedString(user->Lastname, lastnameEntry.Text, 50);
-                    user->SetFixedString(user->Email, emailEntry.Text, 100);
-                    user->SetFixedString(user->Password, passwordEntry.Text, 50);
-                    user->Age = int.Parse(ageEntry.Text);
-                }
+                userNode.value.Name = nameEntry.Text;
+                userNode.value.Lastname = lastnameEntry.Text;
+                userNode.value.Email = emailEntry.Text;
+                userNode.value.Password = passwordEntry.Text;
+                userNode.value.Age = int.Parse(ageEntry.Text);
+
                 MSDialog.ShowMessageDialog(this, "Success", "User edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
@@ -127,14 +126,14 @@ namespace View {
                     return;
                 }
                 
-                User newUser;
+                UserModel newUser = new UserModel();
                 // newUser.Id = AppData.users_data.GetSize() + 1;
                 newUser.Id = int.Parse(idEntry.Text);
                 newUser.Age = int.Parse(ageEntry.Text);
-                newUser.SetFixedString(newUser.Name, nameEntry.Text, 50);
-                newUser.SetFixedString(newUser.Lastname, lastnameEntry.Text, 50);
-                newUser.SetFixedString(newUser.Email, emailEntry.Text, 100);
-                newUser.SetFixedString(newUser.Password, passwordEntry.Text, 50);
+                newUser.Name = nameEntry.Text;
+                newUser.Lastname = lastnameEntry.Text;
+                newUser.Email = emailEntry.Text;
+                newUser.Password = passwordEntry.Text;
                 AppData.users_data.insert(newUser);
                 MSDialog.ShowMessageDialog(this, "Success", "User added succesfully!", MessageType.Info);
             }
@@ -153,15 +152,15 @@ namespace View {
             Console.WriteLine($"UserID to delete: {userId}");
 
             // Here we need to delete all the related automobiles
-            DoublePointerNode<Automobile>* current = AppData.automobiles_data.GetFirst();
+            DoublePointerNode current = AppData.automobiles_data.GetFirst();
             Console.WriteLine("Remove the referenced automobiles ...");
             for (int i = 0; i < AppData.automobiles_data.GetSize(); i++)
             {
-                if (current->value.GetUserId() == Int32.Parse(userId))
+                if (current.value.UserId == Int32.Parse(userId))
                 {
                     AppData.automobiles_data.deleteById(Int32.Parse(userId));
                 }
-                current = current->next;
+                current = current.next;
             }
 
             bool deletion = AppData.users_data.deleteById(Int32.Parse(userId));
@@ -185,12 +184,12 @@ namespace View {
             userNode = AppData.users_data.GetById(Int32.Parse(userId));
 
             if(userNode != null){
-                idEntry.Text = userNode->value.GetId().ToString();
-                nameEntry.Text = userNode->value.GetName();
-                lastnameEntry.Text = userNode->value.GetLastname();
-                ageEntry.Text = userNode->value.GetAge().ToString();
-                emailEntry.Text = userNode->value.GetEmail();
-                passwordEntry.Text = userNode->value.GetPassword();
+                idEntry.Text = userNode.value.Id.ToString();
+                nameEntry.Text = userNode.value.Name;
+                lastnameEntry.Text = userNode.value.Lastname;
+                ageEntry.Text = userNode.value.Age.ToString();
+                emailEntry.Text = userNode.value.Email;
+                passwordEntry.Text = userNode.value.Password;
 
                 isEditing = true;
             }else{

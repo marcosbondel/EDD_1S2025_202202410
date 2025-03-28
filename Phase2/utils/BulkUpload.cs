@@ -51,7 +51,7 @@ namespace Utils {
                         var local = item as UserImport;
                         if (local != null){
 
-                            SimpleNode<User>* userNode = AppData.users_data.GetById(local.ID);
+                            SimpleNode userNode = AppData.users_data.GetById(local.ID);
 
                             if(userNode != null){
                                 Console.WriteLine($"User ID already exists {local.ID} !");
@@ -65,13 +65,13 @@ namespace Utils {
                                 continue;
                             }
 
-                            User newUser;
+                            UserModel newUser = new UserModel();
                             newUser.Id = local.ID;
                             newUser.Age = local.Edad;
-                            newUser.SetFixedString(newUser.Name, local.Nombres, 50);
-                            newUser.SetFixedString(newUser.Lastname, local.Apellidos, 50);
-                            newUser.SetFixedString(newUser.Email, local.Correo, 100);
-                            newUser.SetFixedString(newUser.Password, local.Contrasenia, 50);
+                            newUser.Name = local.Nombres;
+                            newUser.Lastname = local.Apellidos;
+                            newUser.Email = local.Correo;
+                            newUser.Password = local.Contrasenia;
                             
                             AppData.users_data.insert(newUser);
                         }
@@ -79,26 +79,26 @@ namespace Utils {
                         var local = item as AutomobileImport;
                         if (local != null){
 
-                            DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(local.ID);
+                            DoublePointerNode automobileNode = AppData.automobiles_data.GetById(local.ID);
 
                             if(automobileNode != null){
                                 Console.WriteLine($"Automobile ID already exists {local.ID} !");
                                 continue;
                             }
 
-                            SimpleNode<User>* userNode = AppData.users_data.GetById(local.ID_Usuario);
+                            SimpleNode userNode = AppData.users_data.GetById(local.ID_Usuario);
                             if(userNode == null){
                                 Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
                                 continue;
                             }
 
-                            Automobile newAutomobile;
+                            AutomobileModel newAutomobile = new AutomobileModel();
 
                             newAutomobile.Id = local.ID;
                             newAutomobile.UserId = local.ID_Usuario;
-                            newAutomobile.SetFixedString(newAutomobile.Brand, local.Marca, 50);
-                            newAutomobile.SetFixedString(newAutomobile.Model, local.Modelo.ToString(), 50);
-                            newAutomobile.SetFixedString(newAutomobile.Plate, local.Placa, 50);
+                            newAutomobile.Brand = local.Marca;
+                            newAutomobile.Model = local.Modelo.ToString();
+                            newAutomobile.Plate = local.Placa;
 
                             AppData.automobiles_data.insert(newAutomobile); 
                         }
