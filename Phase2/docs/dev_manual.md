@@ -1,87 +1,189 @@
-# Fase 2 -Manual Técnico - Gestión de Repuestos
 
-## Índice
-1. [Introducción](#introduccion)
-2. [Requisitos del Sistema](#requisitos-del-sistema)
-3. [Instalación](#instalacion)
-4. [Uso de la Aplicación](#uso-de-la-aplicacion)
-   - [Interfaz Gráfica](#interfaz-grafica)
-   - [Gestión de Repuestos](#gestion-de-repuestos)
-5. [Detalles Técnicos](#detalles-tecnicos)
-   - [Estructura del Código](#estructura-del-codigo)
-   - [Modelo de Datos](#modelo-de-datos)
-   - [Funciones Clave](#funciones-clave)
-6. [Consideraciones de Seguridad](#consideraciones-de-seguridad)
-7. [Mantenimiento y Futuras Mejoras](#mantenimiento-y-futuras-mejoras)
+# 🌳 Manual de Desarrollador: Implementación de Estructuras de Árboles
 
-## Introducción
-Esta aplicación permite gestionar repuestos mediante una interfaz gráfica desarrollada en C# con GTK.
-Los usuarios pueden agregar, editar y eliminar repuestos, así como realizar cargas masivas de datos.
+## 📋 Tabla de Contenidos
+1. [Introducción](#-introducción)
+2. [Árbol AVL](#-árbol-avl)
+   - [Estructura](#estructura-avl)
+   - [Operaciones clave](#operaciones-clave-avl)
+3. [Árbol B](#-árbol-b)
+   - [Estructura](#estructura-b)
+   - [Operaciones clave](#operaciones-clave-b)
+4. [Árbol Binario](#-árbol-binario)
+   - [Estructura](#estructura-binaria)
+   - [Operaciones clave](#operaciones-clave-binarias)
+5. [Visualización](#-visualización)
+6. [Benchmarking](#-benchmarking)
+7. [Mejores Prácticas](#-mejores-prácticas)
 
-## Requisitos del Sistema
-- **Sistema Operativo:** Windows 10/11 o Linux
-- **Entorno de Desarrollo:** .NET 6 o superior
-- **Librerías requeridas:**
-  - GTK#
-  - MSDialog (para diálogos de mensajes)
+---
 
-## Instalación
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/usuario/proyecto-repuestos.git
-   ```
-2. Acceder a la carpeta del proyecto:
-   ```bash
-   cd proyecto-repuestos
-   ```
-3. Compilar el proyecto:
-   ```bash
-   dotnet build
-   ```
-4. Ejecutar la aplicación:
-   ```bash
-   dotnet run
-   ```
+## 🌟 Introducción
+Implementación de tres estructuras arbóreas en C# para un sistema de gestión automotriz:
 
-## Uso de la Aplicación
-### Interfaz Gráfica
-La aplicación presenta una ventana principal con las siguientes opciones:
-- **Agregar Repuesto:** Permite registrar un nuevo repuesto ingresando nombre, detalles y costo.
-- **Editar Repuesto:** Permite modificar datos de un repuesto existente.
-- **Eliminar Repuesto:** Permite borrar un repuesto por su ID.
-- **Carga Masiva:** Importa repuestos desde un archivo externo.
+```mermaid
+graph LR
+    S[Sistema] --> AVL[AVL: Repuestos]
+    S --> B[B: Facturas]
+    S --> BI[Binario: Servicios]
+```
 
-### Gestión de Repuestos
-- **Agregar:** Completar los campos y presionar "Guardar".
-- **Editar:** Ingresar el ID, modificar los campos y presionar "Guardar".
-- **Eliminar:** Ingresar el ID y presionar "Eliminar".
+---
 
-## Detalles Técnicos
-### Estructura del Código
-- `View/SparePartsView.cs` → Interfaz gráfica con GTK
-- `Model/SparePart.cs` → Definición de la estructura `SparePart`
-- `Storage/AppData.cs` → Manejo de almacenamiento de datos
-- `ADT/SimpleNode.cs` → Implementación de nodos para listas enlazadas
+## 🔄 Árbol AVL
 
-### Modelo de Datos
+### Estructura AVL
 ```csharp
-public unsafe struct SparePart {
-    public int Id;
-    public fixed char SparePartName[50];
-    public fixed char Details[200];
-    public double Cost;
+public class AVLTree {
+    private AVLNode raiz;
+    
+    class AVLNode {
+        public SparePartModel Value;  // Modelo con Id, Name, Details, Cost
+        public int Height;
+        public AVLNode Left, Right;
+    }
 }
 ```
 
-### Funciones Clave
-- `SetFixedString(char* destination, string source, int maxLength)` → Almacena cadenas en estructuras `fixed char`.
-- `GetFixedString(char* source, int maxLength)` → Convierte `fixed char` a `string`.
-- `OnSaveClicked(object sender, EventArgs e)` → Maneja la creación y edición de repuestos.
-- `OnDeleteClicked(object sender, EventArgs e)` → Elimina un repuesto por su ID.
+### Operaciones Clave AVL
+| Método | Complejidad | Descripción |
+|--------|------------|-------------|
+| `Insertar()` | O(log n) | Inserta con balanceo automático |
+| `RotacionRight()` | O(1) | Balancea el árbol |
+| `BuscarPorId()` | O(log n) | Búsqueda eficiente por ID |
 
-## Consideraciones de Seguridad
-- Validar entradas para evitar valores nulos o incorrectos.
-- Manejar excepciones en operaciones de almacenamiento.
-- Controlar acceso a la base de datos para evitar inyecciones SQL.
+**Ejemplo de uso**:
+```csharp
+var avl = new AVLTree();
+avl.Insertar(101, "Bujía", "NGK Platinum", 25.99);
+var repuesto = avl.BuscarPorId(101);
+```
 
+---
 
+## 📚 Árbol B (Orden 5)
+
+### Estructura B
+```csharp
+public class BTree {
+    private BNode raiz;
+    private const int ORDEN = 5;
+    
+    class BNode {
+        public List<BillModel> Claves = new List<BillModel>();
+        public List<BNode> Hijos = new List<BNode>();
+        public bool EsHoja = true;
+    }
+}
+```
+
+### Operaciones Clave B
+| Método | Complejidad | Descripción |
+|--------|------------|-------------|
+| `Insertar()` | O(log n) | Maneja splits automáticos |
+| `DividirHijo()` | O(t) | Divide nodos llenos |
+| `Buscar()` | O(log n) | Búsqueda en árbol balanceado |
+
+**Flujo de inserción**:
+```mermaid
+graph TB
+    A[Insertar] --> B{Nodo lleno?}
+    B -->|Sí| C[Dividir]
+    B -->|No| D[Insertar ordenado]
+```
+
+---
+
+## 🌲 Árbol Binario
+
+### Estructura Binaria
+```csharp
+public class BinaryTree {
+    private BinaryNode raiz;
+    
+    class BinaryNode {
+        public ServiceModel Value;  // Contiene AutomobileId
+        public BinaryNode Left, Right;
+    }
+}
+```
+
+### Operaciones Clave Binarias
+| Método | Complejidad | Descripción |
+|--------|------------|-------------|
+| `Insertar()` | O(n) | Inserta según ID |
+| `BuscarPorId()` | O(n) | Búsqueda estándar |
+| `TablaInOrden_Vehiculos()` | O(n) | Filtra por vehículos |
+
+**Recorridos implementados**:
+1. PreOrden
+2. InOrden 
+3. PostOrden
+
+---
+
+## 📊 Visualización
+Todos los árboles implementan:
+
+```csharp
+public string GraficarGraphviz() {
+    // Genera código DOT para Graphviz
+}
+```
+
+**Ejemplo de salida**:
+```dot
+digraph AVL {
+    node [shape=record];
+    "101" [label="ID: 101|Repuesto: Bujía|Costo: 25.99"];
+    "101" -> "87";
+    "101" -> "112";
+}
+```
+
+---
+
+## ⚡ Benchmarking
+| Operación | AVL | Árbol B | Binario |
+|----------|-----|--------|---------|
+| Insertar | O(log n) | O(log n) | O(n) |
+| Buscar | O(log n) | O(log n) | O(n) |
+| Memoria | Medio | Alto | Bajo |
+
+---
+
+## 🏆 Mejores Prácticas
+
+**Árbol AVL**
+```diff
++ Ideal para repuestos con frecuentes búsquedas
+- Evitar para datos que cambian muy frecuentemente
+```
+
+**Árbol B**
+```diff
++ Perfecto para facturas (grandes volúmenes)
++ Buen rendimiento en disco
+```
+
+**Árbol Binario**
+```diff
++ Simple para servicios
+- Puede desbalancearse con datos ordenados
+```
+
+---
+
+## 📝 Conclusión
+Elegir estructura según:
+1. Volumen de datos
+2. Frecuencia de actualización
+3. Necesidades de búsqueda
+
+```mermaid
+pie
+    title Uso Recomendado
+    "AVL" : 45
+    "Árbol B" : 35
+    "Binario" : 20
+```
