@@ -1,123 +1,176 @@
-# Manual de Usuario: Taller de Auto Servicio AUTOGEST PRO
+# Manual de Usuario: AUTOGEST PRO
+## Sistema de Gestión para Talleres Automotrices
 
-Este manual te guiará a través de las funciones básicas de la aplicación de gestión de talleres de auto servicio.
-
+<img src="./screenshots/logo.png" height="400px" />
 
 ## Tabla de Contenidos
 1. [Introducción](#introducción)
-2. [Paso 1: Inicio de Sesión](#paso-1-inicio-de-sesión)
-3. [Paso 2: Dashboard Principal](#paso-2-dashboard-principal)
-4. [Paso 3: Gestión de Usuarios](#paso-3-gestión-de-usuarios)
-5. [Paso 4: Gestión de Repuestos](#paso-4-gestión-de-repuestos)
-6. [Paso 5: Gestión de Automóviles](#paso-5-gestión-de-automóviles)
-7. [Paso 6: Gestión de Servicios](#paso-6-gestión-de-servicios)
-8. [Paso 7: Gestión de Facturas](#paso-7-gestión-de-facturas)
-9. [Paso 8: Reportes Importantes](#paso-8-reportes-importantes)
-10. [Paso 9: Cerrar sesión](#paso-9-cerrar-sesión)
-11. [Conclusión](#conclusión)
+2. [Tipos de Usuarios](#tipos-de-usuarios)
+3. [Acceso al Sistema](#acceso-al-sistema)
+4. [Área de Administración](#área-de-administración)
+   - [Dashboard Admin](#dashboard-admin)
+   - [Gestión de Usuarios](#gestión-de-usuarios)
+   - [Gestión de Repuestos](#gestión-de-repuestos)
+   - [Gestión de Automóviles](#gestión-de-automóviles)
+   - [Gestión de Servicios](#gestión-de-servicios)
+5. [Área de Usuario](#área-de-usuario)
+   - [Dashboard Usuario](#dashboard-usuario)
+   - [Visualización de Automóviles](#visualización-de-automóviles)
+   - [Visualización de Servicios](#visualización-de-servicios)
+   - [Gestión de Facturas](#gestión-de-facturas)
+6. [Cerrar Sesión](#cerrar-sesión)
 
 ---
 
 ## Introducción
-Este manual te guiará a través de las funciones básicas de la aplicación de gestión de talleres de auto servicio.
+AUTOGEST PRO es un sistema desarrollado por LabEDD para la gestión integral de talleres automotrices, con dos interfaces diferenciadas:
+- **Área de Administración**: Para gestión completa del taller
+- **Área de Usuario**: Para clientes del taller
 
 ---
 
-## Paso 1: Inicio de Sesión
-![Login](./screenshots/1.png)
-1. Abre la aplicación y verás la pantalla de inicio de sesión.
-2. Ingresa tu **Nombre de usuario** y **Contraseña**.
-3. Haz clic en el botón **Login** para acceder.
+## Tipos de Usuarios
+| Rol | Accesos |Email|Contraseña|
+|------|---------|-------|-------|
+| Administrador | Todas las funciones de gestión | admin@usac.com |admin123|
+| Usuario | Consulta de sus vehículos, servicios y facturas |-|-|
 
 ---
 
-## Paso 2: Dashboard Principal
-![Dashboard](./screenshots/2.png)
-1. Una vez iniciada la sesión, accederás al **Dashboard**.
-2. Desde aquí puedes navegar a las diferentes secciones:
-   - **Usuarios**: Gestiona los usuarios del sistema.
-   - **Repuestos**: Administra los repuestos del taller.
-   - **Automóviles**: Gestiona los automóviles registrados.
-   - **Servicios**: Administra los servicios realizados.
-   - **Facturas**: Visualiza y gestiona las facturas.
-   - **Reportes**: Accede a reportes importantes.
-3. Para cerrar sesión, haz clic en **Logout**.
+## Acceso al Sistema
+![Login](screenshots/1.png)
+1. Ingrese a la aplicación AUTOGEST PRO
+2. Complete los campos:
+   - **Email**: Su correo registrado
+   - **Password**: Su contraseña personal
+3. Haga clic en **Validate**
+
+> 🔒 *El sistema redirigirá automáticamente al dashboard correspondiente según su tipo de usuario*
 
 ---
 
-## Paso 3: Gestión de Usuarios
-![UsersView](./screenshots/3.png)
-1. En la sección **Usuarios**, puedes:
-   - **Subir usuarios en masa** (Bulk Upload).
-   - **Ver reportes** de usuarios.
-   - **Editar** o **Eliminar** usuarios existentes.
-2. Completa los campos: **ID**, **Nombre**, **Apellido**, **Email** y **Contraseña**.
-3. Haz clic en **Guardar Usuario** para confirmar cambios.
-4. Usa el botón **Atrás** para volver al Dashboard.
+# Área de Administración
+
+## Dashboard Admin
+![Dashboard Admin](screenshots/2.png)
+Menú principal:
+- **Users**: Gestión de cuentas
+- **Spare Parts**: Inventario de repuestos
+- **Automobiles**: Registro de vehículos
+- **Services**: Administración de servicios
+- **Session Logs**: Reportes de acceso
+- **Logout**: Cerrar sesión
 
 ---
 
-## Paso 4: Gestión de Repuestos
-![SparePartsView](./screenshots/4.png)
-1. En la sección **Repuestos**, puedes:
-   - **Subir repuestos en masa** (Bulk Upload).
-   - **Ver reportes** de repuestos.
-   - **Editar** o **Eliminar** repuestos existentes.
-2. Completa los campos: **ID** y **Nombre del Repuesto**.
-3. Haz clic en **Guardar** para confirmar cambios.
-4. Usa el botón **Atrás** para volver al Dashboard.
+## Gestión de Usuarios
+![Manage Users](screenshots/3.png)
+1. Funciones disponibles:
+   - 📤 **Bulk Upload**: Carga masiva de usuarios
+   - 📊 **Show report**: Generar reportes
+   - ✏️ **Edit**: Modificar usuarios
+   - 🗑️ **Delete**: Eliminar cuentas
+
+2. Campos requeridos:
+   - ID único
+   - Nombre y Apellido
+   - Email válido
+   - Contraseña segura
 
 ---
 
-## Paso 5: Gestión de Automóviles
-![AutomobilesView](./screenshots/5.png)
-1. En la sección **Automóviles**, puedes:
-   - **Subir automóviles en masa** (Bulk Upload).
-   - **Ver reportes** de automóviles.
-   - **Editar** o **Eliminar** automóviles existentes.
-2. Completa los campos: **ID**, **ID de Usuario**, **Marca**, **Modelo** y **Placa**.
-3. Haz clic en **Guardar** para confirmar cambios.
-4. Usa el botón **Atrás** para volver al Dashboard.
+## Gestión de Repuestos
+![Spare Parts](screenshots/4.png)
+1. Acciones disponibles:
+   - Agregar nuevos repuestos
+   - Actualizar inventario
+   - Generar reportes de stock
+
+2. Datos obligatorios:
+   - ID del repuesto
+   - Nombre descriptivo
+   - Detalles técnicos
 
 ---
 
-## Paso 6: Gestión de Servicios
-![ServicesView](./screenshots/6.png)
-1. En la sección **Servicios**, puedes:
-   - **Ver reportes** de servicios.
-   - **Editar** o **Eliminar** servicios existentes.
-2. Completa los campos: **ID**, **ID de Repuesto**, **ID de Automóvil**, **Detalles** y **Costo**.
-3. Haz clic en **Guardar** para confirmar cambios.
-4. Usa el botón **Atrás** para volver al Dashboard.
+## Gestión de Automóviles
+![Automobiles](screenshots/5.png)
+1. Funcionalidades:
+   - Registrar nuevos vehículos
+   - Asociar a usuarios
+   - Actualizar información
+
+2. Campos requeridos:
+   - Marca y Modelo
+   - Placa/licencia
+   - Usuario asignado
 
 ---
 
-## Paso 7: Gestión de Facturas
-![BillsView](./screenshots/7.png)
-1. En la sección **Facturas**, puedes:
-   - **Cancelar facturas**.
-   - **Ver reportes** de facturas.
-2. Visualiza los campos: **ID**, **ID de Orden** y **Costo Total**.
-3. Usa el botón **Atrás** para volver al Dashboard.
+## Gestión de Servicios
+![Services](screenshots/6.png)
+1. Tipos de servicio:
+   - **PreOrden**: Diagnóstico
+   - **InOrden**: En proceso
+   - **PostOrden**: Completado
+
+2. Datos necesarios:
+   - Repuestos utilizados
+   - Automóvil asociado
+   - Costo del servicio
 
 ---
 
-## Paso 8: Reportes Importantes
-![Reports](./screenshots/8.png)
-1. En la sección **Reportes**, puedes:
-   - **Ver registros de logs**.
-   - **Ver los Top 5 automóviles más antiguos**.
-   - **Ver los Top 5 servicios de automóviles**.
-2. Estos reportes te ayudarán a tomar decisiones informadas.
+# Área de Usuario
+
+## Dashboard Usuario
+![User Dashboard](screenshots/8.png)
+Opciones disponibles:
+- 🚗 **Automobiles**: Mis vehículos
+- 🛠️ **Services**: Historial de servicios
+- 💰 **Bills**: Mis facturas
+- 🚪 **Logout**: Salir del sistema
 
 ---
 
-## Paso 9: Cerrar sesión
-![Logout](./screenshots/9.png)
-1. En la sección **Reportes**, puedes:
-   - **Salir de tu cuenta**.
+## Visualización de Automóviles
+![User Automobiles](screenshots/9.png)
+1. Consultar:
+   - Vehículos registrados
+   - Especificaciones técnicas
+   - Historial de mantenimiento
 
 ---
 
-## Conclusión
-¡Felicidades! Ahora conoces las funciones básicas de la aplicación de gestión de talleres de auto servicio. Para más detalles, consulta la documentación oficial o contacta al soporte técnico.
+## Visualización de Servicios
+![User Services](screenshots/10.png)
+1. Estados de servicio:
+   - ⏳ **PreOrden**: Pendientes
+   - 🔧 **InOrden**: En taller
+   - ✅ **PostOrden**: Completados
+
+---
+
+## Gestión de Facturas
+![User Bills](screenshots/11.png)
+1. Acciones:
+   - Consultar facturas
+   - Cancelar pagos
+   - Descargar comprobantes
+
+---
+
+## Cerrar Sesión
+1. En cualquier pantalla:
+   - Haga clic en **Logout**
+   - Confirme la acción
+
+> ℹ️ La sesión se cierra automáticamente después de 30 minutos de inactividad
+
+---
+
+## Soporte Técnico
+Para asistencia contacte a:
+📧 soporte@labedd.com  
+📞 +502 1234-5678  
+🕒 Lunes a Viernes 8:00-17:00

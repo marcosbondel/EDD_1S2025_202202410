@@ -185,6 +185,13 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e){
+            if(AppData.current_user_node != null){
+                UserDashboardView userDashboardView = new UserDashboardView();
+                userDashboardView.ShowAll(); // Show Dashboard
+                this.Hide(); // Close
+                return;
+            }
+            // If the user is not logged in, show the main dashboard
             DashboardView dashboardView = new DashboardView();
             dashboardView.ShowAll(); // Show Dashboard
             this.Hide(); // Close

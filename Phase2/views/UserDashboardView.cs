@@ -42,7 +42,7 @@ namespace View {
             // Attach event handlers
             usersButton.Clicked += OnUsersClicked;
             servicesButton.Clicked += OnServicesClicked;
-            // billsButton.Clicked += OnBillsClicked;
+            billsButton.Clicked += OnBillsClicked;
             sparePartsButton.Clicked += OnSparePartsClicked;
             automobilesButton.Clicked += OnAutomobilesClicked;
             // showLogsReportButton.Clicked += OnShowLogsReportClicked;
