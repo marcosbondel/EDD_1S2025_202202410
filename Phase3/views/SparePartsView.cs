@@ -7,7 +7,7 @@ using Utils;
 using Trees.AVL;
 
 namespace View {
-    unsafe class SparePartsView : Window {
+    public class SparePartsView : Window {
         Entry idEntry;
         Entry nameEntry;
         Entry detailsEntry;

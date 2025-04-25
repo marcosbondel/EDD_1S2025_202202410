@@ -7,7 +7,7 @@ using Storage;
 
 namespace View {
 
-    unsafe class LoginView : Window
+    public class LoginView : Window
     {
         
         private Entry userEntry;

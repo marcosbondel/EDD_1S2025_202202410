@@ -6,7 +6,7 @@ using Storage;
 using Utils;
 
 namespace View {
-    unsafe class UsersView : Window {
+    public class UsersView : Window {
         Entry idEntry;
         Entry ageEntry;
         Entry nameEntry;

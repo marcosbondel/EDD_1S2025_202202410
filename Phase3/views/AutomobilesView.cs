@@ -6,7 +6,7 @@ using Storage;
 using Utils;
 
 namespace View {
-    unsafe class AutomobilesView : Window {
+    public class AutomobilesView : Window {
         Entry idEntry;
         Entry userIdEntry;
         Entry brandEntry;

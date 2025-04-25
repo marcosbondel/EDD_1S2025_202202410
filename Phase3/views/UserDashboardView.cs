@@ -11,7 +11,7 @@ using Trees.Binary;
 
 namespace View {
 
-    unsafe class UserDashboardView : Window
+    public class UserDashboardView : Window
     {
 
         private LogModel logModel;

@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace View {
 
-    unsafe class DashboardView : Window
+    public class DashboardView : Window
     {
 
         private LogModel logModel;
