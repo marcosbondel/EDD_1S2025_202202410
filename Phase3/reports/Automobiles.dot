@@ -1,0 +1,50 @@
+digraph G {
+    node [shape=record];
+    rankdir=LR;
+    subgraph cluster_0 {
+        label = "Lista Doblemente Enlazada";
+        n0 [label = "{<prev> Anterior | <data> ID: 1 \n ID_Usuario: 1 \n Marca: Honda Civic \n Modelo: 2005 \n Placa: XZJ7H9K | <next> Siguiente }"];
+        n1 [label = "{<prev> Anterior | <data> ID: 2 \n ID_Usuario: 2 \n Marca: Toyota Corolla \n Modelo: 2010 \n Placa: JKS8T5A | <next> Siguiente }"];
+        n2 [label = "{<prev> Anterior | <data> ID: 3 \n ID_Usuario: 3 \n Marca: Ford Focus \n Modelo: 2008 \n Placa: YT2XG9M | <next> Siguiente }"];
+        n3 [label = "{<prev> Anterior | <data> ID: 4 \n ID_Usuario: 4 \n Marca: Nissan Altima \n Modelo: 2012 \n Placa: FTE6V3R | <next> Siguiente }"];
+        n4 [label = "{<prev> Anterior | <data> ID: 5 \n ID_Usuario: 5 \n Marca: Chevrolet Aveo \n Modelo: 2007 \n Placa: BZX5D2L | <next> Siguiente }"];
+        n5 [label = "{<prev> Anterior | <data> ID: 6 \n ID_Usuario: 6 \n Marca: Hyundai Elantra \n Modelo: 2015 \n Placa: QWE3P0F | <next> Siguiente }"];
+        n6 [label = "{<prev> Anterior | <data> ID: 7 \n ID_Usuario: 7 \n Marca: Mazda 3 \n Modelo: 2011 \n Placa: MSD9H8A | <next> Siguiente }"];
+        n7 [label = "{<prev> Anterior | <data> ID: 8 \n ID_Usuario: 8 \n Marca: Kia Rio \n Modelo: 2014 \n Placa: RT5Y4O2 | <next> Siguiente }"];
+        n8 [label = "{<prev> Anterior | <data> ID: 9 \n ID_Usuario: 9 \n Marca: Honda Accord \n Modelo: 2009 \n Placa: VBR9P1S | <next> Siguiente }"];
+        n9 [label = "{<prev> Anterior | <data> ID: 10 \n ID_Usuario: 10 \n Marca: Subaru Impreza \n Modelo: 2016 \n Placa: XZJ3M5P | <next> Siguiente }"];
+        n10 [label = "{<prev> Anterior | <data> ID: 11 \n ID_Usuario: 11 \n Marca: BMW X3 \n Modelo: 2013 \n Placa: BNM8D7Q | <next> Siguiente }"];
+        n11 [label = "{<prev> Anterior | <data> ID: 12 \n ID_Usuario: 12 \n Marca: Volkswagen Jetta \n Modelo: 2012 \n Placa: JXK3L9D | <next> Siguiente }"];
+        n12 [label = "{<prev> Anterior | <data> ID: 13 \n ID_Usuario: 13 \n Marca: Toyota Camry \n Modelo: 2014 \n Placa: OIJ6R4F | <next> Siguiente }"];
+        n13 [label = "{<prev> Anterior | <data> ID: 14 \n ID_Usuario: 14 \n Marca: Chevrolet Spark \n Modelo: 2011 \n Placa: XTR9E1Q | <next> Siguiente }"];
+        n14 [label = "{<prev> Anterior | <data> ID: 15 \n ID_Usuario: 15 \n Marca: Mazda CX-5 \n Modelo: 2017 \n Placa: VWL3P0D | <next> Siguiente }"];
+        n0:next -> n1:data;
+        n1:prev -> n0:data;
+        n1:next -> n2:data;
+        n2:prev -> n1:data;
+        n2:next -> n3:data;
+        n3:prev -> n2:data;
+        n3:next -> n4:data;
+        n4:prev -> n3:data;
+        n4:next -> n5:data;
+        n5:prev -> n4:data;
+        n5:next -> n6:data;
+        n6:prev -> n5:data;
+        n6:next -> n7:data;
+        n7:prev -> n6:data;
+        n7:next -> n8:data;
+        n8:prev -> n7:data;
+        n8:next -> n9:data;
+        n9:prev -> n8:data;
+        n9:next -> n10:data;
+        n10:prev -> n9:data;
+        n10:next -> n11:data;
+        n11:prev -> n10:data;
+        n11:next -> n12:data;
+        n12:prev -> n11:data;
+        n12:next -> n13:data;
+        n13:prev -> n12:data;
+        n13:next -> n14:data;
+        n14:prev -> n13:data;
+    }
+}
