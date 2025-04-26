@@ -13,6 +13,7 @@ namespace View {
         private Entry userEntry;
         private Entry passEntry;
         private SimpleNode userNode;
+        private User user;
         private LogModel logModel;
 
         public LoginView() : base("Login"){
@@ -65,20 +66,22 @@ namespace View {
             // We first check if the user entered the admin credentials
             if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
                 MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
-                DashboardView dashboard = new DashboardView();
-                dashboard.ShowAll();
+                AppViews.renderGivenView("dashboard");
                 this.Hide();
                 return;
             } 
 
-            bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
+            // bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
+            // bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
+            bool userCheck = AppData.user_blockchain.ValidateCredentials(userEntry.Text, passEntry.Text);
 
             // We check if it is another user trying to loging
             if(userCheck) {
                 Console.WriteLine("Welcom, user!");
 
                 // Here we need to save the user session
-                userNode = AppData.users_data.GetByEmail(userEntry.Text);
+                // userNode = AppData.users_data.GetByEmail(userEntry.Text);
+                user = AppData.user_blockchain.FindByEmail(userEntry.Text);
                 logModel = new LogModel(userNode.value.Email, DateTime.Now.ToString(), "");
                 AppData.session_logs_data.Add(logModel);
 

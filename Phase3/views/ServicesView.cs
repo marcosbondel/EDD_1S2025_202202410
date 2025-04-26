@@ -6,7 +6,7 @@ using Storage;
 using Utils;
 
 namespace View {
-    public public class ServicesView : Window {
+    public class ServicesView : Window {
         Entry idEntry;
         Entry sparePartIdEntry;
         Entry automobileIdEntry;
@@ -14,7 +14,7 @@ namespace View {
         SpinButton costEntry;
 
         private bool isEditing = false;
-        private Service* current;
+        private Service current;
         private SimpleNodeService serviceNode;
         
 
@@ -187,7 +187,7 @@ namespace View {
                 // AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text);
                 
                 AppData.bill_id_counter++;
-                AppData.bills_data_b_tree.Insertar(AppData.bill_id_counter,Int32.Parse(idEntry.Text), costEntry.Value);
+                // AppData.bills_data_b_tree.Insertar(AppData.bill_id_counter,Int32.Parse(idEntry.Text), costEntry.Value);
                 MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
 
             }

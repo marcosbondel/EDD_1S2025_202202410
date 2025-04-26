@@ -15,8 +15,8 @@ namespace View {
         Entry passwordEntry;
 
         private bool isEditing = false;
-        private User* current;
-        private SimpleNode userNode;
+        private User current;
+        private User userNode;
         
 
         public UsersView() : base("UsersView"){
@@ -92,7 +92,7 @@ namespace View {
         }
         
         private void OnShowReportClicked(object sender, EventArgs e){
-            string dotCode = AppData.users_data.GenerateDotCode();
+            string dotCode = AppData.user_blockchain.GenerateDot();
             ReportGenerator.GenerateDotFile("Users", dotCode);
             ReportGenerator.ParseDotToImage("Users.dot");
 
@@ -102,39 +102,41 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                userNode.value.Name = nameEntry.Text;
-                userNode.value.Lastname = lastnameEntry.Text;
-                userNode.value.Email = emailEntry.Text;
-                userNode.value.Password = passwordEntry.Text;
-                userNode.value.Age = int.Parse(ageEntry.Text);
+                userNode.Name = nameEntry.Text;
+                userNode.Lastname = lastnameEntry.Text;
+                userNode.Email = emailEntry.Text;
+                userNode.Password = passwordEntry.Text;
+                userNode.Age = int.Parse(ageEntry.Text);
+
+                AppData.user_blockchain.UpdateUser(Int32.Parse(idEntry.Text), userNode);
 
                 MSDialog.ShowMessageDialog(this, "Success", "User edited succesfully!", MessageType.Info);
                 isEditing = false;
             } else {
                 
-                userNode = AppData.users_data.GetById(Int32.Parse(idEntry.Text));
+                userNode = AppData.user_blockchain.GetById(Int32.Parse(idEntry.Text));
 
                 if(userNode != null){
                     MSDialog.ShowMessageDialog(this, "Error", "User ID already exists!", MessageType.Error);
                     return;
                 }
                 
-                userNode = AppData.users_data.GetByEmail(emailEntry.Text);
-                
+                userNode = AppData.user_blockchain.FindByEmail(emailEntry.Text);
+
                 if(userNode != null){
                     MSDialog.ShowMessageDialog(this, "Error", "Email already exists!", MessageType.Error);
                     return;
                 }
                 
-                UserModel newUser = new UserModel();
-                // newUser.Id = AppData.users_data.GetSize() + 1;
+                User newUser = new User();
                 newUser.Id = int.Parse(idEntry.Text);
                 newUser.Age = int.Parse(ageEntry.Text);
                 newUser.Name = nameEntry.Text;
                 newUser.Lastname = lastnameEntry.Text;
                 newUser.Email = emailEntry.Text;
                 newUser.Password = passwordEntry.Text;
-                AppData.users_data.insert(newUser);
+
+                AppData.user_blockchain.AddBlock(newUser);
                 MSDialog.ShowMessageDialog(this, "Success", "User added succesfully!", MessageType.Info);
             }
 
@@ -163,11 +165,11 @@ namespace View {
                 current = current.next;
             }
 
-            bool deletion = AppData.users_data.deleteById(Int32.Parse(userId));
+            // bool deletion = AppData.users_data.deleteById(Int32.Parse(userId));
+            bool deletion = AppData.user_blockchain.DeleteById(Int32.Parse(userId));
 
             if(deletion){
                 MSDialog.ShowMessageDialog(this, "Success", "User deleted succesfully!", MessageType.Info);
-                AppData.users_data.list();
             }else{
                 MSDialog.ShowMessageDialog(this, "Error", "User not found!", MessageType.Error);
             }
@@ -181,15 +183,16 @@ namespace View {
                 return;
             }
 
-            userNode = AppData.users_data.GetById(Int32.Parse(userId));
+            // userNode = AppData.users_data.GetById(Int32.Parse(userId));
+            userNode = AppData.user_blockchain.GetById(Int32.Parse(userId));
 
             if(userNode != null){
-                idEntry.Text = userNode.value.Id.ToString();
-                nameEntry.Text = userNode.value.Name;
-                lastnameEntry.Text = userNode.value.Lastname;
-                ageEntry.Text = userNode.value.Age.ToString();
-                emailEntry.Text = userNode.value.Email;
-                passwordEntry.Text = userNode.value.Password;
+                idEntry.Text = userNode.Id.ToString();
+                nameEntry.Text = userNode.Name;
+                lastnameEntry.Text = userNode.Lastname;
+                ageEntry.Text = userNode.Age.ToString();
+                emailEntry.Text = userNode.Email;
+                passwordEntry.Text = userNode.Password;
 
                 isEditing = true;
             }else{
@@ -198,8 +201,7 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e){
-            DashboardView dashboardView = new DashboardView();
-            dashboardView.ShowAll(); // Show Dashboard
+            AppViews.renderGivenView("dashboard");
             this.Hide(); // Close UsersWindow
         }
 

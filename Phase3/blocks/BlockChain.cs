@@ -72,9 +72,9 @@ namespace Blocks
 
 
         // Método para agregar un nuevo bloque a la cadena
-        public void AddBlock(int id, string nombres, string apellidos, string correo, int edad, string contrasenia)
+        public void AddBlock(User user)
         {
-            User user = new User(id, nombres, apellidos, correo, contrasenia, edad);
+            // User user = new User(id, nombres, apellidos, correo, contrasenia, edad);
 
             if (Head == null)
             {
@@ -234,6 +234,221 @@ namespace Blocks
             }
             Console.WriteLine("Índice de bloque inválido.");
         }
+
+        // Method to find a user by email
+        public User FindByEmail(string email)
+        {
+            Block current = Head;
+            while (current != null)
+            {
+                var user = JsonConvert.DeserializeObject<User>(current.Data);
+                if (user.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
+                {
+                    return user;
+                }
+                current = current.Next;
+            }
+            return null; // Return null if not found
+        }
+
+        // Method to validate user credentials (email and password)
+        public bool ValidateCredentials(string email, string password)
+        {
+            Block current = Head;
+            while (current != null)
+            {
+                var user = JsonConvert.DeserializeObject<User>(current.Data);
+                if (user.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && 
+                    user.Password == password) // Note: In real applications, never store passwords in plain text
+                {
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
+        }
+
+        // Method to get a user by Id
+        public User GetById(int id)
+        {
+            Block current = Head;
+            while (current != null)
+            {
+                var user = JsonConvert.DeserializeObject<User>(current.Data);
+                if (user.Id == id)
+                {
+                    return user;
+                }
+                current = current.Next;
+            }
+            return null; // Return null if not found
+        }
+
+        
+        public bool DeleteById(int id)
+        {
+            // If blockchain is empty
+            if (Head == null)
+            {
+                return false;
+            }
+
+            // Check if the head block contains the user to delete
+            var headUser = JsonConvert.DeserializeObject<User>(Head.Data);
+            if (headUser.Id == id)
+            {
+                Head = Head.Next;
+                // After removing head, we need to update the PreviousHash of the new head if it exists
+                if (Head != null)
+                {
+                    Head.PreviousHash = "0000"; // Reset to genesis hash
+                    // Recalculate hashes for the remaining chain
+                    RecalculateChainHashes();
+                }
+                return true;
+            }
+
+            // Search for the block to delete
+            Block current = Head;
+            Block previous = null;
+
+            while (current != null)
+            {
+                var currentUser = JsonConvert.DeserializeObject<User>(current.Data);
+                if (currentUser.Id == id)
+                {
+                    // Found the block to delete
+                    previous.Next = current.Next;
+                    
+                    // Update the PreviousHash of the next block if it exists
+                    if (current.Next != null)
+                    {
+                        current.Next.PreviousHash = previous.Hash;
+                    }
+                    
+                    // Recalculate hashes for the remaining chain
+                    RecalculateChainHashes();
+                    return true;
+                }
+                
+                previous = current;
+                current = current.Next;
+            }
+
+            // User with specified Id not found
+            return false;
+        }
+
+        // Helper method to recalculate hashes after deletion
+        private void RecalculateChainHashes()
+        {
+            if (Head == null) return;
+
+            Block current = Head;
+            string previousHash = "0000"; // Genesis block hash
+            
+            while (current != null)
+            {
+                current.PreviousHash = previousHash;
+                current.Hash = current.CalculateHash();
+                previousHash = current.Hash;
+                current = current.Next;
+            }
+        }
+        
+        public bool UpdateUser(int id, User updatedUser)
+        {
+            if (Head == null)
+            {
+                return false; // Blockchain is empty
+            }
+
+            Block current = Head;
+            bool userFound = false;
+
+            while (current != null)
+            {
+                var currentUser = JsonConvert.DeserializeObject<User>(current.Data);
+                
+                if (currentUser.Id == id)
+                {
+                    // Create a new block with updated data (preserving immutability)
+                    Block updatedBlock = new Block(
+                        index: current.Index,
+                        user: updatedUser,
+                        previousHash: current.PreviousHash
+                    );
+                    
+                    // Copy other properties
+                    updatedBlock.Timestamp = DateTime.Now.ToString("dd-MM-yy::HH:mm:ss");
+                    updatedBlock.Nonce = current.Nonce;
+                    
+                    // Recalculate hash for the updated block
+                    updatedBlock.Hash = updatedBlock.CalculateHash();
+                    
+                    // Replace the block data (while maintaining the same position in chain)
+                    current.Data = JsonConvert.SerializeObject(updatedUser);
+                    current.Hash = updatedBlock.Hash;
+                    current.Timestamp = updatedBlock.Timestamp;
+                    
+                    // Recalculate hashes for subsequent blocks
+                    RecalculateChainHashes();
+                    
+                    userFound = true;
+                    break;
+                }
+                
+                current = current.Next;
+            }
+
+            return userFound;
+        }
+
+        // Alternative implementation that adds a new "update" transaction instead of modifying
+        public bool UpdateUserAlternative(int id, User updatedUser)
+        {
+            if (Head == null)
+            {
+                return false;
+            }
+
+            Block current = Head;
+            Block lastBlock = null;
+
+            while (current != null)
+            {
+                var currentUser = JsonConvert.DeserializeObject<User>(current.Data);
+                
+                if (currentUser.Id == id)
+                {
+                    // Find the last block
+                    lastBlock = Head;
+                    while (lastBlock.Next != null)
+                    {
+                        lastBlock = lastBlock.Next;
+                    }
+                    
+                    User testUser = new User(
+                        Id: updatedUser.Id,
+                        Name: updatedUser.Name,
+                        Lastname: updatedUser.Lastname,
+                        Email: updatedUser.Email,
+                        Password: updatedUser.Password,
+                        Age: updatedUser.Age
+                    );
+
+                    // Add a new block with the updated user information
+                    AddBlock(testUser);
+                    
+                    return true;
+                }
+                
+                current = current.Next;
+            }
+
+            return false;
+        }
+
     }
 
 }

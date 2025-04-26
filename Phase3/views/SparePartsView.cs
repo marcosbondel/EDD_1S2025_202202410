@@ -14,8 +14,6 @@ namespace View {
         SpinButton costEntry;
 
         private bool isEditing = false;
-        private SparePart* current;
-        // private SimpleNode<SparePart>* sparePartNode;
         private SparePartModel sparePartModelFound;
         
 
@@ -141,7 +139,6 @@ namespace View {
                 return;
             }
 
-            // sparePartNode = AppData.spare_parts_data.GetById(Int32.Parse(id));
             sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(id));
 
             if(sparePartModelFound != null){

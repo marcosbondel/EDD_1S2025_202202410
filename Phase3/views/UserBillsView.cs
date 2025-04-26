@@ -48,29 +48,29 @@ namespace View {
                 return;
             }
 
-            if (int.TryParse(userId, out int id))
-            {
-                int idUsuario = AppData.current_user_node.value.Id;
-                List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
-                List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
-                List<BillModel> Lista_Facturas_Usuario = AppData.bills_data_b_tree.ObtenerFacturasPorServicios(Lista_Ids_Servicios);
+            // if (int.TryParse(userId, out int id))
+            // {
+            //     int idUsuario = AppData.current_user_node.value.Id;
+            //     List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
+            //     List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
+            //     List<BillModel> Lista_Facturas_Usuario = AppData.bills_data_b_tree.ObtenerFacturasPorServicios(Lista_Ids_Servicios);
                 
-                List<int> Ids_Facturas_Usuario = Lista_Facturas_Usuario.Select(f => f.Id).ToList();
+            //     List<int> Ids_Facturas_Usuario = Lista_Facturas_Usuario.Select(f => f.Id).ToList();
 
-                if (Ids_Facturas_Usuario.Contains(id))
-                {
-                    AppData.bills_data_b_tree.Eliminar(id);
-                    MSDialog.ShowMessageDialog(this, "Success", "Bill deleted succesfully!", MessageType.Info);
-                }
-                else
-                {
-                    MSDialog.ShowMessageDialog(this, "Error", "You cannot delete a bill that does not belong to you!", MessageType.Error);
-                }
-            }
-            else
-            {
-                MSDialog.ShowMessageDialog(this, "Error", "Please, enter a valid ID!", MessageType.Error);
-            }
+            //     if (Ids_Facturas_Usuario.Contains(id))
+            //     {
+            //         AppData.bills_data_b_tree.Eliminar(id);
+            //         MSDialog.ShowMessageDialog(this, "Success", "Bill deleted succesfully!", MessageType.Info);
+            //     }
+            //     else
+            //     {
+            //         MSDialog.ShowMessageDialog(this, "Error", "You cannot delete a bill that does not belong to you!", MessageType.Error);
+            //     }
+            // }
+            // else
+            // {
+            //     MSDialog.ShowMessageDialog(this, "Error", "Please, enter a valid ID!", MessageType.Error);
+            // }
         }
 
         private void MostrarFacturas()

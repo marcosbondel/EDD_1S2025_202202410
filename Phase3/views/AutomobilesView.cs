@@ -14,7 +14,7 @@ namespace View {
         Entry plateEntry;
 
         private bool isEditing = false;
-        private Automobile* current;
+        private Automobile current;
         private DoublePointerNode automobileNode;
         
 
@@ -119,12 +119,12 @@ namespace View {
                 }
 
                 if(AppData.current_user_node == null){
-                    SimpleNode userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
+                    // SimpleNode userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
 
-                    if(userNode == null){
-                        Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
-                        return;
-                    }
+                    // if(userNode == null){
+                    //     Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
+                    //     return;
+                    // }
                 }
 
                 AutomobileModel newAutomobile = new AutomobileModel();

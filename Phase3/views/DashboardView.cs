@@ -72,27 +72,23 @@ namespace View {
 
         // Event Handlers for Sidebar Buttons
         private void OnUsersClicked(object sender, EventArgs e){
-            UsersView usersView = new UsersView();
-            usersView.ShowAll();
+            AppViews.renderGivenView("users");
             this.Hide();
         }
 
         private void OnSparePartsClicked(object sender, EventArgs e){
-            SparePartsView onSparePartsView = new SparePartsView();
-            onSparePartsView.ShowAll();
+            AppViews.renderGivenView("spare_parts");
             this.Hide();
         }
         
         private void OnAutomobilesClicked(object sender, EventArgs e){
-            AutomobilesView onAutomobilesView = new AutomobilesView();
-            onAutomobilesView.ShowAll();
+            AppViews.renderGivenView("automobiles");
             this.Hide();
         }
 
         private void OnServicesClicked(object sender, EventArgs e)
         {
-            ServicesView onServicesView = new ServicesView();
-            onServicesView.ShowAll();
+            AppViews.renderGivenView("services");
             this.Hide();
         }
         
@@ -122,8 +118,7 @@ namespace View {
             }
             
             // The user leaves the app
-            LoginView loginView = new LoginView();
-            loginView.ShowAll();
+            AppViews.renderGivenView("login");
             this.Hide();
         }
         
