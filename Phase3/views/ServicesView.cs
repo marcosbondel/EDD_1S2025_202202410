@@ -36,7 +36,10 @@ namespace View {
             detailsEntry = CreateEntry("Details");
             
             costEntry = new SpinButton(0, 100, 0.1);
-            costEntry.Digits = 2;
+            costEntry.Digits = 4;
+
+            Button bulkUploadButton = new Button("Bulk Upload");
+            bulkUploadButton.Clicked += OnBulkUploadClicked;
 
             // Save Button
             Button saveButton = new Button("Save");
@@ -58,6 +61,7 @@ namespace View {
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
             mainBox.PackStart(showReportButton, false, false, 10);
+            mainBox.PackStart(bulkUploadButton, false, false, 10);
             mainBox.PackStart(editButton, false, false, 10);
             mainBox.PackStart(deleteButton, false, false, 10);
             mainBox.PackStart(idEntry, false, false, 5);
@@ -76,6 +80,10 @@ namespace View {
         private Entry CreateEntry(string placeholder){
             Entry entry = new Entry { PlaceholderText = placeholder };
             return entry;
+        }
+
+        private void OnBulkUploadClicked(object sender, EventArgs e){
+            BulkUpload.OnLoadFileClicked<ServiceImport>(this);
         }
 
         private void OnShowReportClicked(object sender, EventArgs e){
