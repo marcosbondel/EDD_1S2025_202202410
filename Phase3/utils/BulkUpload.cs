@@ -94,6 +94,14 @@ namespace Utils
             {
                 ProcessSparePartImport(item as SparePartImport);
             }
+            else if (typeof(T) == typeof(ServiceImport))
+            {
+                ProcessServiceImport(item as ServiceImport);
+            }
+            else
+            {
+                Console.WriteLine($"Unknown type: {typeof(T).Name}");
+            }
         }
 
         private static void ProcessUserImport(UserImport local)
@@ -178,6 +186,46 @@ namespace Utils
                 local.Repuesto,
                 local.Detalles,
                 local.Costo);
+        }
+
+        private static void ProcessServiceImport(ServiceImport local)
+        {
+            if (local == null) return;
+
+            var serviceNode = AppData.services_data_binary_tree.BuscarPorId(local.ID);
+
+            if (serviceNode != null)
+            {
+                Console.WriteLine($"Service ID already exists {local.ID}!");
+                return;
+            }
+
+            var sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(local.ID_Repuesto);
+
+            if (sparePartModelFound == null)
+            {
+                Console.WriteLine($"SparePart ID does not exist {local.ID_Repuesto}!");
+                return;
+            }
+
+            var automobileNode = AppData.automobiles_data.GetById(local.ID_Vehiculo);
+
+            if (automobileNode == null)
+            {
+                Console.WriteLine($"Automobile ID does not exist {local.ID_Vehiculo}!");
+                return;
+            }
+
+            var newService = new Service
+            {
+                Id = local.ID,
+                SparePartId = local.ID_Repuesto,
+                AutomobileId = local.ID_Vehiculo,
+                Details = local.Detalles,
+                Cost = local.Costo
+            };
+
+            AppData.services_data_binary_tree.Insertar(newService.Id, newService.SparePartId, newService.AutomobileId, newService.Details, newService.Cost);
         }
 
         private static void ShowMessageDialog(Window parent, string message, MessageType type)
