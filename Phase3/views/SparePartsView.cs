@@ -151,14 +151,14 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e){
-            DashboardView dashboardView = new DashboardView();
-            dashboardView.ShowAll(); // Show Dashboard
+            ClearFields(); // Clear fields
+            AppViews.renderGivenView("dashboard"); // Show Dashboard
             this.Hide(); // Close
         }
         
         private void OnShowTableClicked(object sender, EventArgs e){
-            SparePartsOrderView sparePartsTableView = new SparePartsOrderView();
-            sparePartsTableView.ShowAll(); // Show Dashboard
+            ClearFields(); // Clear fields
+            AppViews.renderGivenView("spare_parts_table"); // Show SpareParts Table
             this.Hide(); // Close
         }
 

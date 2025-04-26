@@ -201,6 +201,7 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e){
+            ClearFields(); // Clear fields
             AppViews.renderGivenView("dashboard");
             this.Hide(); // Close UsersWindow
         }
