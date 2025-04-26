@@ -104,9 +104,6 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                // sparePartModelFound.Name = nameEntry.Text;
-                // sparePartModelFound.Details = detailsEntry.Text;
-                // sparePartModelFound.Cost = costEntry.Value;
                 AppData.spare_parts_data_avl_tree.ActualizarRepuesto(sparePartModelFound.Id, nameEntry.Text, detailsEntry.Text, costEntry.Value);
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;

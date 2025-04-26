@@ -58,6 +58,8 @@ namespace View {
             if(userEntry.Text == rootUsername || passEntry.Text == rootPassword){
                 MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
                 AppViews.renderGivenView("dashboard");
+                userEntry.Text = string.Empty;
+                passEntry.Text = string.Empty;
                 this.Hide();
                 return;
             } 
@@ -78,9 +80,11 @@ namespace View {
 
                 MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode.GetFullname()}!", MessageType.Info);
 
+                userEntry.Text = string.Empty;
+                passEntry.Text = string.Empty;
+
                 // Then we redirect the user to the corresponding view
-                UserDashboardView userDashboard = new UserDashboardView();
-                userDashboard.ShowAll();
+                AppViews.renderGivenView("user_dashboard");
                 this.Hide();
             }else {
                 Console.WriteLine("Login failed");
