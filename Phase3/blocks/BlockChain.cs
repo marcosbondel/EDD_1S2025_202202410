@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Model;
+using Utils;
 
 namespace Blocks
 {
@@ -259,7 +260,7 @@ namespace Blocks
             {
                 var user = JsonConvert.DeserializeObject<User>(current.Data);
                 if (user.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && 
-                    user.Password == password) // Note: In real applications, never store passwords in plain text
+                    SHA256Utils.VerificarHashSHA256(password, user.Password)) // Note: In real applications, never store passwords in plain text
                 {
                     return true;
                 }

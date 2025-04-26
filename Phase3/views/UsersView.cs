@@ -105,7 +105,7 @@ namespace View {
                 userNode.Name = nameEntry.Text;
                 userNode.Lastname = lastnameEntry.Text;
                 userNode.Email = emailEntry.Text;
-                userNode.Password = passwordEntry.Text;
+                // userNode.Password = SHA256Utils.GenerarHashSHA256(passwordEntry.Text); // Hash the password
                 userNode.Age = int.Parse(ageEntry.Text);
 
                 AppData.user_blockchain.UpdateUser(Int32.Parse(idEntry.Text), userNode);
@@ -134,7 +134,7 @@ namespace View {
                 newUser.Name = nameEntry.Text;
                 newUser.Lastname = lastnameEntry.Text;
                 newUser.Email = emailEntry.Text;
-                newUser.Password = passwordEntry.Text;
+                newUser.Password = SHA256Utils.GenerarHashSHA256(passwordEntry.Text); // Hash the password
 
                 AppData.user_blockchain.AddBlock(newUser);
                 MSDialog.ShowMessageDialog(this, "Success", "User added succesfully!", MessageType.Info);
@@ -192,7 +192,7 @@ namespace View {
                 lastnameEntry.Text = userNode.Lastname;
                 ageEntry.Text = userNode.Age.ToString();
                 emailEntry.Text = userNode.Email;
-                passwordEntry.Text = userNode.Password;
+                // passwordEntry.Text = userNode.Password;
 
                 isEditing = true;
             }else{
