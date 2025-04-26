@@ -8,7 +8,7 @@ using Blocks;
 
 namespace Storage {
     public static class AppData {
-        public static Blockchain blockchain = new Blockchain();
+        public static Blockchain user_blockchain = new Blockchain();
         public static DoublyLinkedList automobiles_data = new DoublyLinkedList();
 
         // Phase2
@@ -22,6 +22,132 @@ namespace Storage {
     }
 
     public static class AppViews {
-        public static DashboardView dashboard = new DashboardView();
+        public static DashboardView dashboard_view;
+        public static AutomobilesView automobile_view;
+        public static LoginView login_view;
+        // public static ServicesUserVisualizationView services_user_visualization_view;
+        public static ServicesView services_view;
+        public static SparePartsOrderView spare_parts_order_view;
+        public static SparePartsView spare_parts_view;
+        // public static UserBillsView user_bills_view;
+        public static UserDashboardView user_dashboard_view;
+        public static UsersView users_view;
+
+        public static void renderGivenView(string view_name) {
+            switch (view_name) {
+                case "dashboard":
+
+                    if(dashboard_view == null){
+                        dashboard_view = new DashboardView();
+                    }
+
+                    dashboard_view.ShowAll();
+                    break;
+                case "automobiles":
+                    
+                    if(automobile_view == null){
+                        automobile_view = new AutomobilesView();
+                    }
+
+                    automobile_view.ShowAll();
+                    break;
+                case "login":
+
+                    if(login_view == null){
+                        login_view = new LoginView();
+                    }
+
+                    login_view.ShowAll();
+                    break;
+                case "services":
+
+                    if(services_view == null){
+                        services_view = new ServicesView();
+                    }
+
+                    services_view.ShowAll();
+                    break;
+                case "spare_parts":
+
+                    if(spare_parts_view == null){
+                        spare_parts_view = new SparePartsView();
+                    }
+
+                    spare_parts_view.ShowAll();
+                    break;
+                case "spare_parts_order":
+
+                    if(spare_parts_order_view == null){
+                        spare_parts_order_view = new SparePartsOrderView();
+                    }
+
+                    spare_parts_order_view.ShowAll();
+                    break;
+                case "user_dashboard":
+
+                    if(user_dashboard_view == null){
+                        user_dashboard_view = new UserDashboardView();
+                    }
+
+                    user_dashboard_view.ShowAll();
+                    break;
+                case "users":
+
+                    if(users_view == null){
+                        users_view = new UsersView();
+                    }
+
+                    users_view.ShowAll();
+                    break;
+                default:
+                    Console.WriteLine("Invalid view name.");
+                    break;
+            }
+        }
+
+        public static void hideGivenView(string view_name) {
+            switch (view_name) {
+                case "dashboard":
+                    dashboard_view.Hide();
+                    break;
+                case "automobiles":
+                    automobile_view.Hide();
+                    break;
+                case "login":
+                    login_view.Hide();
+                    break;
+                case "services":
+                    services_view.Hide();
+                    break;
+                case "spare_parts":
+                    spare_parts_view.Hide();
+                    break;
+                case "spare_parts_order":
+                    spare_parts_order_view.Hide();
+                    break;
+                case "user_dashboard":
+                    user_dashboard_view.Hide();
+                    break;
+                case "users":
+                    users_view.Hide();
+                    break;
+                default:
+                    Console.WriteLine("Invalid view name.");
+                    break;
+            }
+        }
+
+        public static void ClearAllViews() {
+            dashboard_view.Hide();
+            automobile_view.Hide();
+            login_view.Hide();
+            services_view.Hide();
+            spare_parts_view.Hide();
+            spare_parts_order_view.Hide();
+            user_dashboard_view.Hide();
+            users_view.Hide();  
+        }
+
+
     }
 }
