@@ -24,7 +24,7 @@ namespace ADT {
             return first;
         }
 
-        public void insert(AutomobileModel data){
+        public void insert(Automobile data){
             DoublePointerNode newNode = new DoublePointerNode(data);
 
             if (first == null) {

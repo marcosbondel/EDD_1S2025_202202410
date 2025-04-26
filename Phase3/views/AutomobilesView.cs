@@ -16,6 +16,7 @@ namespace View {
         private bool isEditing = false;
         private Automobile current;
         private DoublePointerNode automobileNode;
+        private Automobile newAutomobile;
         
 
         public AutomobilesView() : base("AutomobilesView"){
@@ -127,7 +128,7 @@ namespace View {
                     }
                 }
 
-                AutomobileModel newAutomobile = new AutomobileModel();
+                newAutomobile = new Automobile();
                 newAutomobile.Id = Int32.Parse(idEntry.Text);
                 
                 if(AppData.current_user == null) newAutomobile.UserId = Int32.Parse(userIdEntry.Text);

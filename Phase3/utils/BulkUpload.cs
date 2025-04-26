@@ -1,148 +1,201 @@
 using Gtk;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Storage;
 using Model;
 using ADT;
 using Utils;
 
-namespace Utils {
-    public static class BulkUpload {
-        public static void OnLoadFileClicked<T>(Window parent) where T: class
+namespace Utils
+{
+    public static class BulkUpload
+    {
+        private static User userNode;
+        private static Automobile newAutomobile;
+
+        public static void OnLoadFileClicked<T>(Window parent) where T : class
         {
-            // Crear un diálogo para seleccionar archivo
-            FileChooserDialog fileChooser = new FileChooserDialog(
+            using (var fileChooser = new FileChooserDialog(
                 "Select a JSON file",
                 parent,
                 FileChooserAction.Open,
                 "Cancel", ResponseType.Cancel,
-                "Open", ResponseType.Accept);
-
-            // Filtrar solo archivos JSON
-            FileFilter filter = new FileFilter();
-            filter.Name = "JSON Files";
-            filter.AddPattern("*.json");
-            fileChooser.AddFilter(filter);
-
-            // Si el usuario selecciona un archivo
-            if (fileChooser.Run() == (int)ResponseType.Accept)
+                "Open", ResponseType.Accept))
             {
-                string filePath = fileChooser.Filename;
-                LoadJSON<T>(filePath, parent);
-            }
+                // Configure file filter
+                var filter = new FileFilter();
+                filter.Name = "JSON Files";
+                filter.AddPattern("*.json");
+                fileChooser.AddFilter(filter);
 
-            fileChooser.Destroy();
-        }
-
-        public static unsafe void LoadJSON<T>(string filePath, Window parent) where T : class{
-            try
-            {
-                // Leer el contenido del archivo JSON
-                string jsonContent = File.ReadAllText(filePath);
-
-                // Deserializar el JSON a una lista de objetos
-                var items = JsonConvert.DeserializeObject<T[]>(jsonContent);
-
-                // Mostrar los datos en consola (o procesarlos como necesites)
-                Console.WriteLine("Data loaded successfully:");
-                
-                foreach (var item in items){
-                    if (typeof(T) == typeof(UserImport)){
-                        var local = item as UserImport;
-                        if (local != null){
-
-                            User userNode = AppData.user_blockchain.GetById(local.ID);
-
-                            if(userNode != null){
-                                Console.WriteLine($"User ID already exists {local.ID} !");
-                                continue;
-                            }
-                            
-                            userNode = AppData.user_blockchain.FindByEmail(local.Correo);
-
-                            if(userNode != null){
-                                Console.WriteLine($"Email already exists {local.ID} !");
-                                continue;
-                            }
-
-                            User newUser = new User();
-                            newUser.Id = local.ID;
-                            newUser.Age = local.Edad;
-                            newUser.Name = local.Nombres;
-                            newUser.Lastname = local.Apellidos;
-                            newUser.Email = local.Correo;
-                            newUser.Password = SHA256Utils.GenerarHashSHA256(local.Contrasenia);
-                            
-                            AppData.user_blockchain.AddBlock(newUser);
-                        }
-                    } else if (typeof(T) == typeof(AutomobileImport)) {
-                        var local = item as AutomobileImport;
-                        if (local != null){
-
-                            DoublePointerNode automobileNode = AppData.automobiles_data.GetById(local.ID);
-
-                            if(automobileNode != null){
-                                Console.WriteLine($"Automobile ID already exists {local.ID} !");
-                                continue;
-                            }
-
-                            // SimpleNode userNode = AppData.users_data.GetById(local.ID_Usuario);
-                            // if(userNode == null){
-                            //     Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
-                            //     continue;
-                            // }
-
-                            AutomobileModel newAutomobile = new AutomobileModel();
-
-                            newAutomobile.Id = local.ID;
-                            newAutomobile.UserId = local.ID_Usuario;
-                            newAutomobile.Brand = local.Marca;
-                            newAutomobile.Model = local.Modelo.ToString();
-                            newAutomobile.Plate = local.Placa;
-
-                            AppData.automobiles_data.insert(newAutomobile); 
-                        }
-                    } else if (typeof(T) == typeof(SparePartImport)) {
-                        var local = item as SparePartImport;
-                        if (local != null){
-
-                            SparePartModel sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(local.ID);
-                
-                            if (sparePartModelFound  != null)
-                            {
-                                Console.WriteLine($"SparePart ID already exists {local.ID} !");
-                                continue;
-                            }
-                            
-                            AppData.spare_parts_data_avl_tree.Insertar(local.ID, local.Repuesto, local.Detalles, local.Costo);
-                        }
+                try
+                {
+                    if (fileChooser.Run() == (int)ResponseType.Accept)
+                    {
+                        string filePath = fileChooser.Filename;
+                        
+                        // Process asynchronously to avoid blocking the UI
+                        Task.Run(() => LoadJSON<T>(filePath, parent));
                     }
                 }
+                finally
+                {
+                    fileChooser.Hide();
+                }
+            }
+        }
 
-                // Mostrar mensaje de éxito
-                MessageDialog successDialog = new MessageDialog(
-                    parent,
-                    DialogFlags.Modal,
-                    MessageType.Info,
-                    ButtonsType.Ok,
-                    "JSON file loaded correctly.");
-                successDialog.Run();
-                successDialog.Destroy();
+        private static void LoadJSON<T>(string filePath, Window parent) where T : class
+        {
+            try
+            {
+                string jsonContent = File.ReadAllText(filePath);
+                var items = JsonConvert.DeserializeObject<T[]>(jsonContent);
+
+                Application.Invoke((sender, e) =>
+                {
+                    Console.WriteLine("Data loaded successfully:");
+                });
+
+                foreach (var item in items)
+                {
+                    ProcessItem(item);
+                }
+
+                ShowMessageDialog(parent, "JSON file loaded successfully!", MessageType.Info);
+            }
+            catch (JsonException jsonEx)
+            {
+                ShowMessageDialog(parent, $"Invalid JSON format: {jsonEx.Message}", MessageType.Error);
+            }
+            catch (IOException ioEx)
+            {
+                ShowMessageDialog(parent, $"File access error: {ioEx.Message}", MessageType.Error);
             }
             catch (Exception ex)
             {
-                // Mostrar mensaje de error si algo falla
-                MessageDialog errorDialog = new MessageDialog(
-                    parent,
-                    DialogFlags.Modal,
-                    MessageType.Error,
-                    ButtonsType.Ok,
-                    $"Error when loading JSON file: {ex.Message}");
-                errorDialog.Run();
-                errorDialog.Destroy();
+                ShowMessageDialog(parent, $"Unexpected error: {ex.Message}", MessageType.Error);
             }
         }
 
+        private static void ProcessItem<T>(T item) where T : class
+        {
+            if (typeof(T) == typeof(UserImport))
+            {
+                ProcessUserImport(item as UserImport);
+            }
+            else if (typeof(T) == typeof(AutomobileImport))
+            {
+                ProcessAutomobileImport(item as AutomobileImport);
+            }
+            else if (typeof(T) == typeof(SparePartImport))
+            {
+                ProcessSparePartImport(item as SparePartImport);
+            }
+        }
+
+        private static void ProcessUserImport(UserImport local)
+        {
+            if (local == null) return;
+
+            userNode = AppData.user_blockchain.GetById(local.ID);
+
+            if (userNode != null)
+            {
+                Console.WriteLine($"User ID already exists {local.ID}!");
+                return;
+            }
+
+            userNode = AppData.user_blockchain.FindByEmail(local.Correo);
+
+            if (userNode != null)
+            {
+                Console.WriteLine($"Email already exists {local.ID}!");
+                return;
+            }
+
+            var newUser = new User
+            {
+                Id = local.ID,
+                Age = local.Edad,
+                Name = local.Nombres,
+                Lastname = local.Apellidos,
+                Email = local.Correo,
+                Password = SHA256Utils.GenerarHashSHA256(local.Contrasenia)
+            };
+
+            AppData.user_blockchain.AddBlock(newUser);
+        }
+
+        private static void ProcessAutomobileImport(AutomobileImport local)
+        {
+            if (local == null) return;
+
+            var automobileNode = AppData.automobiles_data.GetById(local.ID);
+
+            if (automobileNode != null)
+            {
+                Console.WriteLine($"Automobile ID already exists {local.ID}!");
+                return;
+            }
+
+            userNode = AppData.user_blockchain.GetById(local.ID_Usuario);
+
+            if (userNode == null)
+            {
+                Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
+                return;
+            }
+
+            newAutomobile = new Automobile
+            {
+                Id = local.ID,
+                UserId = local.ID_Usuario,
+                Brand = local.Marca,
+                Model = local.Modelo.ToString(),
+                Plate = local.Placa
+            };
+
+            AppData.automobiles_data.insert(newAutomobile);
+        }
+
+        private static void ProcessSparePartImport(SparePartImport local)
+        {
+            if (local == null) return;
+
+            var sparePartModelFound = AppData.spare_parts_data_avl_tree.BuscarPorId(local.ID);
+
+            if (sparePartModelFound != null)
+            {
+                Console.WriteLine($"SparePart ID already exists {local.ID}!");
+                return;
+            }
+
+            AppData.spare_parts_data_avl_tree.Insertar(
+                local.ID,
+                local.Repuesto,
+                local.Detalles,
+                local.Costo);
+        }
+
+        private static void ShowMessageDialog(Window parent, string message, MessageType type)
+        {
+            Application.Invoke((sender, e) =>
+            {
+                using (var dialog = new MessageDialog(
+                    parent,
+                    DialogFlags.Modal,
+                    type,
+                    ButtonsType.Ok,
+                    message)
+                )
+                {
+                    dialog.Run();
+                    dialog.Hide();
+                }
+            });
+        }
     }
 }

@@ -35,11 +35,11 @@ namespace ADT {
     }
 
     public class DoublePointerNode {
-        public AutomobileModel value;
+        public Automobile value;
         public DoublePointerNode next;
         public DoublePointerNode previous;
 
-        public DoublePointerNode(AutomobileModel value) {
+        public DoublePointerNode(Automobile value) {
             this.value = value;
             this.next = null;
             this.previous = null;
