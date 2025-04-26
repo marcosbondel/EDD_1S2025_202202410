@@ -1,0 +1,72 @@
+[
+    {
+        "ID": 1,
+        "ID_Repuesto": 1,
+        "ID_Vehiculo": 1,
+        "Detalles": "Service de mantenimiento",
+        "Costo": 25.50
+    },
+    {
+        "ID": 2,
+        "ID_Repuesto": 3,
+        "ID_Vehiculo": 2,
+        "Detalles": "Cambio de aceite y filtro",
+        "Costo": 35.75
+    },
+    {
+        "ID": 3,
+        "ID_Repuesto": 5,
+        "ID_Vehiculo": 1,
+        "Detalles": "Rotación de neumáticos",
+        "Costo": 15.00
+    },
+    {
+        "ID": 4,
+        "ID_Repuesto": 2,
+        "ID_Vehiculo": 3,
+        "Detalles": "Cambio de pastillas de freno",
+        "Costo": 42.90
+    },
+    {
+        "ID": 5,
+        "ID_Repuesto": 4,
+        "ID_Vehiculo": 2,
+        "Detalles": "Reemplazo de batería",
+        "Costo": 65.30
+    },
+    {
+        "ID": 6,
+        "ID_Repuesto": 6,
+        "ID_Vehiculo": 4,
+        "Detalles": "Alineación y balanceo",
+        "Costo": 30.25
+    },
+    {
+        "ID": 7,
+        "ID_Repuesto": 1,
+        "ID_Vehiculo": 3,
+        "Detalles": "Service de mantenimiento",
+        "Costo": 28.00
+    },
+    {
+        "ID": 8,
+        "ID_Repuesto": 7,
+        "ID_Vehiculo": 5,
+        "Detalles": "Cambio de filtro de aire",
+        "Costo": 12.50
+    },
+    {
+        "ID": 9,
+        "ID_Repuesto": 8,
+        "ID_Vehiculo": 4,
+        "Detalles": "Reemplazo de bujías",
+        "Costo": 22.75
+    },
+    {
+        "ID": 10,
+        "ID_Repuesto": 3,
+        "ID_Vehiculo": 5,
+        "Detalles": "Cambio de líquido de frenos",
+        "Costo": 18.40
+    }
+]
