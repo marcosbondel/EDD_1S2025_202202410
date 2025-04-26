@@ -20,7 +20,7 @@ namespace View {
 
         public AutomobilesView() : base("AutomobilesView"){
 
-            if(AppData.current_user_node == null) SetDefaultSize(400, 450);
+            if(AppData.current_user == null) SetDefaultSize(400, 450);
             else SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
 
@@ -62,14 +62,14 @@ namespace View {
 
             // Add widgets to the main box
             mainBox.PackStart(titleLabel, false, false, 5);
-            if(AppData.current_user_node == null) mainBox.PackStart(bulkUploadButton, false, false, 10);
-            if(AppData.current_user_node == null) mainBox.PackStart(showReportButton, false, false, 10);
-            if(AppData.current_user_node == null) mainBox.PackStart(editButton, false, false, 10);
+            if(AppData.current_user == null) mainBox.PackStart(bulkUploadButton, false, false, 10);
+            if(AppData.current_user == null) mainBox.PackStart(showReportButton, false, false, 10);
+            if(AppData.current_user == null) mainBox.PackStart(editButton, false, false, 10);
 
-            if(AppData.current_user_node == null)  mainBox.PackStart(deleteButton, false, false, 10);
+            if(AppData.current_user == null)  mainBox.PackStart(deleteButton, false, false, 10);
             
             mainBox.PackStart(idEntry, false, false, 5);
-            if(AppData.current_user_node == null) mainBox.PackStart(userIdEntry, false, false, 5);
+            if(AppData.current_user == null) mainBox.PackStart(userIdEntry, false, false, 5);
             mainBox.PackStart(brandEntry, false, false, 5);
             mainBox.PackStart(modelEntry, false, false, 5);
             mainBox.PackStart(plateEntry, false, false, 5);
@@ -118,20 +118,20 @@ namespace View {
                     return;
                 }
 
-                if(AppData.current_user_node == null){
-                    // SimpleNode userNode = AppData.users_data.GetById(Int32.Parse(userIdEntry.Text));
+                if(AppData.current_user == null){
+                    User user = AppData.user_blockchain.GetById(Int32.Parse(userIdEntry.Text));
 
-                    // if(userNode == null){
-                    //     Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
-                    //     return;
-                    // }
+                    if(user == null){
+                        Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
+                        return;
+                    }
                 }
 
                 AutomobileModel newAutomobile = new AutomobileModel();
                 newAutomobile.Id = Int32.Parse(idEntry.Text);
                 
-                if(AppData.current_user_node == null) newAutomobile.UserId = Int32.Parse(userIdEntry.Text);
-                else newAutomobile.UserId = AppData.current_user_node.value.Id;
+                if(AppData.current_user == null) newAutomobile.UserId = Int32.Parse(userIdEntry.Text);
+                else newAutomobile.UserId = AppData.current_user.Id;
 
                 newAutomobile.Brand = brandEntry.Text;
                 newAutomobile.Model = modelEntry.Text;
@@ -185,15 +185,12 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e){
-            if(AppData.current_user_node != null){
-                UserDashboardView userDashboardView = new UserDashboardView();
-                userDashboardView.ShowAll(); // Show Dashboard
+            if(AppData.current_user != null){
+                AppViews.renderGivenView("user_dashboard");
                 this.Hide(); // Close
                 return;
             }
-            // If the user is not logged in, show the main dashboard
-            DashboardView dashboardView = new DashboardView();
-            dashboardView.ShowAll(); // Show Dashboard
+            AppViews.renderGivenView("dashboard");
             this.Hide(); // Close
         }
 

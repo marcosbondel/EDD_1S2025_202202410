@@ -18,7 +18,7 @@ namespace Storage {
         // Counters
         public static int bill_id_counter = 0;
         public static List<LogModel> session_logs_data = new List<LogModel>();
-        public static SimpleNode current_user_node = null;
+        public static User current_user = null;
     }
 
     public static class AppViews {

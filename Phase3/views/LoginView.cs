@@ -12,8 +12,8 @@ namespace View {
         
         private Entry userEntry;
         private Entry passEntry;
-        private SimpleNode userNode;
-        private User user;
+        // private SimpleNode userNode;
+        private User userNode;
         private LogModel logModel;
 
         public LoginView() : base("Login"){
@@ -50,17 +50,8 @@ namespace View {
 
 
         private void onDoLogin(object sender, EventArgs e){
-            // MSDialog.ShowMessageDialog(this, "Success", "Welcome, Marcos Bonifasi - 202202410!", MessageType.Info);
-            // DashboardView dashboard = new DashboardView();
-            // dashboard.ShowAll();
-            // this.Hide();
-            // return;
-
-
             Console.WriteLine("Loging in..");
-            // string rootUsername = "root";
             string rootUsername = "“admin@usac.com";
-            // string rootPassword = "root";
             string rootPassword = "admin123";
 
             // We first check if the user entered the admin credentials
@@ -71,8 +62,6 @@ namespace View {
                 return;
             } 
 
-            // bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
-            // bool userCheck = AppData.users_data.CheckUserCredentials(userEntry.Text, passEntry.Text);
             bool userCheck = AppData.user_blockchain.ValidateCredentials(userEntry.Text, passEntry.Text);
 
             // We check if it is another user trying to loging
@@ -80,15 +69,14 @@ namespace View {
                 Console.WriteLine("Welcom, user!");
 
                 // Here we need to save the user session
-                // userNode = AppData.users_data.GetByEmail(userEntry.Text);
-                user = AppData.user_blockchain.FindByEmail(userEntry.Text);
-                logModel = new LogModel(userNode.value.Email, DateTime.Now.ToString(), "");
+                userNode = AppData.user_blockchain.FindByEmail(userEntry.Text);
+                logModel = new LogModel(userNode.Email, DateTime.Now.ToString(), "");
                 AppData.session_logs_data.Add(logModel);
 
                 // We set the current user node as a global instance
-                AppData.current_user_node = userNode;
+                AppData.current_user = userNode;
 
-                MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode.value.GetFullname()}!", MessageType.Info);
+                MSDialog.ShowMessageDialog(this, "Success", $"Welcome, {userNode.GetFullname()}!", MessageType.Info);
 
                 // Then we redirect the user to the corresponding view
                 UserDashboardView userDashboard = new UserDashboardView();

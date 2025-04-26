@@ -109,12 +109,12 @@ namespace View {
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             // Validation, if the current user is null, it means the admin user is using the app
-            if(AppData.current_user_node != null){
+            if(AppData.current_user != null){
                 // Before the user leaves the app, we must log the event
                 AppData.session_logs_data[^1].loggedOutAt = DateTime.Now.ToString();
                 
                 // Then we clean the session variables
-                AppData.current_user_node = null;
+                AppData.current_user = null;
             }
             
             // The user leaves the app

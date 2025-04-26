@@ -92,7 +92,7 @@ namespace View {
 
         private void OnServicesClicked(object sender, EventArgs e)
         {
-            int idUsuario = AppData.current_user_node.value.Id;
+            int idUsuario = AppData.current_user.Id;
             List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
 
             List<BinaryNode> List_Servicios_Usuarios_InOrden = AppData.services_data_binary_tree.TablaInOrden_Vehiculos(List_Ids_vehiculos);
@@ -106,7 +106,7 @@ namespace View {
 
         private void OnBillsClicked(object sender, EventArgs e)
         {
-            // int idUsuario = AppData.current_user_node.value.Id;
+            // int idUsuario = AppData.current_user.value.Id;
             // List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
             // List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
             // List<BillModel> Lista_Facturas_Usuario = AppData.bills_data_b_tree.ObtenerFacturasPorServicios(Lista_Ids_Servicios);
@@ -133,12 +133,12 @@ namespace View {
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             // Validation, if the current user is null, it means the admin user is using the app
-            if(AppData.current_user_node != null){
+            if(AppData.current_user != null){
                 // Before the user leaves the app, we must log the event
                 AppData.session_logs_data[^1].loggedOutAt = DateTime.Now.ToString();
                 
                 // Then we clean the session variables
-                AppData.current_user_node = null;
+                AppData.current_user = null;
             }
             
             // The user leaves the app
