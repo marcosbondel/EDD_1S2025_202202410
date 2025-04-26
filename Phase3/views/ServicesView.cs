@@ -14,8 +14,7 @@ namespace View {
         SpinButton costEntry;
 
         private bool isEditing = false;
-        private Service current;
-        private SimpleNodeService serviceNode;
+        private Service serviceNode;
         
 
         public ServicesView() : base("ServicesView"){
@@ -90,61 +89,18 @@ namespace View {
         private void OnSaveClicked(object sender, EventArgs e){
 
             if(isEditing){
-                // fixed (Service* service = &serviceNode->value)
-                // {
-                //     service->SparePartId = Int32.Parse(sparePartIdEntry.Text);
-                //     service->AutomobileId = Int32.Parse(automobileIdEntry.Text);
-                //     service->Cost = costEntry.Value;
-                //     service->SetFixedString(service->Details, detailsEntry.Text, 200);
-                // }
-
-                serviceNode.value.SparePartId = Int32.Parse(sparePartIdEntry.Text);
-                serviceNode.value.AutomobileId = Int32.Parse(automobileIdEntry.Text);
-                serviceNode.value.Cost = costEntry.Value;
-                serviceNode.value.Details = detailsEntry.Text;
+                serviceNode.SparePartId = Int32.Parse(sparePartIdEntry.Text);
+                serviceNode.AutomobileId = Int32.Parse(automobileIdEntry.Text);
+                serviceNode.Cost = costEntry.Value;
+                serviceNode.Details = detailsEntry.Text;
 
                 MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
                 isEditing = false;
 
             
             } else {
-                // serviceNode = AppData.services_data.GetById(Int32.Parse(idEntry.Text));
-
-                // if(serviceNode != null){
-                //     MSDialog.ShowMessageDialog(this, "Error", "ID already exists!", MessageType.Error);
-                //     return;
-                // }
-
-                // Service newService;
-                // // newService.Id = AppData.services_data.GetSize() + 1;
-                // newService.Id = Int32.Parse(idEntry.Text);
-                // newService.SparePartId = Int32.Parse(sparePartIdEntry.Text);
-                // newService.AutomobileId = Int32.Parse(automobileIdEntry.Text);
-                // newService.Cost = costEntry.Value;
-                // newService.SetFixedString(newService.Details, detailsEntry.Text, 50);
-
-                // // Validations
-                // serviceNode = AppData.services_data.GetById(newService.GetId());
-                // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
-                // DoublePointerNode<Automobile>* automobileNode = AppData.automobiles_data.GetById(newService.GetAutomobileId());
-
-                // if(serviceNode != null){
-                //     MSDialog.ShowMessageDialog(this, "Error", "Service ID already exists!", MessageType.Error);
-                //     return;
-                // }
-
-                // if(sparePartNode == null){
-                //     MSDialog.ShowMessageDialog(this, "Error", "SparePart not found!", MessageType.Error);
-                //     return;
-                // }
-
-                // if(automobileNode == null){
-                //     MSDialog.ShowMessageDialog(this, "Error", "Automobile not found!", MessageType.Error);
-                //     return;
-                // }
-
                 // We first check there's no service with the same ID
-                ServiceModel serviceExistence = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(idEntry.Text));
+                Service serviceExistence = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(idEntry.Text));
 
                 if(serviceExistence != null){
                     MSDialog.ShowMessageDialog(this, "Error", "Service ID already exists!", MessageType.Error);
@@ -221,20 +177,19 @@ namespace View {
                 return;
             }
 
-            // serviceNode = AppData.services_data.GetById(Int32.Parse(id));
+            serviceNode = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(id));
 
+            if(serviceNode != null){
+                idEntry.Text = serviceNode.Id.ToString();
+                sparePartIdEntry.Text = serviceNode.SparePartId.ToString();
+                automobileIdEntry.Text = serviceNode.AutomobileId.ToString();
+                detailsEntry.Text = serviceNode.Details;
+                costEntry.Text = serviceNode.Cost.ToString();
 
-            // if(serviceNode != null){
-            //     idEntry.Text = serviceNode.value.Id.ToString();
-            //     sparePartIdEntry.Text = serviceNode.value.SparePartId.ToString();
-            //     automobileIdEntry.Text = serviceNode.value.AutomobileId.ToString();
-            //     detailsEntry.Text = serviceNode.value.Details;
-            //     costEntry.Text = serviceNode.value.Cost.ToString();
-
-            //     isEditing = true;
-            // }else{
-            //     MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
-            // }
+                isEditing = true;
+            }else{
+                MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
+            }
         }
 
         private void OnBackClicked(object sender, EventArgs e){

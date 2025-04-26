@@ -122,7 +122,7 @@ namespace View {
                     User user = AppData.user_blockchain.GetById(Int32.Parse(userIdEntry.Text));
 
                     if(user == null){
-                        Console.WriteLine($"User ID does not exist {userIdEntry.Text}!");
+                        MSDialog.ShowMessageDialog(this, "Error", $"User ID does not exist {userIdEntry.Text}!", MessageType.Error);
                         return;
                     }
                 }

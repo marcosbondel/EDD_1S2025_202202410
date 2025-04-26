@@ -15,10 +15,10 @@ namespace ADT {
     }
     
     public class SimpleNodeService {
-        public ServiceModel value;
+        public Service value;
         public SimpleNodeService next;
 
-        public SimpleNodeService(ServiceModel value) {
+        public SimpleNodeService(Service value) {
             this.value = value;
             next = null;
         }

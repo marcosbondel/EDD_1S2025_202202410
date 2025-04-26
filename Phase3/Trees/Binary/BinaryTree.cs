@@ -5,25 +5,17 @@ using System.Text;
 namespace Trees.Binary {
    public class BinaryTree
     {
-
-
         private BinaryNode raiz;
-
-
 
         public BinaryTree()
         {
             raiz = null;
         }
 
-
-
-
-
         public void Insertar(int id, int idRepuesto, int idVehiculo, string detalles, double costo)
         {
             // Creamos un nuevo nodo con los parámetros recibidos
-            BinaryNode nuevo = new BinaryNode(new ServiceModel(id, idRepuesto, idVehiculo, detalles, costo));
+            BinaryNode nuevo = new BinaryNode(new Service(id, idRepuesto, idVehiculo, detalles, costo));
 
             // Si el árbol está vacío (raíz es null), el nuevo nodo se convierte en la raíz
             if (raiz == null)
@@ -171,7 +163,7 @@ namespace Trees.Binary {
         }
 
 
-        public ServiceModel BuscarPorId(int id)
+        public Service BuscarPorId(int id)
         {
             BinaryNode nodoEncontrado = BuscarPorIdRecursivo(raiz, id);
             return nodoEncontrado?.Value;

@@ -22,16 +22,16 @@ namespace Storage {
     }
 
     public static class AppViews {
-        public static DashboardView dashboard_view;
-        public static AutomobilesView automobile_view;
-        public static LoginView login_view;
-        // public static ServicesUserVisualizationView services_user_visualization_view;
-        public static ServicesView services_view;
-        public static SparePartsOrderView spare_parts_order_view;
-        public static SparePartsView spare_parts_view;
-        // public static UserBillsView user_bills_view;
-        public static UserDashboardView user_dashboard_view;
-        public static UsersView users_view;
+        public static DashboardView dashboard_view = null;
+        public static AutomobilesView automobile_view = null;
+        public static LoginView login_view = null;
+        // public static ServicesUserVisualizationView services_user_visualization_view = null;
+        public static ServicesView services_view = null;
+        public static SparePartsOrderView spare_parts_order_view = null;
+        public static SparePartsView spare_parts_view = null;
+        // public static UserBillsView user_bills_view = null;
+        public static UserDashboardView user_dashboard_view = null;
+        public static UsersView users_view = null;
 
         public static void renderGivenView(string view_name) {
             switch (view_name) {
