@@ -1,5 +1,6 @@
 ﻿using Gtk;
 using View;
+using Storage;
 
 class App {
 
@@ -8,8 +9,8 @@ class App {
     {
         Application.Init();
 
-        LoginView login = new LoginView();
-        login.ShowAll();
+        AppViews.renderGivenView("login");
+
         Application.Run();
     }
 

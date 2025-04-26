@@ -5,10 +5,10 @@ using Model;
 namespace ADT {
 
     public class SimpleNode {
-        public UserModel value;
+        public User value;
         public SimpleNode next;
 
-        public SimpleNode(UserModel value) {
+        public SimpleNode(User value) {
             this.value = value;
             next = null;
         }

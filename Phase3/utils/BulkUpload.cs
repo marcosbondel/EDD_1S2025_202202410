@@ -51,29 +51,29 @@ namespace Utils {
                         var local = item as UserImport;
                         if (local != null){
 
-                            SimpleNode userNode = AppData.users_data.GetById(local.ID);
+                            // SimpleNode userNode = AppData.users_data.GetById(local.ID);
 
-                            if(userNode != null){
-                                Console.WriteLine($"User ID already exists {local.ID} !");
-                                continue;
-                            }
+                            // if(userNode != null){
+                            //     Console.WriteLine($"User ID already exists {local.ID} !");
+                            //     continue;
+                            // }
                             
-                            userNode = AppData.users_data.GetByEmail(local.Correo);
+                            // userNode = AppData.users_data.GetByEmail(local.Correo);
 
-                            if(userNode != null){
-                                Console.WriteLine($"Email already exists {local.ID} !");
-                                continue;
-                            }
+                            // if(userNode != null){
+                            //     Console.WriteLine($"Email already exists {local.ID} !");
+                            //     continue;
+                            // }
 
-                            UserModel newUser = new UserModel();
-                            newUser.Id = local.ID;
-                            newUser.Age = local.Edad;
-                            newUser.Name = local.Nombres;
-                            newUser.Lastname = local.Apellidos;
-                            newUser.Email = local.Correo;
-                            newUser.Password = local.Contrasenia;
+                            // UserModel newUser = new UserModel();
+                            // newUser.Id = local.ID;
+                            // newUser.Age = local.Edad;
+                            // newUser.Name = local.Nombres;
+                            // newUser.Lastname = local.Apellidos;
+                            // newUser.Email = local.Correo;
+                            // newUser.Password = local.Contrasenia;
                             
-                            AppData.users_data.insert(newUser);
+                            // AppData.users_data.insert(newUser);
                         }
                     } else if (typeof(T) == typeof(AutomobileImport)) {
                         var local = item as AutomobileImport;
@@ -86,11 +86,11 @@ namespace Utils {
                                 continue;
                             }
 
-                            SimpleNode userNode = AppData.users_data.GetById(local.ID_Usuario);
-                            if(userNode == null){
-                                Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
-                                continue;
-                            }
+                            // SimpleNode userNode = AppData.users_data.GetById(local.ID_Usuario);
+                            // if(userNode == null){
+                            //     Console.WriteLine($"User ID does not exist {local.ID_Usuario}!");
+                            //     continue;
+                            // }
 
                             AutomobileModel newAutomobile = new AutomobileModel();
 
