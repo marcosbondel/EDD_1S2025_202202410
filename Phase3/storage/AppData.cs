@@ -6,6 +6,7 @@ using Trees.Binary;
 using View;
 using Blocks;
 using Merkle;
+using Graphs;
 
 namespace Storage {
     public static class AppData {
@@ -16,6 +17,7 @@ namespace Storage {
         public static AVLTree spare_parts_data_avl_tree = new AVLTree();
         public static BinaryTree services_data_binary_tree = new BinaryTree();
         public static MerkleTree bills_data_merkle_tree = new MerkleTree();
+        public static UnDirectedGraph automobile_spare_parts_graph = new UnDirectedGraph();
 
         // Counters
         public static int bill_id_counter = 0;
