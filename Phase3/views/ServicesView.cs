@@ -4,6 +4,7 @@ using Model;
 using ADT;
 using Storage;
 using Utils;
+using Graphs;
 
 namespace View {
     public class ServicesView : Window {
@@ -142,10 +143,6 @@ namespace View {
                     Margin = 3
                 };
                 
-                // Add icon (optional - would need Gtk.Image)
-                // Image icon = new Image(IconTheme.Default.LoadIcon("payment-icon", 16, 0));
-                // rowBox.PackStart(icon, false, false, 0);
-                
                 rowBox.PackStart(new Label(method) { Xalign = 0 }, true, true, 0);
                 
                 ListBoxRow row = new ListBoxRow() {
@@ -243,7 +240,12 @@ namespace View {
                     dateEntry.Text,
                     selectedPaymentMethod
                 );
+
                 AppData.bills_data_merkle_tree.Insert(newBill);
+                AppData.automobile_spare_parts_graph.Insertar(
+                    automobileIdEntry.Text,
+                    sparePartIdEntry.Text
+                );
 
                 MSDialog.ShowMessageDialog(this, "Success", "Service and bill created successfully!", MessageType.Info);
             }
@@ -288,9 +290,9 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e) {
-            DashboardView dashboard = new DashboardView();
-            dashboard.ShowAll();
-            this.Destroy();
+            ClearFields();
+            AppViews.renderGivenView("dashboard");
+            this.Hide();
         }
 
         private void ClearFields() {
