@@ -56,8 +56,7 @@ namespace View {
         }
 
         private void OnBackClicked(object sender, EventArgs e){
-            DashboardView dashboardView = new DashboardView();
-            dashboardView.ShowAll(); // Show Dashboard
+            AppViews.renderGivenView("dashboard"); // Regresar al Dashboard
             this.Hide(); // Close
         }
 

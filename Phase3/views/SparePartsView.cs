@@ -158,7 +158,7 @@ namespace View {
         
         private void OnShowTableClicked(object sender, EventArgs e){
             ClearFields(); // Clear fields
-            AppViews.renderGivenView("spare_parts_table"); // Show SpareParts Table
+            AppViews.renderGivenView("spare_parts_order"); // Show SpareParts Table
             this.Hide(); // Close
         }
 
