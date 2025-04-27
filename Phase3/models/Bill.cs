@@ -1,5 +1,8 @@
 using System;
-
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using Newtonsoft.Json;
 namespace Model {
 
     public interface BillInterface {
@@ -8,47 +11,34 @@ namespace Model {
         double GetTotalCost();
     }
 
-    public unsafe struct Bill : BillInterface {
-        public int Id;
-        public int OrderId;
-        public double TotalCost;
-
-        public void SetFixedString(char* destination, string source, int maxLength) {
-            int length = Math.Min(source.Length, maxLength - 1); // Leave space for null-terminator
-            for (int i = 0; i < length; i++)
-            {
-                destination[i] = source[i];
-            }
-            destination[length] = '\0'; // Null-terminate (optional)
-        }
-
-        public string GetFixedString(char* source, int maxLength) {
-            return new string(source).TrimEnd('\0'); // Convert and trim nulls
-        }
-
-        public int GetId() {
-            return Id;
-        }
-        
-        public int GetOrderId() {
-            return OrderId;
-        }
-        
-        public double GetTotalCost() {
-            return TotalCost;
-        }
-    }
-
-    public class BillModel {
+    public class Bill {
         public int Id { get; set; }
         public int OrderId { get; set; }
         public double TotalCost { get; set; }
+        public string Date { get; set; }
+        public string PaymentMethod { get; set; }
 
-        public BillModel(int id, int id_servicio, double total)
-        {
+        public Bill(int id, int id_servicio, double total, string fecha, string metodo_pago) {
             Id = id;
             OrderId = id_servicio;
             TotalCost = total;
+            Date = fecha;
+            PaymentMethod = metodo_pago;
+        }
+
+        public string GetHash()
+        {
+            string data = JsonConvert.SerializeObject(this); // Serializar la factura a JSON
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(data));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2")); // Convertir a hexadecimal
+                }
+                return builder.ToString();
+            }
         }
     }
 

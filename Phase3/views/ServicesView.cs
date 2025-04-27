@@ -11,208 +11,296 @@ namespace View {
         Entry sparePartIdEntry;
         Entry automobileIdEntry;
         Entry detailsEntry;
+        Entry dateEntry;
+        ListBox paymentMethodListBox;
         SpinButton costEntry;
 
         private bool isEditing = false;
         private Service serviceNode;
-        
+        private string selectedPaymentMethod = "Cash"; // Default value
 
-        public ServicesView() : base("ServicesView"){
-            SetDefaultSize(400, 450);
+        public ServicesView() : base("Services Management") {
+            SetDefaultSize(450, 500);
             SetPosition(WindowPosition.Center);
+            BorderWidth = 10;
 
-            // Main vertical container
-            Box mainBox = new Box(Orientation.Vertical, 10);
-            mainBox.Margin = 20;
-
-            // Title
-            Label titleLabel = new Label("<b>Manage Services</b>") { UseMarkup = true };
-            titleLabel.SetAlignment(0.5f, 0.5f); // Center alignment
-
-            // Form fields
-            idEntry = CreateEntry("ID");
-            automobileIdEntry = CreateEntry("Automobile Id");
-            sparePartIdEntry = CreateEntry("Spare part Id");
-            detailsEntry = CreateEntry("Details");
+            // Main container with vertical layout
+            Box mainBox = new Box(Orientation.Vertical, 5);
             
-            costEntry = new SpinButton(0, 100, 0.1);
-            costEntry.Digits = 4;
+            // Title section
+            Label titleLabel = new Label("<span size='large' weight='bold'>Service Management</span>") {
+                UseMarkup = true,
+                MarginBottom = 15
+            };
+            titleLabel.SetAlignment(0.5f, 0.5f);
 
-            Button bulkUploadButton = new Button("Bulk Upload");
-            bulkUploadButton.Clicked += OnBulkUploadClicked;
+            // Form fields container
+            Box formBox = new Box(Orientation.Vertical, 5) {
+                Margin = 10
+            };
 
-            // Save Button
-            Button saveButton = new Button("Save");
+            // Create form fields
+            idEntry = CreateEntry("Service ID");
+            sparePartIdEntry = CreateEntry("Spare Part ID");
+            automobileIdEntry = CreateEntry("Automobile ID");
+            detailsEntry = CreateEntry("Service Details");
+            dateEntry = CreateEntry("Date (YYYY-MM-DD)");
+            costEntry = new SpinButton(0, 10000, 0.01) {
+                Digits = 2,
+                Value = 0
+            };
+
+            // Payment method section
+            Label paymentLabel = new Label("Payment Method:") {
+                Xalign = 0,
+                MarginTop = 10
+            };
+            
+            paymentMethodListBox = CreatePaymentMethodListBox();
+            ScrolledWindow scrolledWindow = new ScrolledWindow() {
+                ShadowType = ShadowType.EtchedIn,
+                HeightRequest = 100
+            };
+            scrolledWindow.Add(paymentMethodListBox);
+
+            // Button container
+            Box buttonBox = new Box(Orientation.Horizontal, 5) {
+                Homogeneous = true,
+                MarginTop = 15
+            };
+
+            Button saveButton = new Button("Save") {
+                TooltipText = "Save service record"
+            };
             saveButton.Clicked += OnSaveClicked;
-            
-            Button showReportButton = new Button("Show report");
-            showReportButton.Clicked += OnShowReportClicked;
-           
-            Button deleteButton = new Button("Delete");
-            deleteButton.Clicked += OnDeleteClicked;
-            
-            Button editButton = new Button("Edit");
+
+            Button editButton = new Button("Edit") {
+                TooltipText = "Edit existing service"
+            };
             editButton.Clicked += OnEditClicked;
 
-            // Back Button (returns to Dashboard)
-            Button backButton = new Button("Back");
+            Button deleteButton = new Button("Delete") {
+                TooltipText = "Delete service record"
+            };
+            deleteButton.Clicked += OnDeleteClicked;
+
+            Button reportButton = new Button("Report") {
+                TooltipText = "Generate service report"
+            };
+            reportButton.Clicked += OnShowReportClicked;
+
+            Button bulkButton = new Button("Bulk Upload") {
+                TooltipText = "Upload multiple services"
+            };
+            bulkButton.Clicked += OnBulkUploadClicked;
+
+            Button backButton = new Button("Back") {
+                TooltipText = "Return to dashboard"
+            };
             backButton.Clicked += OnBackClicked;
 
-            // Add widgets to the main box
-            mainBox.PackStart(titleLabel, false, false, 5);
-            mainBox.PackStart(showReportButton, false, false, 10);
-            mainBox.PackStart(bulkUploadButton, false, false, 10);
-            mainBox.PackStart(editButton, false, false, 10);
-            mainBox.PackStart(deleteButton, false, false, 10);
-            mainBox.PackStart(idEntry, false, false, 5);
-            mainBox.PackStart(sparePartIdEntry, false, false, 5);
-            mainBox.PackStart(automobileIdEntry, false, false, 5);
-            mainBox.PackStart(detailsEntry, false, false, 5);
-            mainBox.PackStart(costEntry, false, false, 5);
-            mainBox.PackStart(saveButton, false, false, 10);
-            mainBox.PackStart(backButton, false, false, 10); // Back button at the end
+            // Add buttons to button box
+            buttonBox.PackStart(saveButton, true, true, 0);
+            buttonBox.PackStart(editButton, true, true, 0);
+            buttonBox.PackStart(deleteButton, true, true, 0);
+            buttonBox.PackStart(reportButton, true, true, 0);
+            buttonBox.PackStart(bulkButton, true, true, 0);
+            buttonBox.PackStart(backButton, true, true, 0);
+
+            // Add all components to main box
+            mainBox.PackStart(titleLabel, false, false, 0);
+            mainBox.PackStart(new Separator(Orientation.Horizontal), false, false, 5);
+            
+            // Add form fields
+            formBox.PackStart(idEntry, false, false, 2);
+            formBox.PackStart(sparePartIdEntry, false, false, 2);
+            formBox.PackStart(automobileIdEntry, false, false, 2);
+            formBox.PackStart(detailsEntry, false, false, 2);
+            formBox.PackStart(dateEntry, false, false, 2);
+            formBox.PackStart(costEntry, false, false, 2);
+            formBox.PackStart(paymentLabel, false, false, 2);
+            formBox.PackStart(scrolledWindow, false, false, 2);
+            
+            mainBox.PackStart(formBox, false, false, 5);
+            mainBox.PackStart(new Separator(Orientation.Horizontal), false, false, 5);
+            mainBox.PackStart(buttonBox, false, false, 0);
 
             Add(mainBox);
             ShowAll();
         }
 
-        // Creates an entry field with placeholder text
-        private Entry CreateEntry(string placeholder){
-            Entry entry = new Entry { PlaceholderText = placeholder };
-            return entry;
+        private ListBox CreatePaymentMethodListBox() {
+            ListBox listBox = new ListBox() {
+                SelectionMode = SelectionMode.Single,
+                ActivateOnSingleClick = true
+            };
+
+            string[] methods = { "Cash", "Credit Card", "Debit Card", "Bank Transfer", "Check", "Mobile Payment" };
+            
+            foreach (string method in methods) {
+                Box rowBox = new Box(Orientation.Horizontal, 5) {
+                    Margin = 3
+                };
+                
+                // Add icon (optional - would need Gtk.Image)
+                // Image icon = new Image(IconTheme.Default.LoadIcon("payment-icon", 16, 0));
+                // rowBox.PackStart(icon, false, false, 0);
+                
+                rowBox.PackStart(new Label(method) { Xalign = 0 }, true, true, 0);
+                
+                ListBoxRow row = new ListBoxRow() {
+                    Selectable = true
+                };
+                row.Add(rowBox);
+                listBox.Add(row);
+                
+                // Select "Cash" by default
+                if (method == "Cash") {
+                    listBox.SelectRow(row);
+                }
+            }
+
+            listBox.RowSelected += (sender, e) => {
+                if (e.Row != null) {
+                    foreach (var child in ((Box)e.Row.Child).Children) {
+                        if (child is Label label) {
+                            selectedPaymentMethod = label.Text;
+                            break;
+                        }
+                    }
+                }
+            };
+
+            return listBox;
         }
 
-        private void OnBulkUploadClicked(object sender, EventArgs e){
+        private Entry CreateEntry(string placeholder) {
+            return new Entry() {
+                PlaceholderText = placeholder,
+                MarginBottom = 5
+            };
+        }
+
+        private void OnBulkUploadClicked(object sender, EventArgs e) {
             BulkUpload.OnLoadFileClicked<ServiceImport>(this);
         }
 
-        private void OnShowReportClicked(object sender, EventArgs e){
+        private void OnShowReportClicked(object sender, EventArgs e) {
             string dotCode = AppData.services_data_binary_tree.GraficarGraphviz();
             ReportGenerator.GenerateDotFile("Services", dotCode);
             ReportGenerator.ParseDotToImage("Services.dot");
 
-            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
+            MSDialog.ShowMessageDialog(this, "Report", "Service report generated successfully!", MessageType.Info);
         }
 
-        private void OnSaveClicked(object sender, EventArgs e){
-
-            if(isEditing){
+        private void OnSaveClicked(object sender, EventArgs e) {
+            if (isEditing) {
                 serviceNode.SparePartId = Int32.Parse(sparePartIdEntry.Text);
                 serviceNode.AutomobileId = Int32.Parse(automobileIdEntry.Text);
                 serviceNode.Cost = costEntry.Value;
                 serviceNode.Details = detailsEntry.Text;
 
-                MSDialog.ShowMessageDialog(this, "Success", "Edited succesfully!", MessageType.Info);
+                MSDialog.ShowMessageDialog(this, "Success", "Service updated successfully!", MessageType.Info);
                 isEditing = false;
-
-            
             } else {
-                // We first check there's no service with the same ID
-                Service serviceExistence = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(idEntry.Text));
+                if (string.IsNullOrEmpty(idEntry.Text)) {
+                    MSDialog.ShowMessageDialog(this, "Error", "Service ID is required!", MessageType.Error);
+                    return;
+                }
 
-                if(serviceExistence != null){
+                Service existingService = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(idEntry.Text));
+                if (existingService != null) {
                     MSDialog.ShowMessageDialog(this, "Error", "Service ID already exists!", MessageType.Error);
                     return;
                 }
 
-                // We ensure the spare part exists
-                SparePartModel sparePartExistence = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(sparePartIdEntry.Text));
-
-                if(sparePartExistence == null){
-                    MSDialog.ShowMessageDialog(this, "Error", "SparePart not found!", MessageType.Error);
+                SparePartModel sparePart = AppData.spare_parts_data_avl_tree.BuscarPorId(Int32.Parse(sparePartIdEntry.Text));
+                if (sparePart == null) {
+                    MSDialog.ShowMessageDialog(this, "Error", "Spare part not found!", MessageType.Error);
                     return;
                 }
 
-                // We ensure the automobile exists
-                DoublePointerNode automobileNode = AppData.automobiles_data.GetById(Int32.Parse(automobileIdEntry.Text));
-
-                if(automobileNode == null){
+                DoublePointerNode automobile = AppData.automobiles_data.GetById(Int32.Parse(automobileIdEntry.Text));
+                if (automobile == null) {
                     MSDialog.ShowMessageDialog(this, "Error", "Automobile not found!", MessageType.Error);
                     return;
                 }
 
-                // AppData.services_data.enqueu(newService);
-                AppData.services_data_binary_tree.Insertar(Int32.Parse(idEntry.Text), Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text, costEntry.Value);
-                MSDialog.ShowMessageDialog(this, "Success", "Service added succesfully!", MessageType.Info);
+                AppData.services_data_binary_tree.Insertar(
+                    Int32.Parse(idEntry.Text),
+                    Int32.Parse(sparePartIdEntry.Text),
+                    Int32.Parse(automobileIdEntry.Text),
+                    detailsEntry.Text,
+                    costEntry.Value
+                );
 
-                // // Here we need to create a new Bill
-                // Bill newBill;
-
-                // // SimpleNode<SparePart>* sparePartNode = AppData.spare_parts_data.GetById(newService.GetSparePartId());
-                // newBill.Id = AppData.bills_data.GetSize() + 1;
-                // newBill.OrderId = newService.GetId();
-                // newBill.TotalCost = newService.GetCost() + sparePartNode->value.GetCost();
-
-                // AppData.bills_data.push(newBill);
-
-
-
-                //Here we need to insert the SparePartId and the automobileId to the matrix
-                // AppData.logs_data.Insert(Int32.Parse(sparePartIdEntry.Text), Int32.Parse(automobileIdEntry.Text), detailsEntry.Text);
-                
+                // Here we create a new bill
                 AppData.bill_id_counter++;
-                // AppData.bills_data_b_tree.Insertar(AppData.bill_id_counter,Int32.Parse(idEntry.Text), costEntry.Value);
-                MSDialog.ShowMessageDialog(this, "Success", "Bill Added succesfully!", MessageType.Info);
+                Bill newBill = new Bill(
+                    AppData.bill_id_counter,
+                    Int32.Parse(idEntry.Text),
+                    costEntry.Value,
+                    dateEntry.Text,
+                    selectedPaymentMethod
+                );
+                AppData.bills_data_merkle_tree.Insert(newBill);
 
+                MSDialog.ShowMessageDialog(this, "Success", "Service and bill created successfully!", MessageType.Info);
             }
 
             ClearFields();
         }
 
-        private void OnDeleteClicked(object sender, EventArgs e){
-            string id = MSDialog.ShowInputDialog(this, "Delete", "Enter ID to delete:");
-
-            if (string.IsNullOrEmpty(id)){
+        private void OnDeleteClicked(object sender, EventArgs e) {
+            string id = MSDialog.ShowInputDialog(this, "Delete Service", "Enter Service ID to delete:");
+            
+            if (string.IsNullOrEmpty(id)) {
                 MSDialog.ShowMessageDialog(this, "Error", "ID cannot be empty!", MessageType.Error);
                 return;
             }
 
-            // bool deletion = AppData.spare_parts_data.deleteById(Int32.Parse(id));
-
-            // if(deletion){
-            //     MSDialog.ShowMessageDialog(this, "Success", "Deleted succesfully!", MessageType.Info);
-            //     AppData.spare_parts_data.list();
-            // }else{
-            //     MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
-            // }
+            // Implement your delete logic here
+            // Example:
+            // bool deleted = AppData.services_data_binary_tree.Eliminar(Int32.Parse(id));
+            // if (deleted) { ... } else { ... }
         }
-        
-        private void OnEditClicked(object sender, EventArgs e){
-            string id = MSDialog.ShowInputDialog(this, "Edit", "Enter ID to edit:");
 
-            if (string.IsNullOrEmpty(id)){
+        private void OnEditClicked(object sender, EventArgs e) {
+            string id = MSDialog.ShowInputDialog(this, "Edit Service", "Enter Service ID to edit:");
+
+            if (string.IsNullOrEmpty(id)) {
                 MSDialog.ShowMessageDialog(this, "Error", "ID cannot be empty!", MessageType.Error);
                 return;
             }
 
             serviceNode = AppData.services_data_binary_tree.BuscarPorId(Int32.Parse(id));
 
-            if(serviceNode != null){
+            if (serviceNode != null) {
                 idEntry.Text = serviceNode.Id.ToString();
                 sparePartIdEntry.Text = serviceNode.SparePartId.ToString();
                 automobileIdEntry.Text = serviceNode.AutomobileId.ToString();
                 detailsEntry.Text = serviceNode.Details;
-                costEntry.Text = serviceNode.Cost.ToString();
-
+                costEntry.Value = serviceNode.Cost;
                 isEditing = true;
-            }else{
-                MSDialog.ShowMessageDialog(this, "Error", "Record not found!", MessageType.Error);
+            } else {
+                MSDialog.ShowMessageDialog(this, "Error", "Service not found!", MessageType.Error);
             }
         }
 
-        private void OnBackClicked(object sender, EventArgs e){
-            DashboardView dashboardView = new DashboardView();
-            dashboardView.ShowAll(); // Show Dashboard
-            this.Hide(); // Close
+        private void OnBackClicked(object sender, EventArgs e) {
+            DashboardView dashboard = new DashboardView();
+            dashboard.ShowAll();
+            this.Destroy();
         }
 
-        private void ClearFields(){
+        private void ClearFields() {
             idEntry.Text = "";
-            automobileIdEntry.Text = "";
             sparePartIdEntry.Text = "";
+            automobileIdEntry.Text = "";
             detailsEntry.Text = "";
+            dateEntry.Text = "";
             costEntry.Value = 0;
+            paymentMethodListBox.SelectRow(paymentMethodListBox.GetRowAtIndex(0)); // Reset to Cash
         }
     }
-
 }

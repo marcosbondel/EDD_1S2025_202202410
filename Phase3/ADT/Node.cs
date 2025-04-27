@@ -25,10 +25,10 @@ namespace ADT {
     }
     
     public class SimpleNodeBill {
-        public BillModel value;
+        public Bill value;
         public SimpleNodeBill next;
 
-        public SimpleNodeBill(BillModel value) {
+        public SimpleNodeBill(Bill value) {
             this.value = value;
             next = null;
         }

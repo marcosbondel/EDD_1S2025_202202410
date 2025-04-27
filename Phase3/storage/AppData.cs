@@ -5,6 +5,7 @@ using Trees.AVL;
 using Trees.Binary;
 using View;
 using Blocks;
+using Merkle;
 
 namespace Storage {
     public static class AppData {
@@ -14,6 +15,7 @@ namespace Storage {
         // Phase2
         public static AVLTree spare_parts_data_avl_tree = new AVLTree();
         public static BinaryTree services_data_binary_tree = new BinaryTree();
+        public static MerkleTree bills_data_merkle_tree = new MerkleTree();
 
         // Counters
         public static int bill_id_counter = 0;
