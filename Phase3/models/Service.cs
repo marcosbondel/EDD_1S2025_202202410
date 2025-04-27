@@ -16,7 +16,7 @@ namespace Model {
         public int ID_Repuesto { get; set; }
         public int ID_Vehiculo { get; set; }
         public string Detalles { get; set; }
-        public double Costo { get; set; }                // Altura del nodo
+        public double Costo { get; set; }   
 
     }
 

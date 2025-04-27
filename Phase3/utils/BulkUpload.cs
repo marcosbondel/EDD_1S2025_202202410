@@ -226,6 +226,22 @@ namespace Utils
             };
 
             AppData.services_data_binary_tree.Insertar(newService.Id, newService.SparePartId, newService.AutomobileId, newService.Details, newService.Cost);
+        
+            // Here we create a new bill
+            AppData.bill_id_counter++;
+            Bill newBill = new Bill(
+                AppData.bill_id_counter,
+                newService.Id,
+                newService.Cost,
+                DateTime.Now.ToString("yyyy-MM-dd"),
+                "Cash"
+            );
+
+            AppData.bills_data_merkle_tree.Insert(newBill);
+            AppData.automobile_spare_parts_graph.Insertar(
+                newService.AutomobileId.ToString(),
+                newService.SparePartId.ToString()
+            );
         }
 
         private static void ShowMessageDialog(Window parent, string message, MessageType type)
