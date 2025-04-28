@@ -37,12 +37,14 @@ namespace View {
             Button showTopOlderAutomobilesButton = new Button("Show Top 5 - Older Automobiles");
             Button showTopAutomobilesServicesButton = new Button("Show Top 5 - Automobiles Services");
             Button logoutButton = new Button("Logout");
+            Button generateBackupButton = new Button("Generate Backup");
 
             // Attach event handlers
             usersButton.Clicked += OnUsersClicked;
             servicesButton.Clicked += OnServicesClicked;
             sparePartsButton.Clicked += OnSparePartsClicked;
             automobilesButton.Clicked += OnAutomobilesClicked;
+            generateBackupButton.Clicked += OnGenerateBackupClicked;
             sessionsLogsButton.Clicked += OnShowSessionLogsReportClicked;
             logoutButton.Clicked += OnLogoutClicked;
 
@@ -54,8 +56,7 @@ namespace View {
             // sidebar.PackStart(billsButton, false, false, 5);
             // sidebar.PackStart(showLogsReportButton, false, false, 5);
             sidebar.PackStart(sessionsLogsButton, false, false, 5);
-            // sidebar.PackStart(showTopOlderAutomobilesButton, false, false, 5);
-            // sidebar.PackStart(showTopAutomobilesServicesButton, false, false, 5);
+            sidebar.PackStart(generateBackupButton, false, false, 5);
             sidebar.PackStart(logoutButton, false, false, 5);
 
             // Main content area (placeholder label)
@@ -90,6 +91,12 @@ namespace View {
         {
             AppViews.renderGivenView("services");
             this.Hide();
+        }
+        
+        private void OnGenerateBackupClicked(object sender, EventArgs e)
+        {
+            AppData.user_blockchain.SaveBlockchainToFile();
+            MSDialog.ShowMessageDialog(this, "Backup", "The Backup has been generated successfully!", MessageType.Info);
         }
         
         private void OnShowSessionLogsReportClicked(object sender, EventArgs e)
