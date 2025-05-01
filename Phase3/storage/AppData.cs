@@ -7,6 +7,7 @@ using View;
 using Blocks;
 using Merkle;
 using Graphs;
+using Structures;
 
 namespace Storage {
     public static class AppData {
@@ -23,6 +24,9 @@ namespace Storage {
         public static int bill_id_counter = 0;
         public static List<LogModel> session_logs_data = new List<LogModel>();
         public static User current_user = null;
+
+        // Compresors
+        public static HuffmanCompressor compressor = new HuffmanCompressor();
     }
 
     public static class AppViews {

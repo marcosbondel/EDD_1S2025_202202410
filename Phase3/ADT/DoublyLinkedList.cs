@@ -146,5 +146,32 @@ namespace ADT {
             
             return listaVehiculos;
         }
+
+        public void GenerateFile()
+        {
+            string ruta = "./reports/automobiles.txt"; 
+            try
+            {
+                string? directorio = Path.GetDirectoryName(ruta);
+                if (!string.IsNullOrEmpty(directorio) && !Directory.Exists(directorio))
+                {
+                    Directory.CreateDirectory(directorio);
+                }
+
+                using (StreamWriter writer = new StreamWriter(ruta, false))
+                {
+                    DoublePointerNode? actual = first;
+                    while (actual != null)
+                    {
+                        writer.WriteLine($"{actual.value.Id},{actual.value.UserId},{actual.value.Brand},{actual.value.Model},{actual.value.Plate}");
+                        actual = actual.next;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al generar el archivo: {ex.Message}");
+            }
+        }
     }
 }

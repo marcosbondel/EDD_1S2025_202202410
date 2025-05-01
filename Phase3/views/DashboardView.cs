@@ -7,6 +7,7 @@ using Storage;
 using Utils;
 using Model;
 using System.Text.Json;
+using Structures;
 
 namespace View {
 
@@ -96,6 +97,8 @@ namespace View {
         private void OnGenerateBackupClicked(object sender, EventArgs e)
         {
             AppData.user_blockchain.SaveBlockchainToFile();
+            AppData.automobiles_data.GenerateFile();
+            AppData.compressor.Compress("automobiles");
             MSDialog.ShowMessageDialog(this, "Backup", "The Backup has been generated successfully!", MessageType.Info);
         }
         

@@ -3,9 +3,9 @@
         "ID": 1,
         "Nombres": "Efraín Josué",
         "Apellidos": "Cuxum Pérez",
-        "Correo": "efrain.josue@usac.com",
+        "Correo": "test@usac.com",
         "Edad": 19,
-        "Contrasenia": "EC123"
+        "Contrasenia": "123"
     },
     {
         "ID": 2,
