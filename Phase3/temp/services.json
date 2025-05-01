@@ -1,72 +1,142 @@
 [
     {
-        "ID": 1,
-        "ID_Repuesto": 1,
-        "ID_Vehiculo": 1,
-        "Detalles": "Service de mantenimiento",
-        "Costo": 25.50
+        "Id": 10,
+        "Id_Repuesto": 1,
+        "Id_Vehiculo": 1,
+        "Detalles": "Cambio de batería",
+        "Costo": 150.00
     },
     {
-        "ID": 2,
-        "ID_Repuesto": 3,
-        "ID_Vehiculo": 2,
-        "Detalles": "Cambio de aceite y filtro",
-        "Costo": 35.75
+        "Id": 5,
+        "Id_Repuesto": 2,
+        "Id_Vehiculo": 2,
+        "Detalles": "Cambio de filtro de aceite",
+        "Costo": 50.00
     },
     {
-        "ID": 3,
-        "ID_Repuesto": 5,
-        "ID_Vehiculo": 1,
-        "Detalles": "Rotación de neumáticos",
-        "Costo": 15.00
+        "Id": 15,
+        "Id_Repuesto": 3,
+        "Id_Vehiculo": 3,
+        "Detalles": "Reemplazo de pastillas de freno",
+        "Costo": 70.00
     },
     {
-        "ID": 4,
-        "ID_Repuesto": 2,
-        "ID_Vehiculo": 3,
-        "Detalles": "Cambio de pastillas de freno",
-        "Costo": 42.90
+        "Id": 3,
+        "Id_Repuesto": 4,
+        "Id_Vehiculo": 4,
+        "Detalles": "Instalación de radiador nuevo",
+        "Costo": 130.00
     },
     {
-        "ID": 5,
-        "ID_Repuesto": 4,
-        "ID_Vehiculo": 2,
-        "Detalles": "Reemplazo de batería",
-        "Costo": 65.30
-    },
-    {
-        "ID": 6,
-        "ID_Repuesto": 6,
-        "ID_Vehiculo": 4,
-        "Detalles": "Alineación y balanceo",
-        "Costo": 30.25
-    },
-    {
-        "ID": 7,
-        "ID_Repuesto": 1,
-        "ID_Vehiculo": 3,
-        "Detalles": "Service de mantenimiento",
-        "Costo": 28.00
-    },
-    {
-        "ID": 8,
-        "ID_Repuesto": 7,
-        "ID_Vehiculo": 5,
+        "Id": 7,
+        "Id_Repuesto": 5,
+        "Id_Vehiculo": 5,
         "Detalles": "Cambio de filtro de aire",
-        "Costo": 12.50
+        "Costo": 35.00
     },
     {
-        "ID": 9,
-        "ID_Repuesto": 8,
-        "ID_Vehiculo": 4,
+        "Id": 13,
+        "Id_Repuesto": 6,
+        "Id_Vehiculo": 6,
         "Detalles": "Reemplazo de bujías",
-        "Costo": 22.75
+        "Costo": 40.00
     },
     {
-        "ID": 10,
-        "ID_Repuesto": 3,
-        "ID_Vehiculo": 5,
-        "Detalles": "Cambio de líquido de frenos",
-        "Costo": 18.40
+        "Id": 17,
+        "Id_Repuesto": 7,
+        "Id_Vehiculo": 7,
+        "Detalles": "Cambio de llantas",
+        "Costo": 160.00
+    },
+    {
+        "Id": 2,
+        "Id_Repuesto": 8,
+        "Id_Vehiculo": 8,
+        "Detalles": "Cambio de discos de freno",
+        "Costo": 100.00
+    },
+    {
+        "Id": 4,
+        "Id_Repuesto": 9,
+        "Id_Vehiculo": 9,
+        "Detalles": "Cambio de correa de distribución",
+        "Costo": 60.00
+    },
+    {
+        "Id": 6,
+        "Id_Repuesto": 10,
+        "Id_Vehiculo": 10,
+        "Detalles": "Reemplazo de bomba de agua",
+        "Costo": 85.00
+    },
+    {
+        "Id": 8,
+        "Id_Repuesto": 1,
+        "Id_Vehiculo": 2,
+        "Detalles": "Cambio de faros delanteros",
+        "Costo": 120.00
+    },
+    {
+        "Id": 12,
+        "Id_Repuesto": 2,
+        "Id_Vehiculo": 3,
+        "Detalles": "Cambio de aceite de motor",
+        "Costo": 65.00
+    },
+    {
+        "Id": 14,
+        "Id_Repuesto": 3,
+        "Id_Vehiculo": 4,
+        "Detalles": "Reemplazo de termostato",
+        "Costo": 45.00
+    },
+    {
+        "Id": 16,
+        "Id_Repuesto": 4,
+        "Id_Vehiculo": 5,
+        "Detalles": "Cambio de alternador",
+        "Costo": 210.00
+    },
+    {
+        "Id": 18,
+        "Id_Repuesto": 5,
+        "Id_Vehiculo": 6,
+        "Detalles": "Reemplazo de embrague",
+        "Costo": 190.00
+    },
+    {
+        "Id": 1,
+        "Id_Repuesto": 6,
+        "Id_Vehiculo": 7,
+        "Detalles": "Cambio de amortiguadores",
+        "Costo": 95.00
+    },
+    {
+        "Id": 9,
+        "Id_Repuesto": 7,
+        "Id_Vehiculo": 8,
+        "Detalles": "Instalación de sensor de oxígeno",
+        "Costo": 90.00
+    },
+    {
+        "Id": 11,
+        "Id_Repuesto": 8,
+        "Id_Vehiculo": 9,
+        "Detalles": "Cambio de filtro de combustible",
+        "Costo": 40.00
+    },
+    {
+        "Id": 20,
+        "Id_Repuesto": 9,
+        "Id_Vehiculo": 10,
+        "Detalles": "Reemplazo de bobina de encendido",
+        "Costo": 70.00
+    },
+    {
+        "Id": 19,
+        "Id_Repuesto": 10,
+        "Id_Vehiculo": 1,
+        "Detalles": "Cambio de escobillas limpiaparabrisas",
+        "Costo": 25.00
     }
 ]
