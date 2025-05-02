@@ -239,8 +239,8 @@ namespace Utils
 
             AppData.bills_data_merkle_tree.Insert(newBill);
             AppData.automobile_spare_parts_graph.Insertar(
-                newService.AutomobileId.ToString(),
-                newService.SparePartId.ToString()
+                "V"+newService.AutomobileId.ToString(),
+                "R"+newService.SparePartId.ToString()
             );
         }
 

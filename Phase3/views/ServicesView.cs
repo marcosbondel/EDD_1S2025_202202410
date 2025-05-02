@@ -243,8 +243,8 @@ namespace View {
 
                 AppData.bills_data_merkle_tree.Insert(newBill);
                 AppData.automobile_spare_parts_graph.Insertar(
-                    automobileIdEntry.Text,
-                    sparePartIdEntry.Text
+                    "V"+automobileIdEntry.Text,
+                    "R"+sparePartIdEntry.Text
                 );
 
                 MSDialog.ShowMessageDialog(this, "Success", "Service and bill created successfully!", MessageType.Info);

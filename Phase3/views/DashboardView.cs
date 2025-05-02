@@ -17,7 +17,7 @@ namespace View {
         private LogModel logModel;
         public DashboardView() : base("DashboardView")
         {
-            SetDefaultSize(900, 300);
+            SetDefaultSize(900, 400);
             SetPosition(WindowPosition.Center);
 
             // Main container (horizontal box)
@@ -39,6 +39,8 @@ namespace View {
             Button showTopAutomobilesServicesButton = new Button("Show Top 5 - Automobiles Services");
             Button logoutButton = new Button("Logout");
             Button generateBackupButton = new Button("Generate Backup");
+            Button showReportBillsButton = new Button("Report bills");
+            Button showUnDirectedGraphButton = new Button("Show Undirected Graph");
 
             // Attach event handlers
             usersButton.Clicked += OnUsersClicked;
@@ -47,6 +49,8 @@ namespace View {
             automobilesButton.Clicked += OnAutomobilesClicked;
             generateBackupButton.Clicked += OnGenerateBackupClicked;
             sessionsLogsButton.Clicked += OnShowSessionLogsReportClicked;
+            showReportBillsButton.Clicked += OnShowReportBillsClicked;
+            showUnDirectedGraphButton.Clicked += OnShowUnDirectedGraphClicked;
             logoutButton.Clicked += OnLogoutClicked;
 
             // Add buttons to sidebar
@@ -56,6 +60,8 @@ namespace View {
             sidebar.PackStart(servicesButton, false, false, 5);
             // sidebar.PackStart(billsButton, false, false, 5);
             // sidebar.PackStart(showLogsReportButton, false, false, 5);
+            sidebar.PackStart(showReportBillsButton, false, false, 5);
+            sidebar.PackStart(showUnDirectedGraphButton, false, false, 5);
             sidebar.PackStart(sessionsLogsButton, false, false, 5);
             sidebar.PackStart(generateBackupButton, false, false, 5);
             sidebar.PackStart(logoutButton, false, false, 5);
@@ -117,6 +123,24 @@ namespace View {
             File.WriteAllText(filePath, json);
 
             MSDialog.ShowMessageDialog(this, "Session Logs", "Session Logs Report has been generated successfully!", MessageType.Info);
+        }
+        
+        private void OnShowReportBillsClicked(object sender, EventArgs e)
+        {
+            string dotCode = AppData.bills_data_merkle_tree.GenerateDot();
+            ReportGenerator.GenerateDotFile("Bills", dotCode);
+            ReportGenerator.ParseDotToImage("Bills.dot");
+
+            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
+        }
+        
+        private void OnShowUnDirectedGraphClicked(object sender, EventArgs e)
+        {
+            string dotCode = AppData.automobile_spare_parts_graph.GenerarDot();
+            ReportGenerator.GenerateDotFile("UndirectedGraph", dotCode);
+            ReportGenerator.ParseDotToImage("UndirectedGraph.dot");
+
+            MSDialog.ShowMessageDialog(this, "Report", "Report has been generated successfully!", MessageType.Info);
         }
         
         private void OnLogoutClicked(object sender, EventArgs e)

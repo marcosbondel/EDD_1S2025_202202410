@@ -1,0 +1,25 @@
+digraph Blockchain {
+    node [shape=record];
+    graph [rankdir=LR];
+    subgraph cluster_0 {
+        label="Usuarios";
+  block0 [label="Bloque 0\nHash: 0000a1cf...\nPrevious: 0000"];
+  block0 -> block1;
+  block1 [label="Bloque 1\nHash: 0000b9de...\nPrevious: 0000a1cf..."];
+  block1 -> block2;
+  block2 [label="Bloque 2\nHash: 0000368b...\nPrevious: 0000b9de..."];
+  block2 -> block3;
+  block3 [label="Bloque 3\nHash: 000092b3...\nPrevious: 0000368b..."];
+  block3 -> block4;
+  block4 [label="Bloque 4\nHash: 0000a32d...\nPrevious: 000092b3..."];
+  block4 -> block5;
+  block5 [label="Bloque 5\nHash: 00000519...\nPrevious: 0000a32d..."];
+  block5 -> block6;
+  block6 [label="Bloque 6\nHash: 000041fc...\nPrevious: 00000519..."];
+  block6 -> block7;
+  block7 [label="Bloque 7\nHash: 00005083...\nPrevious: 000041fc..."];
+  block7 -> block8;
+  block8 [label="Bloque 8\nHash: 0000799d...\nPrevious: 00005083..."];
+  block8 -> block9;
+  block9 [label="Bloque 9\nHash: 0000b84d...\nPrevious: 0000799d..."];
+}}

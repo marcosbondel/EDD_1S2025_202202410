@@ -91,5 +91,79 @@ namespace Graphs
 
             return dot.ToString();
         }
+//         public string GenerarDot()
+// {
+//     StringBuilder dot = new StringBuilder();
+
+//     dot.AppendLine("graph GrafoVehiculosRepuestos {");
+//     dot.AppendLine("    node [shape=ellipse];");
+//     dot.AppendLine("    graph [rankdir=LR];");
+    
+//     // Separate vehicles (V) and spare parts (R)
+//     List<string> vehiculos = new List<string>();
+//     List<string> repuestos = new List<string>();
+
+//     // Classify nodes
+//     foreach (var nodo in listaAdyacencia.Keys)
+//     {
+//         if (nodo.StartsWith("V"))
+//         {
+//             vehiculos.Add(nodo);
+//         }
+//         else if (nodo.StartsWith("R"))
+//         {
+//             repuestos.Add(nodo);
+//         }
+//     }
+
+//     // Add all vehicles in one rank
+//     if (vehiculos.Count > 0)
+//     {
+//         dot.Append("    { rank=same; ");
+//         foreach (var v in vehiculos)
+//         {
+//             dot.Append($"\"{v}\"; ");
+//         }
+//         dot.AppendLine("}");
+//     }
+
+//     // Add all spare parts in another rank
+//     if (repuestos.Count > 0)
+//     {
+//         dot.Append("    { rank=same; ");
+//         foreach (var r in repuestos)
+//         {
+//             dot.Append($"\"{r}\"; ");
+//         }
+//         dot.AppendLine("}");
+//     }
+
+//     // Track connections to avoid duplicates
+//     HashSet<string> conexiones = new HashSet<string>();
+
+//     foreach (var nodo in listaAdyacencia)
+//     {
+//         string idActual = nodo.Key;
+//         List<string> conexionesNodo = nodo.Value;
+
+//         foreach (var idConectado in conexionesNodo)
+//         {
+//             // Create a unique key for the connection
+//             string claveConexion = idActual.CompareTo(idConectado) < 0
+//                 ? $"{idActual} -- {idConectado}"
+//                 : $"{idConectado} -- {idActual}";
+
+//             if (!conexiones.Contains(claveConexion))
+//             {
+//                 dot.AppendLine($"    \"{idActual}\" -- \"{idConectado}\";");
+//                 conexiones.Add(claveConexion);
+//             }
+//         }
+//     }
+
+//     dot.AppendLine("}");
+
+//     return dot.ToString();
+// }
     }
 }
