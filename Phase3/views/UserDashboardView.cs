@@ -85,8 +85,7 @@ namespace View {
         }
         
         private void OnAutomobilesClicked(object sender, EventArgs e){
-            AutomobilesView onAutomobilesView = new AutomobilesView();
-            onAutomobilesView.ShowAll();
+            AppViews.renderGivenView("user_automobiles");
             this.Hide();
         }
 

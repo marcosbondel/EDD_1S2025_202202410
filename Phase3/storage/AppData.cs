@@ -40,6 +40,7 @@ namespace Storage {
         // public static UserBillsView user_bills_view = null;
         public static UserDashboardView user_dashboard_view = null;
         public static UsersView users_view = null;
+        public static UserAutomobilesView users_automobiles_view = null;
 
         public static void renderGivenView(string view_name) {
             switch (view_name) {
@@ -107,6 +108,14 @@ namespace Storage {
 
                     users_view.ShowAll();
                     break;
+                case "user_automobiles":
+
+                    if(users_view == null){
+                        users_automobiles_view = new UserAutomobilesView(AppData.current_user.Id);
+                    }
+
+                    users_automobiles_view.ShowAll();
+                    break;
                 default:
                     Console.WriteLine("Invalid view name.");
                     break;
@@ -139,6 +148,9 @@ namespace Storage {
                 case "users":
                     users_view.Hide();
                     break;
+                case "user_automobiles":
+                    users_automobiles_view.Hide();
+                    break;
                 default:
                     Console.WriteLine("Invalid view name.");
                     break;
@@ -153,7 +165,8 @@ namespace Storage {
             spare_parts_view.Hide();
             spare_parts_order_view.Hide();
             user_dashboard_view.Hide();
-            users_view.Hide();  
+            users_view.Hide();
+            users_automobiles_view.Hide();
         }
 
 

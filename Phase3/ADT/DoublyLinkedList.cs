@@ -147,6 +147,13 @@ namespace ADT {
             
             return listaVehiculos;
         }
+    public IEnumerable<DoublePointerNode> GetAll() {
+        var current = first; // Assuming 'first' is the first node in the list
+        while (current != null) {
+            yield return current;
+            current = current.next; // Assuming 'next' points to the next node
+        }
+    }
 
         public void GenerateFile()
         {
