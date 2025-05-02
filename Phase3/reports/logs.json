@@ -1,0 +1,17 @@
+[
+  {
+    "user": "efrain.josue@usac.com",
+    "loggedInAt": "01/05/2025 07:57:26 p. m.",
+    "loggedOutAt": "01/05/2025 07:58:18 p. m."
+  },
+  {
+    "user": "ximena.marisol@usac.com",
+    "loggedInAt": "01/05/2025 07:58:37 p. m.",
+    "loggedOutAt": "01/05/2025 07:58:45 p. m."
+  },
+  {
+    "user": "brayan.estuardo@usac.com",
+    "loggedInAt": "01/05/2025 07:59:11 p. m.",
+    "loggedOutAt": "01/05/2025 07:59:17 p. m."
+  }
+]
