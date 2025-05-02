@@ -1,0 +1,20 @@
+1,Filtro de aceite,Filtra impurezas del aceite del motor.,25.5
+2,Bujías,Enciende la mezcla de aire y combustible.,15.75
+3,Pastillas de freno,Frenan las ruedas al presionar el disco.,45
+4,Batería,Provee energía eléctrica al vehículo.,120
+5,Alternador,Genera electricidad para cargar la batería.,180.5
+6,Radiador,Enfría el motor con líquido refrigerante.,95.25
+7,Correa de distribución,Sincroniza el movimiento de las válvulas.,35.8
+8,Amortiguadores,Absorben impactos en la suspensión.,60
+9,Filtro de aire,Limpia el aire que entra al motor.,20.3
+10,Bomba de agua,Circula el refrigerante por el motor.,55.9
+11,Discos de freno,Superficie para las pastillas de freno.,70.4
+12,Aceite de motor,Lubrica y protege el motor.,40
+13,Termostato,Regula la temperatura del motor.,22.15
+14,Sensor de oxígeno,Mide niveles de oxígeno en escape.,65.7
+15,Llantas,Proveen tracción y soporte al vehículo.,110
+16,Embrague,Conecta y desconecta el motor de la transmisión.,150.25
+17,Faros delanteros,Iluminan el camino en la oscuridad.,85.6
+18,Filtro de combustible,Elimina impurezas del combustible.,18.9
+19,Bobina de encendido,Genera voltaje para las bujías.,45.3
+20,Escobillas limpiaparabrisas,Limpian el parabrisas de agua y suciedad.,12.5

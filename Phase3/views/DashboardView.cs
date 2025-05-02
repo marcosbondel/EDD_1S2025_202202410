@@ -99,6 +99,9 @@ namespace View {
             AppData.user_blockchain.SaveBlockchainToFile();
             AppData.automobiles_data.GenerateFile();
             AppData.compressor.Compress("automobiles");
+            AppData.spare_parts_data_avl_tree.GenerateFile();
+            AppData.compressor.Compress("spareparts");
+
             MSDialog.ShowMessageDialog(this, "Backup", "The Backup has been generated successfully!", MessageType.Info);
         }
         

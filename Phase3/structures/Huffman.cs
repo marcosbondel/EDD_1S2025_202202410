@@ -37,8 +37,8 @@ namespace Structures
     {
 
         // Carpetas donde se encuentras los archivos
-        private const string DataFolder = "reports";
-        private const string ReportsFolder = "reports";
+        private const string DataFolder = "data";
+        private const string ReportsFolder = "data";
 
 
 

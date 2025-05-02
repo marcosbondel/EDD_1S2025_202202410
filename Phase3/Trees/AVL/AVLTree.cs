@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using Model;
+using Storage;
 
 
 namespace Trees.AVL {
@@ -312,7 +313,69 @@ namespace Trees.AVL {
             resultado.Add(nodo);
         }
 
+        public void GenerateFile()
+        {
+            string ruta = "./data/spareparts.txt"; 
+            try
+            {
+                // Ensure directory exists
+                string? directorio = Path.GetDirectoryName(ruta);
+                if (!string.IsNullOrEmpty(directorio) && !Directory.Exists(directorio))
+                {
+                    Directory.CreateDirectory(directorio);
+                }
 
+                using (StreamWriter writer = new StreamWriter(ruta, false))
+                {
+                    // Get all nodes in-order (sorted by ID)
+                    AVLNode[] nodes = TablaInOrden();
+                    
+                    // Write each node's data to the file
+                    foreach (AVLNode node in nodes)
+                    {
+                        writer.WriteLine($"{node.value.Id},{node.value.Name},{node.value.Details},{node.value.Cost}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al generar el archivo: {ex.Message}");
+            }
+        }
+
+        public void LoadBackup()
+        {
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Cargando backup de repuestos...........");
+            string decompressVehicule = AppData.compressor.Decompress("spareparts");
+            
+            string[] lineas = decompressVehicule.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string linea in lineas)
+                {
+                    string[] atributos = linea.Split(',');
+                    if (atributos.Length == 4)
+                    {
+                        if (int.TryParse(atributos[0], out int id))
+                        {
+                            string id_sparepart = atributos[0];
+                            string spare_part_name = atributos[1];
+                            string spare_part_details = atributos[2];
+                            double spare_part_cost = double.Parse(atributos[3]);
+                            AppData.spare_parts_data_avl_tree.Insertar(Int32.Parse(id_sparepart), spare_part_name, spare_part_details, spare_part_cost);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error: No se pudo parsear el ID en la línea: {linea}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: Línea con formato incorrecto: {linea}");
+                    }
+                }
+            Console.WriteLine("===================================================");
+            
+        }
 
     }
 

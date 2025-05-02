@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using Model;
+using Storage;
 
 namespace ADT {
 
@@ -149,7 +150,7 @@ namespace ADT {
 
         public void GenerateFile()
         {
-            string ruta = "./reports/automobiles.txt"; 
+            string ruta = "./data/automobiles.txt"; 
             try
             {
                 string? directorio = Path.GetDirectoryName(ruta);
@@ -172,6 +173,40 @@ namespace ADT {
             {
                 Console.WriteLine($"Error al generar el archivo: {ex.Message}");
             }
+        }
+
+        public void LoadBackup()
+        {
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Cargando backup de vehiculos...........");
+            string decompressVehicule = AppData.compressor.Decompress("automobiles");
+            
+            string[] lineas = decompressVehicule.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string linea in lineas)
+                {
+                    string[] atributos = linea.Split(',');
+                    if (atributos.Length == 5)
+                    {
+                        if (int.TryParse(atributos[0], out int id))
+                        {
+                            string idUsuario = atributos[1];
+                            string marca = atributos[2];
+                            string modelo = atributos[3];
+                            string placa = atributos[4];
+                            AppData.automobiles_data.insert(new Automobile(id, Int32.Parse(idUsuario), marca, modelo, placa));
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error: No se pudo parsear el ID en la línea: {linea}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: Línea con formato incorrecto: {linea}");
+                    }
+                }
+            Console.WriteLine("===================================================");
+            
         }
     }
 }
