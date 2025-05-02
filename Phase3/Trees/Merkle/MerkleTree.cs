@@ -75,7 +75,25 @@ namespace Merkle
             Root = currentLevel[0]; // La raíz es el único nodo que queda
         }
 
-
+        // Add this method to your MerkleTree class
+        public List<Bill> GetBillsByServiceIds(List<int> serviceIds)
+        {
+            List<Bill> matchingBills = new List<Bill>();
+            
+            // Create a hash set for faster lookups
+            HashSet<int> serviceIdSet = new HashSet<int>(serviceIds);
+            
+            // Iterate through all leaf nodes (which contain the bills)
+            foreach (var leaf in Leaves)
+            {
+                if (leaf.Factura != null && serviceIdSet.Contains(leaf.Factura.OrderId))
+                {
+                    matchingBills.Add(leaf.Factura);
+                }
+            }
+            
+            return matchingBills;
+        }
 
 
         public string GenerateDot()

@@ -28,32 +28,18 @@ namespace View {
             sidebar.Margin = 10;
 
             // Sidebar Buttons
-            Button usersButton = new Button("Users");
             Button automobilesButton = new Button("Automobiles");
-            Button sparePartsButton = new Button("Spare Parts");
             Button servicesButton = new Button("Services");
             Button billsButton = new Button("Bills");
-            Button showLogsReportButton = new Button("Show Logs Report");
-            Button sessionsLogsButton = new Button("Session Logs Report");
-            Button showTopOlderAutomobilesButton = new Button("Show Top 5 - Older Automobiles");
-            Button showTopAutomobilesServicesButton = new Button("Show Top 5 - Automobiles Services");
             Button logoutButton = new Button("Logout");
 
             // Attach event handlers
-            usersButton.Clicked += OnUsersClicked;
             servicesButton.Clicked += OnServicesClicked;
             billsButton.Clicked += OnBillsClicked;
-            sparePartsButton.Clicked += OnSparePartsClicked;
             automobilesButton.Clicked += OnAutomobilesClicked;
-            // showLogsReportButton.Clicked += OnShowLogsReportClicked;
-            sessionsLogsButton.Clicked += OnShowSessionLogsReportClicked;
-            // showTopOlderAutomobilesButton.Clicked += OnShowTopOlderAutomobilesCliked;
-            // showTopAutomobilesServicesButton.Clicked += OnShowTopAutomobilesServicesCliked;
             logoutButton.Clicked += OnLogoutClicked;
 
             // Add buttons to sidebar
-            // sidebar.PackStart(usersButton, false, false, 5);
-            // sidebar.PackStart(sparePartsButton, false, false, 5);
             sidebar.PackStart(automobilesButton, false, false, 5);
             sidebar.PackStart(servicesButton, false, false, 5);
             sidebar.PackStart(billsButton, false, false, 5);
@@ -71,19 +57,6 @@ namespace View {
             ShowAll();
         }
 
-        // Event Handlers for Sidebar Buttons
-        private void OnUsersClicked(object sender, EventArgs e){
-            UsersView usersView = new UsersView();
-            usersView.ShowAll();
-            this.Hide();
-        }
-
-        private void OnSparePartsClicked(object sender, EventArgs e){
-            SparePartsView onSparePartsView = new SparePartsView();
-            onSparePartsView.ShowAll();
-            this.Hide();
-        }
-        
         private void OnAutomobilesClicked(object sender, EventArgs e){
             AppViews.renderGivenView("user_automobiles");
             this.Hide();
@@ -91,42 +64,24 @@ namespace View {
 
         private void OnServicesClicked(object sender, EventArgs e)
         {
-            int idUsuario = AppData.current_user.Id;
-            List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
+            List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(AppData.current_user.Id);
 
-            List<BinaryNode> List_Servicios_Usuarios_InOrden = AppData.services_data_binary_tree.TablaInOrden_Vehiculos(List_Ids_vehiculos);
-            List<BinaryNode> List_Servicios_Usuarios_PreOrden = AppData.services_data_binary_tree.TablaPreOrden_Vehiculos(List_Ids_vehiculos);
-            List<BinaryNode> List_Servicios_Usuarios_PostOrden = AppData.services_data_binary_tree.TablaPostOrden_Vehiculos(List_Ids_vehiculos);
+            AppData.List_Servicios_Usuarios_InOrden = AppData.services_data_binary_tree.TablaInOrden_Vehiculos(List_Ids_vehiculos);
+            AppData.List_Servicios_Usuarios_PreOrden = AppData.services_data_binary_tree.TablaPreOrden_Vehiculos(List_Ids_vehiculos);
+            AppData.List_Servicios_Usuarios_PostOrden = AppData.services_data_binary_tree.TablaPostOrden_Vehiculos(List_Ids_vehiculos);
 
-            ServicesUserVisualizationView onServicesView = new ServicesUserVisualizationView(List_Servicios_Usuarios_InOrden, List_Servicios_Usuarios_PreOrden, List_Servicios_Usuarios_PostOrden);
-            onServicesView.ShowAll();
+            AppViews.renderGivenView("user_services");
             this.Hide();
         }
 
         private void OnBillsClicked(object sender, EventArgs e)
         {
-            // int idUsuario = AppData.current_user.value.Id;
-            // List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(idUsuario);
-            // List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
-            // List<BillModel> Lista_Facturas_Usuario = AppData.bills_data_b_tree.ObtenerFacturasPorServicios(Lista_Ids_Servicios);
+            List<int> List_Ids_vehiculos = AppData.automobiles_data.ListarVehiculos_Usuario(AppData.current_user.Id);
+            List<int> Lista_Ids_Servicios = AppData.services_data_binary_tree.Servicios_Vehiculos(List_Ids_vehiculos);
+            AppData.Lista_Facturas_Usuario = AppData.bills_data_merkle_tree.GetBillsByServiceIds(Lista_Ids_Servicios);
 
-            // UserBillsView billsView = new UserBillsView(Lista_Facturas_Usuario);
-            // billsView.ShowAll();
-            // this.Hide();
-        }
-        
-        private void OnShowSessionLogsReportClicked(object sender, EventArgs e)
-        {
-            // Convert the list to JSON
-            string json = JsonSerializer.Serialize(AppData.session_logs_data, new JsonSerializerOptions { WriteIndented = true });
-
-            // Define file path
-            string filePath = "logs.json";
-
-            // Write JSON to a file
-            File.WriteAllText(filePath, json);
-
-            MSDialog.ShowMessageDialog(this, "Session Logs", "Session Logs Report has been generated successfully!", MessageType.Info);
+            AppViews.renderGivenView("user_bills");
+            this.Hide();
         }
         
         private void OnLogoutClicked(object sender, EventArgs e)
@@ -141,8 +96,7 @@ namespace View {
             }
             
             // The user leaves the app
-            LoginView loginView = new LoginView();
-            loginView.ShowAll();
+            AppViews.renderGivenView("login");
             this.Hide();
         }
         

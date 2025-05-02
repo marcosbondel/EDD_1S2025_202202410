@@ -8,6 +8,7 @@ using Blocks;
 using Merkle;
 using Graphs;
 using Structures;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Storage {
     public static class AppData {
@@ -27,17 +28,24 @@ namespace Storage {
 
         // Compresors
         public static HuffmanCompressor compressor = new HuffmanCompressor();
+
+        // Parameters lists
+        public static List<BinaryNode> List_Servicios_Usuarios_InOrden = null;
+        public static List<BinaryNode> List_Servicios_Usuarios_PreOrden = null;
+        public static List<BinaryNode> List_Servicios_Usuarios_PostOrden = null;
+
+        public static List<Bill> Lista_Facturas_Usuario = null;
     }
 
     public static class AppViews {
         public static DashboardView dashboard_view = null;
         public static AutomobilesView automobile_view = null;
         public static LoginView login_view = null;
-        // public static ServicesUserVisualizationView services_user_visualization_view = null;
+        public static ServicesUserVisualizationView user_services_view = null;
         public static ServicesView services_view = null;
         public static SparePartsOrderView spare_parts_order_view = null;
         public static SparePartsView spare_parts_view = null;
-        // public static UserBillsView user_bills_view = null;
+        public static UserBillsView user_bills_view = null;
         public static UserDashboardView user_dashboard_view = null;
         public static UsersView users_view = null;
         public static UserAutomobilesView users_automobiles_view = null;
@@ -116,6 +124,26 @@ namespace Storage {
 
                     users_automobiles_view.ShowAll();
                     break;
+                case "user_bills":
+
+                    if(users_view == null){
+                        user_bills_view = new UserBillsView(AppData.Lista_Facturas_Usuario);
+                    }
+
+                    user_bills_view.ShowAll();
+                    break;
+                case "user_services":
+
+                    if(user_services_view == null){
+                        user_services_view = new ServicesUserVisualizationView(
+                            AppData.List_Servicios_Usuarios_InOrden,
+                            AppData.List_Servicios_Usuarios_PreOrden,
+                            AppData.List_Servicios_Usuarios_PostOrden
+                        );
+                    }
+
+                    user_services_view.ShowAll();
+                    break;
                 default:
                     Console.WriteLine("Invalid view name.");
                     break;
@@ -151,6 +179,12 @@ namespace Storage {
                 case "user_automobiles":
                     users_automobiles_view.Hide();
                     break;
+                case "user_bills":
+                    users_automobiles_view.Hide();
+                    break;
+                case "user_services":
+                    user_services_view.Hide();
+                    break;
                 default:
                     Console.WriteLine("Invalid view name.");
                     break;
@@ -167,6 +201,8 @@ namespace Storage {
             user_dashboard_view.Hide();
             users_view.Hide();
             users_automobiles_view.Hide();
+            user_bills_view.Hide();
+            user_services_view.Hide();
         }
 
 
