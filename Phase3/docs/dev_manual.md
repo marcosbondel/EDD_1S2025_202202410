@@ -1,189 +1,232 @@
-
-# 🌳 Manual de Desarrollador: Implementación de Estructuras de Árboles
+# 🌐 Manual de Desarrollador: Estructuras Avanzadas en AUTOGEST PRO
 
 ## 📋 Tabla de Contenidos
 1. [Introducción](#-introducción)
-2. [Árbol AVL](#-árbol-avl)
-   - [Estructura](#estructura-avl)
-   - [Operaciones clave](#operaciones-clave-avl)
-3. [Árbol B](#-árbol-b)
-   - [Estructura](#estructura-b)
-   - [Operaciones clave](#operaciones-clave-b)
-4. [Árbol Binario](#-árbol-binario)
-   - [Estructura](#estructura-binaria)
-   - [Operaciones clave](#operaciones-clave-binarias)
-5. [Visualización](#-visualización)
-6. [Benchmarking](#-benchmarking)
-7. [Mejores Prácticas](#-mejores-prácticas)
+2. [Blockchain para Usuarios](#-blockchain-para-usuarios)
+   - [Estructura](#estructura-blockchain)
+   - [Operaciones clave](#operaciones-clave-blockchain)
+3. [Árbol de Merkle](#-árbol-de-merkle)
+   - [Estructura](#estructura-merkle)
+   - [Operaciones clave](#operaciones-clave-merkle)
+4. [Grafo No Dirigido](#-grafo-no-dirigido)
+   - [Estructura](#estructura-grafo)
+   - [Operaciones clave](#operaciones-clave-grafo)
+5. [Compresión Huffman](#-compresión-huffman)
+   - [Estructura](#estructura-huffman)
+   - [Operaciones clave](#operaciones-clave-huffman)
+6. [Visualización](#-visualización)
+7. [Benchmarking](#-benchmarking)
+8. [Mejores Prácticas](#-mejores-prácticas)
 
 ---
 
 ## 🌟 Introducción
-Implementación de tres estructuras arbóreas en C# para un sistema de gestión automotriz:
+Implementación de estructuras avanzadas en C# para el sistema de gestión automotriz AUTOGEST PRO:
 
 ```mermaid
 graph LR
-    S[Sistema] --> AVL[AVL: Repuestos]
-    S --> B[B: Facturas]
-    S --> BI[Binario: Servicios]
+    S[Sistema] --> B[Blockchain: Usuarios]
+    S --> M[Merkle: Facturas]
+    S --> G[Grafo: Vehículos-Repuestos]
+    S --> H[Huffman: Backups]
 ```
 
 ---
 
-## 🔄 Árbol AVL
+## ⛓️ Blockchain para Usuarios
 
-### Estructura AVL
+### Estructura Blockchain
 ```csharp
-public class AVLTree {
-    private AVLNode raiz;
-    
-    class AVLNode {
-        public SparePartModel Value;  // Modelo con Id, Name, Details, Cost
-        public int Height;
-        public AVLNode Left, Right;
-    }
+public class Block {
+    public int Index { get; set; }
+    public string Timestamp { get; set; }
+    public string Data { get; set; }  // Serializado JSON del usuario
+    public int Nonce { get; set; }
+    public string PreviousHash { get; set; }
+    public string Hash { get; set; }
+    [JsonIgnore]
+    public Block Next { get; set; }
 }
 ```
 
-### Operaciones Clave AVL
+### Operaciones Clave Blockchain
 | Método | Complejidad | Descripción |
 |--------|------------|-------------|
-| `Insertar()` | O(log n) | Inserta con balanceo automático |
-| `RotacionRight()` | O(1) | Balancea el árbol |
-| `BuscarPorId()` | O(log n) | Búsqueda eficiente por ID |
+| `CalculateHash()` | O(1) | Genera hash SHA-256 del bloque |
+| `MineBlock()` | O(n) | Prueba de trabajo (PoW) con nonce |
+| `AddBlock()` | O(n) | Añade bloque validando hash anterior |
+| `ValidateCredentials()` | O(n) | Verifica usuario con hash SHA-256 |
 
-**Ejemplo de uso**:
-```csharp
-var avl = new AVLTree();
-avl.Insertar(101, "Bujía", "NGK Platinum", 25.99);
-var repuesto = avl.BuscarPorId(101);
-```
-
----
-
-## 📚 Árbol B (Orden 5)
-
-### Estructura B
-```csharp
-public class BTree {
-    private BNode raiz;
-    private const int ORDEN = 5;
-    
-    class BNode {
-        public List<BillModel> Claves = new List<BillModel>();
-        public List<BNode> Hijos = new List<BNode>();
-        public bool EsHoja = true;
-    }
-}
-```
-
-### Operaciones Clave B
-| Método | Complejidad | Descripción |
-|--------|------------|-------------|
-| `Insertar()` | O(log n) | Maneja splits automáticos |
-| `DividirHijo()` | O(t) | Divide nodos llenos |
-| `Buscar()` | O(log n) | Búsqueda en árbol balanceado |
-
-**Flujo de inserción**:
+**Flujo de Minería**:
 ```mermaid
 graph TB
-    A[Insertar] --> B{Nodo lleno?}
-    B -->|Sí| C[Dividir]
-    B -->|No| D[Insertar ordenado]
+    A[Iniciar Minería] --> B{Hash comienza con 0000?}
+    B -->|No| C[Incrementar Nonce]
+    B -->|Sí| D[Bloque Minado]
 ```
 
 ---
 
-## 🌲 Árbol Binario
+## 🌿 Árbol de Merkle
 
-### Estructura Binaria
+### Estructura Merkle
 ```csharp
-public class BinaryTree {
-    private BinaryNode raiz;
-    
-    class BinaryNode {
-        public ServiceModel Value;  // Contiene AutomobileId
-        public BinaryNode Left, Right;
-    }
+public class MerkleNode {
+    public Bill Factura { get; set; }
+    public string Hash { get; set; }
+    public MerkleNode Left { get; set; }
+    public MerkleNode Right { get; set; }
 }
 ```
 
-### Operaciones Clave Binarias
+### Operaciones Clave Merkle
 | Método | Complejidad | Descripción |
 |--------|------------|-------------|
-| `Insertar()` | O(n) | Inserta según ID |
-| `BuscarPorId()` | O(n) | Búsqueda estándar |
-| `TablaInOrden_Vehiculos()` | O(n) | Filtra por vehículos |
+| `BuildTree()` | O(n log n) | Construye árbol desde hojas |
+| `GenerateHash()` | O(1) | Combina hashes hijos |
+| `GetBillsByServiceIds()` | O(n) | Búsqueda por IDs de servicio |
 
-**Recorridos implementados**:
-1. PreOrden
-2. InOrden 
-3. PostOrden
+**Ejemplo de Construcción**:
+```mermaid
+graph BT
+    A[Hash1] --> C[Hash1+2]
+    B[Hash2] --> C
+    D[Hash3] --> E[Hash3+4]
+    F[Hash4] --> E
+    C --> G[Root]
+    E --> G
+```
+
+---
+
+## 🕸️ Grafo No Dirigido
+
+### Estructura Grafo
+```csharp
+public class UnDirectedGraph {
+    private Dictionary<string, List<string>> listaAdyacencia;
+    // Key: ID de vehículo/repuesto
+    // Value: Lista de conexiones
+}
+```
+
+### Operaciones Clave Grafo
+| Método | Complejidad | Descripción |
+|--------|------------|-------------|
+| `Insertar()` | O(1) | Añade relación bidireccional |
+| `GenerarDot()` | O(V+E) | Exporta para Graphviz |
+
+**Relación Vehículo-Repuesto**:
+```mermaid
+graph LR
+    V1[Vehículo 101] -- Usa --> R1[Repuesto 201]
+    V1 -- Usa --> R2[Repuesto 202]
+    R1 -- Instalado en --> V1
+```
+
+---
+
+## 📦 Compresión Huffman
+
+### Estructura Huffman
+```csharp
+public class HuffmanNode {
+    public char Character { get; set; }
+    public int Frequency { get; set; }
+    public HuffmanNode Left { get; set; }
+    public HuffmanNode Right { get; set; }
+}
+```
+
+### Operaciones Clave Huffman
+| Método | Complejidad | Descripción |
+|--------|------------|-------------|
+| `BuildHuffmanTree()` | O(n log n) | Construye árbol de frecuencias |
+| `Compress()` | O(n) | Codifica texto con tabla Huffman |
+| `Decompress()` | O(n) | Decodifica usando árbol |
+
+**Proceso de Compresión**:
+```mermaid
+graph LR
+    A[Texto Original] --> B[Conteo Frecuencias]
+    B --> C[Árbol Huffman]
+    C --> D[Tabla Códigos]
+    D --> E[Texto Binario]
+```
 
 ---
 
 ## 📊 Visualización
-Todos los árboles implementan:
+Todas las estructuras implementan:
 
 ```csharp
-public string GraficarGraphviz() {
+public string GenerateDot() {
     // Genera código DOT para Graphviz
 }
 ```
 
-**Ejemplo de salida**:
+**Ejemplo Blockchain**:
 ```dot
-digraph AVL {
+digraph Blockchain {
     node [shape=record];
-    "101" [label="ID: 101|Repuesto: Bujía|Costo: 25.99"];
-    "101" -> "87";
-    "101" -> "112";
+    "Bloque 0" [label="Index: 0|Hash: abc123..."];
+    "Bloque 1" [label="Index: 1|Hash: def456..."];
+    "Bloque 0" -> "Bloque 1";
 }
 ```
 
 ---
 
 ## ⚡ Benchmarking
-| Operación | AVL | Árbol B | Binario |
-|----------|-----|--------|---------|
-| Insertar | O(log n) | O(log n) | O(n) |
-| Buscar | O(log n) | O(log n) | O(n) |
-| Memoria | Medio | Alto | Bajo |
+| Estructura | Inserción | Búsqueda | Memoria | Caso Ideal |
+|------------|----------|----------|---------|------------|
+| Blockchain | O(n) | O(n) | Alta | Registros inmutables |
+| Merkle | O(log n) | O(n) | Media | Verificación integridad |
+| Grafo | O(1) | O(V+E) | Variable | Relaciones complejas |
+| Huffman | O(n log n) | O(n) | Baja | Compresión texto |
 
 ---
 
 ## 🏆 Mejores Prácticas
 
-**Árbol AVL**
+**Blockchain**
 ```diff
-+ Ideal para repuestos con frecuentes búsquedas
-- Evitar para datos que cambian muy frecuentemente
++ Ideal para auditoría de usuarios
++ Inmutabilidad garantizada
+- No para datos volátiles
 ```
 
-**Árbol B**
+**Árbol Merkle**
 ```diff
-+ Perfecto para facturas (grandes volúmenes)
-+ Buen rendimiento en disco
++ Perfecto para facturas
++ Verificación rápida de integridad
 ```
 
-**Árbol Binario**
+**Grafo No Dirigido**
 ```diff
-+ Simple para servicios
-- Puede desbalancearse con datos ordenados
++ Modela relaciones vehículo-repuesto
++ Búsqueda bidireccional
+```
+
+**Huffman**
+```diff
++ Máxima compresión para backups
++ Eficiente con datos repetitivos
 ```
 
 ---
 
 ## 📝 Conclusión
-Elegir estructura según:
-1. Volumen de datos
-2. Frecuencia de actualización
-3. Necesidades de búsqueda
-
 ```mermaid
 pie
     title Uso Recomendado
-    "AVL" : 45
-    "Árbol B" : 35
-    "Binario" : 20
+    "Blockchain" : 30
+    "Merkle" : 25
+    "Grafo" : 25
+    "Huffman" : 20
 ```
+**Criterios de Selección**:
+1. **Persistencia**: Blockchain para datos críticos
+2. **Integridad**: Merkle para facturas
+3. **Relaciones**: Grafo para conexiones complejas
+4. **Compresión**: Huffman para backups grandes
