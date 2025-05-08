@@ -1,0 +1,14 @@
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/bin/Debug/net8.0/EDD_1S2025_202202410
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/bin/Debug/net8.0/EDD_1S2025_202202410.deps.json
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/bin/Debug/net8.0/EDD_1S2025_202202410.runtimeconfig.json
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/bin/Debug/net8.0/EDD_1S2025_202202410.dll
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/bin/Debug/net8.0/EDD_1S2025_202202410.pdb
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.AssemblyInfoInputs.cache
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.AssemblyInfo.cs
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.csproj.CoreCompileInputs.cache
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.dll
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/refint/EDD_1S2025_202202410.dll
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.pdb
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/EDD_1S2025_202202410.genruntimeconfig.cache
+/Users/macbookair/Documents/tech/uni/EDD/EDD_1S2025_202202410/obj/Debug/net8.0/ref/EDD_1S2025_202202410.dll
