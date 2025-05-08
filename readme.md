@@ -1,4 +1,4 @@
-# AUTOGEST PRO  
+# Data Structures Applied - AUTOGEST PRO  
 ## Sistema de Gestión para Talleres Automotrices  
 
 <img src="./Phase3/docs/screenshots/logo.png" height="400px" />  
